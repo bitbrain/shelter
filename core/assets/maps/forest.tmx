@@ -11,8 +11,8 @@
  <objectgroup id="2" name="objects">
   <object id="1" name="PLAYER" type="PLAYER" x="230.364" y="138.727">
    <properties>
-    <property name="lighting.color" type="color" value="#ffffc28f"/>
-    <property name="llighting.range" type="float" value="100"/>
+    <property name="lighting.color" type="color" value="#c8ffc28f"/>
+    <property name="lighting.range" type="float" value="180"/>
    </properties>
    <point/>
   </object>

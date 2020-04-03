@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.util.Updateable;
-import de.bitbrain.shelter.model.Movement;
+import de.bitbrain.shelter.model.EntityMover;
 
 import static com.badlogic.gdx.Gdx.input;
 import static com.badlogic.gdx.Input.Keys.*;
@@ -13,10 +13,10 @@ import static com.badlogic.gdx.Input.Keys.*;
 public class IngameKeyboardAdapter extends InputAdapter implements Updateable {
 
    private Vector2 moveDirection = new Vector2();
-   private final Movement playerMovement;
+   private final EntityMover playerEntityMover;
 
-   public IngameKeyboardAdapter(Movement playerMovement) {
-      this.playerMovement = playerMovement;
+   public IngameKeyboardAdapter(EntityMover playerEntityMover) {
+      this.playerEntityMover = playerEntityMover;
    }
 
    @Override
@@ -36,7 +36,7 @@ public class IngameKeyboardAdapter extends InputAdapter implements Updateable {
       if (input.isKeyPressed(D)) {
          moveDirection.x = 1;
       }
-      playerMovement.move(moveDirection);
+      playerEntityMover.move(moveDirection);
       moveDirection.x = 0;
       moveDirection.y = 0;
    }

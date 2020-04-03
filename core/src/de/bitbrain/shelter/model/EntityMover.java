@@ -2,20 +2,22 @@ package de.bitbrain.shelter.model;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import de.bitbrain.braingdx.behavior.Behavior;
+import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.world.GameObject;
 
-public class Movement implements Behavior {
+public class EntityMover extends BehaviorAdapter {
 
    private final Vector2 lookDirection = new Vector2(0f, 1f);
    private final Vector2 moveDirection = new Vector2(0f, 1f);
    private final Vector3 tmp = new Vector3();
    private final GameCamera gameCamera;
+   private final float maxSpeed;
    private float speed = 0f;
    private GameObject gameObject;
 
-   public Movement(GameCamera gameCamera) {
+   public EntityMover(float maxSpeed, GameCamera gameCamera) {
+      this.maxSpeed = maxSpeed;
       this.gameCamera = gameCamera;
    }
 
@@ -23,7 +25,7 @@ public class Movement implements Behavior {
       moveDirection.x = direction.x;
       moveDirection.y = direction.y;
       moveDirection.nor();
-      speed = 125f;
+      speed = maxSpeed;
    }
 
    public Vector2 getLookDirection() {
@@ -50,18 +52,8 @@ public class Movement implements Behavior {
    }
 
    @Override
-   public void onDetach(GameObject source) {
-
-   }
-
-   @Override
    public void update(GameObject source, float delta) {
       source.move(moveDirection.x * speed * delta, moveDirection.y * speed * delta);
       speed = 0f;
-   }
-
-   @Override
-   public void update(GameObject source, GameObject target, float delta) {
-
    }
 }

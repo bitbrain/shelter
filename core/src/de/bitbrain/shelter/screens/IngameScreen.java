@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector3;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
@@ -12,8 +13,12 @@ import de.bitbrain.braingdx.graphics.animation.AnimationConfig;
 import de.bitbrain.braingdx.graphics.animation.AnimationFrames;
 import de.bitbrain.braingdx.graphics.animation.AnimationRenderer;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
+import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
+import de.bitbrain.braingdx.graphics.postprocessing.AutoReloadPostProcessorEffect;
+import de.bitbrain.braingdx.graphics.postprocessing.effects.Bloom;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.tmx.TiledMapContext;
+import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
@@ -21,13 +26,18 @@ import de.bitbrain.shelter.animation.AlwaysAnimationEnabler;
 import de.bitbrain.shelter.animation.AnimationTypes;
 import de.bitbrain.shelter.animation.PlayerAnimationTypeResolver;
 import de.bitbrain.shelter.input.ingame.IngameKeyboardAdapter;
-import de.bitbrain.shelter.model.Movement;
+import de.bitbrain.shelter.model.EntityMover;
+import de.bitbrain.shelter.model.EntitySpawner;
 
 import static de.bitbrain.shelter.Assets.TiledMaps.FOREST;
 
 public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
 
-   private Movement playerMovement;
+   private EntityMover playerEntityMover;
+   private EntitySpawner entitySpawner;
+   private GameContext2D context;
+   private final Vector3 tmp = new Vector3();
+   private boolean touched;
 
    public IngameScreen(ShelterGame game) {
       super(game);
@@ -35,6 +45,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
 
    @Override
    protected void onCreate(GameContext2D context) {
+      this.entitySpawner = new EntitySpawner(context);
       setupWorld(context);
       setupInput(context);
       setupRenderer(context);
@@ -44,11 +55,21 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
    @Override
    protected void onUpdate(float delta) {
       super.onUpdate(delta);
-      playerMovement.lookAtScreen(Gdx.input.getX(), Gdx.input.getY());
+      playerEntityMover.lookAtScreen(Gdx.input.getX(), Gdx.input.getY());
+      if (Gdx.input.isTouched() && !touched) {
+         touched = true;
+         tmp.x = Gdx.input.getX();
+         tmp.y = Gdx.input.getY();
+         context.getGameCamera().getInternalCamera().unproject(tmp);
+         entitySpawner.spawnZombie(tmp.x, tmp.y);
+      } else if (!Gdx.input.isTouched()) {
+         touched = false;
+      }
    }
 
    private void setupWorld(GameContext2D context) {
-      TiledMapContext tmxContext = context.getTiledMapManager().load(FOREST, context.getGameCamera().getInternalCamera());
+      this.context = context;
+      context.getTiledMapManager().load(FOREST, context.getGameCamera().getInternalCamera());
       for (GameObject object : context.getGameWorld().getObjects()) {
          if (object.getType().equals("PLAYER")) {
             object.setDimensions(32f, 32f);
@@ -56,9 +77,9 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
             context.getGameCamera().setStickToWorldBounds(true);
             context.getGameCamera().setTargetTrackingSpeed(0.01f);
             context.getGameCamera().setZoom(200, GameCamera.ZoomMode.TO_HEIGHT);
-            playerMovement = new Movement(context.getGameCamera());
-            object.setAttribute(Movement.class, playerMovement);
-            context.getBehaviorManager().apply(playerMovement, object);
+            playerEntityMover = new EntityMover(50f, context.getGameCamera());
+            object.setAttribute(EntityMover.class, playerEntityMover);
+            context.getBehaviorManager().apply(playerEntityMover, object);
          }
       }
    }
@@ -147,7 +168,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
             AnimationConfig.builder()
                   .registerFrames(AnimationTypes.STANDING_SOUTH, AnimationFrames.builder()
                         .resetIndex(0)
-                        .duration(0.3f)
+                        .duration(0.6f)
                         .origin(0, 0)
                         .direction(AnimationFrames.Direction.HORIZONTAL)
                         .playMode(Animation.PlayMode.LOOP)
@@ -155,7 +176,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
                         .build())
                   .registerFrames(AnimationTypes.STANDING_SOUTH_WEST, AnimationFrames.builder()
                         .resetIndex(0)
-                        .duration(0.3f)
+                        .duration(0.6f)
                         .origin(0, 1)
                         .direction(AnimationFrames.Direction.HORIZONTAL)
                         .playMode(Animation.PlayMode.LOOP)
@@ -163,7 +184,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
                         .build())
                   .registerFrames(AnimationTypes.STANDING_WEST, AnimationFrames.builder()
                         .resetIndex(0)
-                        .duration(0.3f)
+                        .duration(0.6f)
                         .origin(0, 2)
                         .direction(AnimationFrames.Direction.HORIZONTAL)
                         .playMode(Animation.PlayMode.LOOP)
@@ -171,7 +192,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
                         .build())
                   .registerFrames(AnimationTypes.STANDING_NORTH_WEST, AnimationFrames.builder()
                         .resetIndex(0)
-                        .duration(0.3f)
+                        .duration(0.6f)
                         .origin(0, 3)
                         .direction(AnimationFrames.Direction.HORIZONTAL)
                         .playMode(Animation.PlayMode.LOOP)
@@ -179,7 +200,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
                         .build())
                   .registerFrames(AnimationTypes.STANDING_NORTH, AnimationFrames.builder()
                         .resetIndex(0)
-                        .duration(0.3f)
+                        .duration(0.6f)
                         .origin(0, 4)
                         .direction(AnimationFrames.Direction.HORIZONTAL)
                         .playMode(Animation.PlayMode.LOOP)
@@ -187,7 +208,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
                         .build())
                   .registerFrames(AnimationTypes.STANDING_NORTH_EAST, AnimationFrames.builder()
                         .resetIndex(0)
-                        .duration(0.3f)
+                        .duration(0.6f)
                         .origin(0, 5)
                         .direction(AnimationFrames.Direction.HORIZONTAL)
                         .playMode(Animation.PlayMode.LOOP)
@@ -195,7 +216,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
                         .build())
                   .registerFrames(AnimationTypes.STANDING_EAST, AnimationFrames.builder()
                         .resetIndex(0)
-                        .duration(0.3f)
+                        .duration(0.6f)
                         .origin(0, 6)
                         .direction(AnimationFrames.Direction.HORIZONTAL)
                         .playMode(Animation.PlayMode.LOOP)
@@ -203,7 +224,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
                         .build())
                   .registerFrames(AnimationTypes.STANDING_SOUTH_EAST, AnimationFrames.builder()
                         .resetIndex(0)
-                        .duration(0.3f)
+                        .duration(0.6f)
                         .origin(0, 7)
                         .direction(AnimationFrames.Direction.HORIZONTAL)
                         .playMode(Animation.PlayMode.LOOP)
@@ -225,6 +246,6 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
    }
 
    private void setupInput(GameContext2D context2D) {
-      context2D.getInputManager().register(new IngameKeyboardAdapter(playerMovement));
+      context2D.getInputManager().register(new IngameKeyboardAdapter(playerEntityMover));
    }
 }

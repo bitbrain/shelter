@@ -2,7 +2,7 @@ package de.bitbrain.shelter.animation;
 
 import de.bitbrain.braingdx.graphics.animation.AnimationTypeResolver;
 import de.bitbrain.braingdx.world.GameObject;
-import de.bitbrain.shelter.model.Movement;
+import de.bitbrain.shelter.model.EntityMover;
 
 /**
  * counter-clockwise from 0-360 degrees (starting west)
@@ -11,9 +11,9 @@ public class PlayerAnimationTypeResolver implements AnimationTypeResolver<GameOb
 
    @Override
    public Object getAnimationType(GameObject object) {
-      if (object.hasAttribute(Movement.class)) {
-         final Movement movement = (Movement)object.getAttribute(Movement.class);
-         final float angle = movement.getLookDirection().angle();
+      if (object.hasAttribute(EntityMover.class)) {
+         final EntityMover entityMover = (EntityMover)object.getAttribute(EntityMover.class);
+         final float angle = entityMover.getLookDirection().angle();
          if (angle <= 22.5f || angle >= 337.5) {
             return AnimationTypes.STANDING_WEST;
          }
