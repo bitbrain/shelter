@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="32" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="2">
+ <tileset firstgid="1" name="tileset-forest" tilewidth="16" tileheight="16" tilecount="64" columns="8">
+  <image source="tileset-forest.png" width="128" height="128"/>
+ </tileset>
+ <layer id="1" name="base" width="32" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYBzFo3gUj+JRPIpH8YjCAAx4AgE=
+  </data>
+ </layer>
+ <objectgroup id="2" name="objects">
+  <object id="1" name="PLAYER" type="PLAYER" x="230.364" y="138.727">
+   <properties>
+    <property name="lighting.color" type="color" value="#ffffc28f"/>
+    <property name="llighting.range" type="float" value="100"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+</map>
