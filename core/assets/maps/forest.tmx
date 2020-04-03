@@ -5,7 +5,7 @@
  </tileset>
  <layer id="1" name="base" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYBzFo3gUj+JRPIpH8YjCAAx4AgE=
+   eJydldsOwyAMQ0ng/795q1Qk78im2x4itQnEzpUaY/RbJmQZnUrfcp0r+S/oC/fqtqm9xUZRLCfO7rjSr3JoweI54ujdGfBSLGX8dMB3sSj3VJcVMNWHywdz6PRlMDQ3KfYT9qm2jD/x3pza4Lnz5KE6frMm/3JP/aC+lpzVmBrfrlbT/LNPHe/t95tZf4pT+1rrTTv3RMqV20PsPfI4xedqTo7KIe1CzhRzRP5pRzI3jJOznHjS96nHyIGzqbhubllb14MJl/s27SaNf4veWeOzLjobv+wJ7n7W0r2Hy+jSO5HmTcXtb83TaS6fap32lvbVCxc/BFQ=
   </data>
  </layer>
  <objectgroup id="2" name="objects">
