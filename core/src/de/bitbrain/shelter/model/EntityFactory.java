@@ -7,20 +7,19 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.ai.RandomMovementBehavior;
-import de.bitbrain.shelter.model.weapon.WeaponType;
 
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyFixtureDef;
 
-public class EntitySpawner {
+public class EntityFactory {
 
    private final GameContext2D context;
 
-   public EntitySpawner(GameContext2D context) {
+   public EntityFactory(GameContext2D context) {
       this.context = context;
    }
 
-   public GameObject spawnZombie(float x, float y) {
+   public GameObject addZombie(float x, float y) {
       GameObject zombie = context.getGameWorld().addObject();
       zombie.setType("ZOMBIE");
       zombie.setPosition(x, y);

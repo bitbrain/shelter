@@ -2,6 +2,8 @@ package de.bitbrain.shelter;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Pixmap;
 import de.bitbrain.braingdx.BrainGdxGame;
 import de.bitbrain.braingdx.GameSettings;
 import de.bitbrain.braingdx.assets.GameAssetLoader;
@@ -44,6 +46,7 @@ public class ShelterGame extends BrainGdxGame {
 
    @Override
    protected AbstractScreen<?, ?> getInitialScreen() {
+      Gdx.graphics.setCursor(Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("textures/crosshair.png")), 32, 32));
       configureSettings();
       Bundle.load();
       Styles.init();

@@ -7,6 +7,6 @@ public class Ak47Strategy implements FireStrategy {
 
    @Override
    public void fire(GameObject owner, GameContext2D context) {
-
+      // TODO implement bullets
    }
 }
