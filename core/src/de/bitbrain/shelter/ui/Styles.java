@@ -24,6 +24,9 @@ public class Styles {
       param.color = Color.WHITE;
       param.size = size;
       param.mono = true;
-      return generator.generateFont(param);
+      BitmapFont font = generator.generateFont(param);
+      // disable integer positions so UI aligns correctly
+      font.setUseIntegerPositions(false);
+      return font;
    }
 }

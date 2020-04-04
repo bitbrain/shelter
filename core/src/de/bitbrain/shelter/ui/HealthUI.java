@@ -1,8 +1,8 @@
 package de.bitbrain.shelter.ui;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,21 +12,20 @@ import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.model.HealthData;
 
-public class HealthBar extends Actor {
+import static de.bitbrain.shelter.ui.Styles.bake;
+
+public class HealthUI extends Actor {
 
    private final HealthData healthData;
    private final NinePatch background;
    private final NinePatch foreground;
    private final GameCamera camera;
-   private final Label description;
 
-   public HealthBar(HealthData healthData, GameCamera camera) {
+   public HealthUI(HealthData healthData, GameCamera camera) {
       this.healthData = healthData;
       this.camera = camera;
       this.background = GraphicsFactory.createNinePatch(SharedAssetManager.getInstance().get(Assets.Textures.UI_HEALTH, Texture.class), 4);
       this.foreground = GraphicsFactory.createNinePatch(SharedAssetManager.getInstance().get(Assets.Textures.UI_HEALTH_ACTIVE, Texture.class), 4);
-      description = new Label("health", Styles.LABEL_DESCRIPTION);
-      description.setFontScale(0.35f);
    }
 
    @Override
@@ -38,7 +37,5 @@ public class HealthBar extends Actor {
       if (healthData.getHealthPercentage() > 0.1) {
          foreground.draw(batch, x, y, getWidth(), getHeight() * healthData.getHealthPercentage());
       }
-      description.setPosition(x - 9f, y - 14f);
-      description.draw(batch, parentAlpha);
    }
 }

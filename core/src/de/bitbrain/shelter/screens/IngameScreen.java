@@ -19,13 +19,16 @@ import de.bitbrain.shelter.ShelterGame;
 import de.bitbrain.shelter.animation.EntityAnimationRenderer;
 import de.bitbrain.shelter.graphics.RenderOrderComparator;
 import de.bitbrain.shelter.input.ingame.IngameKeyboardAdapter;
+import de.bitbrain.shelter.model.Ammo;
 import de.bitbrain.shelter.model.EntityFactory;
 import de.bitbrain.shelter.model.EntityMover;
 import de.bitbrain.shelter.model.HealthData;
 import de.bitbrain.shelter.model.spawn.Spawner;
 import de.bitbrain.shelter.model.weapon.WeaponHandler;
 import de.bitbrain.shelter.model.weapon.WeaponType;
-import de.bitbrain.shelter.ui.HealthBar;
+import de.bitbrain.shelter.ui.AmmoUI;
+import de.bitbrain.shelter.ui.HealthUI;
+import de.bitbrain.shelter.ui.InventoryUI;
 import de.bitbrain.shelter.util.Supplier;
 
 import java.util.ArrayList;
@@ -86,7 +89,8 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             object.setScaleX(4f);
             object.setScaleY(4f);
             object.setOffset(-12f, -4f);
-            object.setAttribute(HealthData.class, new HealthData(100));
+            object.setAttribute(HealthData.class, new HealthData(1000));
+            object.setAttribute(Ammo.class, new Ammo(100));
 
             // Setup camera tracking
             context.getGameCamera().setTrackingTarget(object);
@@ -141,11 +145,24 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    }
 
    private void setupUI(GameContext2D context) {
-      HealthBar healthBar = new HealthBar(playerObject.getAttribute(HealthData.class), context.getGameCamera());
-      healthBar.setWidth(16f);
-      healthBar.setHeight(64f);
-      healthBar.setPosition(16f, 16f);
-      context.getWorldStage().addActor(healthBar);
+      HealthUI healthUI = new HealthUI(playerObject.getAttribute(HealthData.class), context.getGameCamera());
+      healthUI.setWidth(16f);
+      healthUI.setHeight(64f);
+      healthUI.setPosition(16f, 16f);
+      context.getWorldStage().addActor(healthUI);
+
+      InventoryUI inventoryUI = new InventoryUI(playerObject, context.getGameCamera());
+      inventoryUI.setWidth(16f);
+      inventoryUI.setHeight(16f);
+      inventoryUI.setPosition(32f, 16f);
+      context.getWorldStage().addActor(inventoryUI);
+
+      AmmoUI ammoUI = new AmmoUI(playerObject, context.getGameCamera());
+      ammoUI.setWidth(16f);
+      ammoUI.setHeight(16f);
+      ammoUI.setPosition(32f, 32f);
+      context.getWorldStage().addActor(ammoUI);
+
    }
 
    @Override

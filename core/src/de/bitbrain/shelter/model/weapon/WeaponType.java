@@ -1,14 +1,17 @@
 package de.bitbrain.shelter.model.weapon;
 
-import de.bitbrain.shelter.Assets;
+import de.bitbrain.shelter.Assets.Sounds;
+import de.bitbrain.shelter.Assets.Textures;
 
 public enum WeaponType {
 
-   AK47("AK-47",
+   AK47("AK 47",
          "A fast weapon",
-         Assets.Textures.ICON_WEAPON_AK47,
-         Assets.Textures.TILESET_WEAPON_AK47,
-         Assets.Textures.MUNITION_AK47, new Ak47Strategy()
+         Textures.ICON_WEAPON_AK47,
+         Textures.TILESET_WEAPON_AK47,
+         Textures.MUNITION_AK47,
+         Sounds.WEAPON_AK_47,
+         new DefaultWeaponFireStrategy()
    );
 
    private final String name;
@@ -16,14 +19,16 @@ public enum WeaponType {
    private final String icon;
    private final String tileset;
    private final String munitionTexture;
+   private final String shootSoundFx;
    private final FireStrategy fireStrategy;
 
-   WeaponType(String name, String description, String icon, String tileset, String munitionTexture, FireStrategy fireStrategy) {
+   WeaponType(String name, String description, String icon, String tileset, String munitionTexture, String shootSoundFx, FireStrategy fireStrategy) {
       this.name = name;
       this.description = description;
       this.icon = icon;
       this.tileset = tileset;
       this.munitionTexture = munitionTexture;
+      this.shootSoundFx = shootSoundFx;
       this.fireStrategy = fireStrategy;
    }
 
@@ -37,6 +42,10 @@ public enum WeaponType {
 
    public String getDescription() {
       return description;
+   }
+
+   public String getShootSoundFx() {
+      return shootSoundFx;
    }
 
    public String getIcon() {

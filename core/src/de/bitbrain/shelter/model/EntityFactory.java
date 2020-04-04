@@ -25,7 +25,7 @@ public class EntityFactory {
 
    public GameObject addZombie(float x, float y) {
       GameObject zombie = context.getGameWorld().addObject();
-      zombie.setAttribute(HealthData.class, new HealthData(50));
+      zombie.setAttribute(HealthData.class, new HealthData(20));
       zombie.setType("ZOMBIE");
       zombie.setPosition(x, y);
       zombie.setZIndex(99999f);

@@ -7,6 +7,7 @@ import de.bitbrain.braingdx.graphics.animation.AnimationRenderer;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
+import de.bitbrain.shelter.model.HealthData;
 import de.bitbrain.shelter.model.weapon.WeaponType;
 
 import java.util.HashMap;
@@ -28,8 +29,10 @@ public class EntityAnimationRenderer extends AnimationRenderer {
    @Override
    public void render(GameObject object, Batch batch, float delta) {
       Texture shadow = SharedAssetManager.getInstance().get(Assets.Textures.SHADOW, Texture.class);
-      batch.draw(shadow, object.getLeft() + object.getOffsetX(), object.getTop() + object.getOffsetY(),
-            object.getWidth() * object.getScaleX(), object.getHeight() * object.getScaleY());
+      if (!object.hasAttribute(HealthData.class) || !object.getAttribute(HealthData.class).isDead()) {
+         batch.draw(shadow, object.getLeft() + object.getOffsetX(), object.getTop() + object.getOffsetY(),
+               object.getWidth() * object.getScaleX(), object.getHeight() * object.getScaleY());
+      }
       super.render(object, batch, delta);
       if (object.hasAttribute(WeaponType.class)) {
          WeaponType type = object.getAttribute(WeaponType.class);
