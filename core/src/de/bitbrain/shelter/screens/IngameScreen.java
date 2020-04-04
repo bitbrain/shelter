@@ -113,14 +113,15 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             object.setScaleX(4f);
             object.setScaleY(4f);
             object.setOffset(-12f, -4f);
-            object.setAttribute(HealthData.class, new HealthData(1000));
+            object.setAttribute(HealthData.class, new HealthData(500));
             object.setAttribute(Ammo.class, new Ammo(200));
 
             // Setup camera tracking
             context.getGameCamera().setTrackingTarget(object);
-            context.getGameCamera().setStickToWorldBounds(true);
+            context.getGameCamera().setStickToWorldBounds(false);
             context.getGameCamera().setTargetTrackingSpeed(0.01f);
-            context.getGameCamera().setZoom(200, GameCamera.ZoomMode.TO_HEIGHT);
+            context.getGameCamera().setZoomScalingFactor(0f);
+            context.getGameCamera().setZoom(250, GameCamera.ZoomMode.TO_HEIGHT);
             playerEntityMover = new EntityMover(2150f, context.getGameCamera());
             object.setAttribute(EntityMover.class, playerEntityMover);
             context.getBehaviorManager().apply(playerEntityMover, object);
@@ -137,6 +138,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             int capacity = object.getAttribute("capacity", 1);
             context.getGameWorld().remove(object);
             spawners.add(new Spawner(object.getLeft(), object.getTop(), object.getWidth(), object.getHeight(), entityFactory, capacity));
+         } else if (object.getType().equals("SHELTER")) {
 
          }
       }

@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="32" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="15">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="20">
  <tileset firstgid="1" name="tileset-forest" tilewidth="16" tileheight="16" tilecount="64" columns="8">
   <image source="tileset-forest.png" width="128" height="128"/>
+  <terraintypes>
+   <terrain name="Grass" tile="10"/>
+   <terrain name="Mud" tile="18"/>
+  </terraintypes>
+  <tile id="0" terrain="0,0,0,0"/>
+  <tile id="1" terrain="0,0,0,0"/>
+  <tile id="2" terrain="0,0,0,0"/>
+  <tile id="8" terrain="0,0,0,1"/>
+  <tile id="9" terrain="0,0,1,1"/>
+  <tile id="10" terrain="0,0,1,0"/>
+  <tile id="16" terrain="0,1,0,1"/>
+  <tile id="17" terrain="1,1,1,1"/>
+  <tile id="18" terrain="1,0,1,0"/>
+  <tile id="19" terrain="1,1,1,0"/>
+  <tile id="20" terrain="1,1,0,1"/>
+  <tile id="24" terrain="0,1,0,0"/>
+  <tile id="25" terrain="1,1,0,0"/>
+  <tile id="26" terrain="1,0,0,0"/>
+  <tile id="27" terrain="1,0,1,1"/>
+  <tile id="28" terrain="0,1,1,1"/>
  </tileset>
- <layer id="1" name="base" width="32" height="16">
+ <layer id="1" name="base" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eAGF0VmKW0EQRFG13ftfc/uCDwRJYX8UOcSUT/r6fD6//rzf532f+eJpevG+/vbNevvm1TaHLS4/7L60sl71hW8e/PruDe6Oe3ky14fWrnrf9THTNOfDvzkMz359Yel2v30Ynrp4O98Lt5O5+N3ltRnh7dT69a2XL2fx9X/1tDJWyy/Mb9mO5nLxt24v3843NdvpzTSv6o7q6l59ev9r+H4T7JXRDh9uzo8nXhhe1e+2t95++a8ePyx/mbIujld95afrpePFoxl+b4kjE7b+cnHWh78apr83LIYjbzPC0roZR37z6vVX97871w/3VeW7cfN57L3ugVX9FnY8m+PzbvZw9neAyai2c5M71PV1w1YZ/7ohLM166feO9bLfrLtzd7ownr6RXzWffbxUGE/7V+X/qnvD9nHLoPkBFz8EVA==
+   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
   </data>
  </layer>
  <objectgroup id="2" name="objects">
-  <object id="2" name="PLAYER" type="PLAYER" x="83.7585" y="116.189" width="8" height="8">
+  <object id="2" name="PLAYER" type="PLAYER" x="450.425" y="686.189" width="8" height="8">
    <properties>
     <property name="lighting.color" type="color" value="#ffffbeb2"/>
     <property name="lighting.offset.x" type="float" value="16"/>
@@ -17,40 +37,51 @@
     <property name="lighting.range" type="float" value="220"/>
    </properties>
   </object>
-  <object id="4" name="Spawner" type="SPAWNER" x="212.313" y="65.327" width="76.0592" height="49.2285">
+  <object id="4" name="Spawner" type="SPAWNER" x="207.98" y="710.327" width="76.0592" height="49.2285">
+   <properties>
+    <property name="capacity" type="int" value="20"/>
+   </properties>
+  </object>
+  <object id="9" name="Spawner" type="SPAWNER" x="530.594" y="848.466" width="76.0592" height="49.2285">
+   <properties>
+    <property name="capacity" type="int" value="20"/>
+   </properties>
+  </object>
+  <object id="10" name="Spawner" type="SPAWNER" x="708.964" y="536.569" width="76.0592" height="49.2285">
    <properties>
     <property name="capacity" type="int" value="10"/>
    </properties>
   </object>
-  <object id="9" name="Spawner" type="SPAWNER" x="66.2602" y="171.133" width="76.0592" height="49.2285">
-   <properties>
-    <property name="capacity" type="int" value="10"/>
-   </properties>
-  </object>
-  <object id="10" name="Spawner" type="SPAWNER" x="368.631" y="147.569" width="76.0592" height="49.2285">
-   <properties>
-    <property name="capacity" type="int" value="10"/>
-   </properties>
-  </object>
-  <object id="11" x="-1.04914" y="-1.90421" width="4.898" height="258.584">
+  <object id="11" x="-1.04914" y="-1.90421" width="4.898" height="1026.58">
    <properties>
     <property name="physics.enabled" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="12" x="508.268" y="-2.83768" width="4.898" height="258.584">
+  <object id="12" x="1019.27" y="-0.83768" width="4.898" height="1017.08">
    <properties>
     <property name="physics.enabled" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="13" x="4.0837" y="-0.737887" width="504.649" height="6.84192">
+  <object id="13" x="4.0837" y="-0.737887" width="1021.15" height="6.84192">
    <properties>
     <property name="physics.enabled" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="14" x="2.68393" y="249.721" width="504.649" height="6.84192">
+  <object id="14" x="2.68393" y="1017.72" width="1022.15" height="6.84192">
    <properties>
     <property name="physics.enabled" type="bool" value="true"/>
    </properties>
   </object>
+  <object id="15" name="Spawner" type="SPAWNER" x="559.637" y="248.052" width="76.0592" height="49.2285">
+   <properties>
+    <property name="capacity" type="int" value="30"/>
+   </properties>
+  </object>
+  <object id="17" name="Spawner" type="SPAWNER" x="271.97" y="388.719" width="76.0592" height="49.2285">
+   <properties>
+    <property name="capacity" type="int" value="20"/>
+   </properties>
+  </object>
+  <object id="18" type="SHELTER" x="477.636" y="679.636" width="43.2727" height="44.7273"/>
  </objectgroup>
 </map>

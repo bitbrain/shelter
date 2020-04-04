@@ -10,7 +10,7 @@ import de.bitbrain.shelter.model.EntityMover;
 
 public class ZombieBehavior extends BehaviorAdapter {
 
-   private static final float AGGRO_RANGE = 100;
+   private static final float AGGRO_RANGE = 75;
    private final Vector2 tmp = new Vector2();
 
    private final ChasingBehavior chasingBehavior;

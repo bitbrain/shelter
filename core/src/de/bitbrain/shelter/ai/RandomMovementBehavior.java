@@ -20,7 +20,11 @@ public class RandomMovementBehavior extends BehaviorAdapter {
    @Override
    public void update(GameObject source, float delta) {
       float multiplicator = Math.random() < 0.5f ? 1f : -1f;
-      angle += multiplicator * 200f * delta * Math.random();
+      if (Math.random() < 0.5f) {
+         angle += multiplicator * 500f * delta * Math.random();
+      } else {
+         angle -= multiplicator * 500f * delta * Math.random();
+      }
       direction.setAngle(angle);
       direction.nor();
       final float lookAtX = source.getLeft() + source.getWidth() / 2f + direction.x;
