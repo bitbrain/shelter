@@ -29,4 +29,8 @@ public class Ammo {
    public int getMaxAmmo() {
       return maxAmmo;
    }
+
+   public void reset() {
+      ammo = maxAmmo;
+   }
 }

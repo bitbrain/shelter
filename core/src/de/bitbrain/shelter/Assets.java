@@ -11,6 +11,7 @@ public interface Assets {
 
       String PLAYER_SPRITESHEET = "textures/player-spritesheet.png";
       String ZOMBIE_SPRITESHEET = "textures/zombie-spritesheet.png";
+      String ITEMS_SPRITESHEET = "textures/items-spritesheet.png";
       String SHADOW = "textures/shadow.png";
 
       String MUNITION_AK47 = "textures/ak47-munition.png";
@@ -25,6 +26,8 @@ public interface Assets {
    interface Particles {
       String BLOOD_EXPLOSION = "particles/blood-explosion.p";
       String BLOOD_IMPACT = "particles/blood-impact.p";
+      String MEDIPACK = "particles/medipack.p";
+      String AMMO = "particles/ammo.p";
    }
 
    interface Fonts {

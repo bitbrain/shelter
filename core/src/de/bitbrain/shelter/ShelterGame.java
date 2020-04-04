@@ -17,6 +17,8 @@ import de.bitbrain.shelter.screens.IngameScreen;
 import de.bitbrain.shelter.ui.Styles;
 import org.apache.commons.lang.SystemUtils;
 
+import static de.bitbrain.shelter.Assets.Textures.CROSSHAIR;
+
 public class ShelterGame extends BrainGdxGame {
 
    private enum ScreenMode {
@@ -46,7 +48,7 @@ public class ShelterGame extends BrainGdxGame {
 
    @Override
    protected AbstractScreen<?, ?> getInitialScreen() {
-      Gdx.graphics.setCursor(Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("textures/crosshair.png")), 32, 32));
+      Gdx.graphics.setCursor(Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal(CROSSHAIR)), 32, 32));
       configureSettings();
       Bundle.load();
       Styles.init();

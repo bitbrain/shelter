@@ -16,9 +16,7 @@ import de.bitbrain.braingdx.util.DeltaTimer;
 import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
-import de.bitbrain.shelter.model.Ammo;
-import de.bitbrain.shelter.model.DamageBehavior;
-import de.bitbrain.shelter.model.EntityMover;
+import de.bitbrain.shelter.model.*;
 
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyFixtureDef;
@@ -34,7 +32,10 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
    }
 
    @Override
-   public void fire(GameObject owner, final GameContext2D context) {
+   public void fire(GameObject owner, final GameContext2D context, EntityFactory entityFactory) {
+      if (owner.hasAttribute(HealthData.class) && owner.getAttribute(HealthData.class).isDead()) {
+         return;
+      }
       final WeaponType ak74Type = WeaponType.AK47;
       fireRateTimer.update(Gdx.graphics.getRawDeltaTime());
       Ammo ammo = owner.getAttribute(Ammo.class);
@@ -79,7 +80,7 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
          Body body = context.getPhysicsManager().attachBody(bodyDef, fixtureDef, bullet);
          body.setTransform(centerX + direction.x, centerY + direction.y, direction.angleRad() + (90f * MathUtils.radiansToDegrees));
          final EntityMover mover = new EntityMover(400, context.getGameCamera());
-         context.getBehaviorManager().apply(new DamageBehavior(direction, bullet, context) {
+         context.getBehaviorManager().apply(new DamageBehavior(direction, bullet, context, entityFactory) {
             @Override
             public void onAttach(GameObject source) {
                mover.onAttach(source);

@@ -8,23 +8,26 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
-import de.bitbrain.braingdx.tweens.ColorTween;
 import de.bitbrain.braingdx.tweens.GameObjectTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.tweens.TweenUtils;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
+import de.bitbrain.shelter.model.items.Item;
+import de.bitbrain.shelter.model.items.LootTable;
 
 public class DamageBehavior extends BehaviorAdapter {
 
    private final Vector2 bulletDirection;
    private final GameObject bullet;
    private final GameContext2D context;
+   private final EntityFactory entityFactory;
 
-   public DamageBehavior(Vector2 bulletDirection, GameObject bullet, GameContext2D context) {
+   public DamageBehavior(Vector2 bulletDirection, GameObject bullet, GameContext2D context, EntityFactory entityFactory) {
       this.bulletDirection = bulletDirection;
       this.bullet = bullet;
       this.context = context;
+      this.entityFactory = entityFactory;
    }
 
    @Override
@@ -57,6 +60,9 @@ public class DamageBehavior extends BehaviorAdapter {
          TweenUtils.toColor(target.getColor(), Color.WHITE.cpy(), 0.5f);
          healthData.reduceHealth(5);
          if (healthData.isDead()) {
+            if ("PLAYER".equals(target.getType())) {
+               return;
+            }
             target.setActive(false);
             Color targetColor = Color.BLUE.cpy();
             targetColor.a = 0f;
@@ -79,6 +85,15 @@ public class DamageBehavior extends BehaviorAdapter {
                   .start(SharedTweenManager.getInstance());
             context.getBehaviorManager().remove(target);
             context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_EXPLOSION, target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
+
+            // Drop an item if we can
+            if (target.hasAttribute(LootTable.class)) {
+               LootTable lootTable = target.getAttribute(LootTable.class);
+               Item item = lootTable.drop();
+               if (item != null) {
+                  entityFactory.addItem(target.getLeft(), target.getTop(),item);
+               }
+            }
          }
       }
    }

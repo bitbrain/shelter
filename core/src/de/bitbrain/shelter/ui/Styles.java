@@ -24,6 +24,9 @@ public class Styles {
       param.color = Color.WHITE;
       param.size = size;
       param.mono = true;
+      param.borderColor = Color.BLACK;
+      param.borderWidth = 2.4f;
+      param.borderGamma = 3f;
       BitmapFont font = generator.generateFont(param);
       // disable integer positions so UI aligns correctly
       font.setUseIntegerPositions(false);

@@ -27,7 +27,7 @@ public class InventoryUI extends Actor {
       this.camera = camera;
       this.background = GraphicsFactory.createNinePatch(SharedAssetManager.getInstance().get(Assets.Textures.UI_EQUIP, Texture.class), 4);
       this.description = new Label("", Styles.LABEL_DESCRIPTION);
-      this.description.setFontScale(0.3f);
+      this.description.setFontScale(0.4f);
    }
 
    @Override
@@ -42,7 +42,7 @@ public class InventoryUI extends Actor {
          Texture texture = SharedAssetManager.getInstance().get(weapon.getIcon(), Texture.class);
          batch.draw(texture, x, y, getWidth(), getHeight());
          description.setText(weapon.getName());
-         description.setPosition(x + getWidth() + 3f, y + (getHeight() / 2f - description.getPrefHeight() / 2f) + 2f);
+         description.setPosition(x + getWidth() + 3f, y + (getHeight() / 2f - description.getPrefHeight() / 2f) + 3f);
          description.draw(batch, parentAlpha);
       }
    }

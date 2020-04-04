@@ -26,4 +26,12 @@ public class HealthData {
    public float getHealthPercentage() {
       return (float) currentHealth / maximumHealth;
    }
+
+   public int getTotalHealth() {
+      return maximumHealth;
+   }
+
+   public void reset() {
+      currentHealth = maximumHealth;
+   }
 }

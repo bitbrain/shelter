@@ -1,13 +1,19 @@
 package de.bitbrain.shelter.model;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
+import de.bitbrain.braingdx.tweens.GameObjectTween;
+import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.world.GameObject;
-import de.bitbrain.shelter.ai.RandomMovementBehavior;
 import de.bitbrain.shelter.ai.ZombieBehavior;
+import de.bitbrain.shelter.model.items.Item;
+import de.bitbrain.shelter.model.items.LootTable;
 import de.bitbrain.shelter.util.Supplier;
 
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
@@ -23,8 +29,40 @@ public class EntityFactory {
       this.playerObjectSupplier = playerObjectSupplier;
    }
 
+   public GameObject addItem(float x, float y, final Item item) {
+      GameObject itemObject = context.getGameWorld().addObject("npcs");
+      itemObject.setType(item);
+      itemObject.setPosition(x, y);
+      itemObject.setZIndex(99999f);
+      itemObject.setDimensions(9f, 9f);
+      itemObject.setAttribute("tmx_layer_index", 0);
+      PointLight light = context.getLightingManager().createPointLight(100f, item.getLightColor());
+      context.getLightingManager().attach(light, itemObject, 4, 4);
+      context.getBehaviorManager().apply(new BehaviorAdapter() {
+         @Override
+         public void update(GameObject source, GameObject target, float delta) {
+            boolean isItem = item.equals(source.getType()) || item.equals(target.getType());
+            boolean isPlayer = "PLAYER".equals(source.getType()) || "PLAYER".equals(target.getType());
+            if (source.collidesWith(target) && isItem && isPlayer) {
+               GameObject player = "PLAYER".equals(source.getType()) ? source : target;
+               GameObject itemObject = "PLAYER".equals(source.getType()) ? target : source;
+               item.getCollectEffect().onCollect(item, player, context);
+               context.getGameWorld().remove(itemObject);
+            }
+         }
+      }, itemObject);
+      Tween.to(itemObject, GameObjectTween.OFFSET_Y, 1f)
+            .target(5f)
+            .ease(TweenEquations.easeInBounce)
+            .repeatYoyo(Tween.INFINITY, 0f)
+            .start(SharedTweenManager.getInstance());
+
+      context.getParticleManager().attachEffect(item.getParticleEffectPath(), itemObject, 4, 4);
+      return itemObject;
+   }
+
    public GameObject addZombie(float x, float y) {
-      GameObject zombie = context.getGameWorld().addObject();
+      GameObject zombie = context.getGameWorld().addObject("npcs");
       zombie.setAttribute(HealthData.class, new HealthData(20));
       zombie.setType("ZOMBIE");
       zombie.setPosition(x, y);
@@ -36,8 +74,12 @@ public class EntityFactory {
       EntityMover entityMover = new EntityMover(717f, context.getGameCamera());
       zombie.setAttribute(EntityMover.class, entityMover);
       zombie.setAttribute("tmx_layer_index", 0);
+      LootTable lootTable = new LootTable();
+      lootTable.add(Item.AMMO, 0.1f);
+      lootTable.add(Item.MEDIKIT, 0.3f);
+      zombie.setAttribute(LootTable.class, lootTable);
       context.getBehaviorManager().apply(entityMover, zombie);
-      context.getBehaviorManager().apply(new ZombieBehavior(playerObjectSupplier.supply(), context, entityMover), zombie);
+      context.getBehaviorManager().apply(new ZombieBehavior(playerObjectSupplier.supply(), context, entityMover, this), zombie);
       Color color = new Color(1f, 0, 0, 0.15f);
       PointLight light = context.getLightingManager().createPointLight(10f, color);
       context.getLightingManager().attach(light, zombie, 16f, 17f);

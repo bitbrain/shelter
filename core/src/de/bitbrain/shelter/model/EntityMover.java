@@ -46,7 +46,7 @@ public class EntityMover extends BehaviorAdapter {
    }
 
    public void lookAtWorld(float worldX, float worldY) {
-      if (gameObject != null) {
+      if (gameObject != null && (!gameObject.hasAttribute(HealthData.class) || !gameObject.getAttribute(HealthData.class).isDead())) {
          lookDirection.x = gameObject.getLeft() + gameObject.getWidth() / 2f - worldX;
          lookDirection.y = gameObject.getTop() + gameObject.getHeight() / 2f - worldY;
          lookDirection.nor();
@@ -60,6 +60,14 @@ public class EntityMover extends BehaviorAdapter {
 
    @Override
    public void update(GameObject source, float delta) {
+      if (source.hasAttribute(HealthData.class) && source.getAttribute(HealthData.class).isDead()) {
+         movement.set(0f, 0f);
+         if (gameObject.hasAttribute(Body.class)) {
+            Body body = gameObject.getAttribute(Body.class);
+            body.setLinearVelocity(0f, 0f);
+         }
+         return;
+      }
       float moveX = movement.x * delta;
       float moveY = movement.y * delta;
       if (gameObject.hasAttribute(Body.class)) {
