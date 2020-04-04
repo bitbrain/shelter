@@ -104,7 +104,77 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
       context.getRenderManager().setRenderOrderComparator(new RenderOrderComparator());
       final Texture playerTexture = SharedAssetManager.getInstance().get(Assets.Textures.PLAYER_SPRITESHEET);
       AnimationSpriteSheet sheet = new AnimationSpriteSheet(playerTexture, 32);
-      final Texture test = GraphicsFactory.createTexture(2, 2, Color.RED);
+      final Texture gameObjectDebugTexture = GraphicsFactory.createTexture(2, 2, Color.RED);
+      final Texture weaponTexture = SharedAssetManager.getInstance().get(Assets.Textures.TILESET_WEAPON_AK47);
+      AnimationSpriteSheet weaponSheet = new AnimationSpriteSheet(weaponTexture, 32);
+      final AnimationRenderer weaponRenderer = new AnimationRenderer(weaponSheet,
+            AnimationConfig.builder()
+                  .registerFrames(AnimationTypes.STANDING_SOUTH, AnimationFrames.builder()
+                        .resetIndex(0)
+                        .duration(0.3f)
+                        .origin(0, 0)
+                        .direction(AnimationFrames.Direction.HORIZONTAL)
+                        .playMode(Animation.PlayMode.LOOP)
+                        .frames(8)
+                        .build())
+                  .registerFrames(AnimationTypes.STANDING_SOUTH_WEST, AnimationFrames.builder()
+                        .resetIndex(0)
+                        .duration(0.3f)
+                        .origin(0, 1)
+                        .direction(AnimationFrames.Direction.HORIZONTAL)
+                        .playMode(Animation.PlayMode.LOOP)
+                        .frames(8)
+                        .build())
+                  .registerFrames(AnimationTypes.STANDING_WEST, AnimationFrames.builder()
+                        .resetIndex(0)
+                        .duration(0.3f)
+                        .origin(0, 2)
+                        .direction(AnimationFrames.Direction.HORIZONTAL)
+                        .playMode(Animation.PlayMode.LOOP)
+                        .frames(8)
+                        .build())
+                  .registerFrames(AnimationTypes.STANDING_NORTH_WEST, AnimationFrames.builder()
+                        .resetIndex(0)
+                        .duration(0.3f)
+                        .origin(0, 3)
+                        .direction(AnimationFrames.Direction.HORIZONTAL)
+                        .playMode(Animation.PlayMode.LOOP)
+                        .frames(8)
+                        .build())
+                  .registerFrames(AnimationTypes.STANDING_NORTH, AnimationFrames.builder()
+                        .resetIndex(0)
+                        .duration(0.3f)
+                        .origin(0, 4)
+                        .direction(AnimationFrames.Direction.HORIZONTAL)
+                        .playMode(Animation.PlayMode.LOOP)
+                        .frames(8)
+                        .build())
+                  .registerFrames(AnimationTypes.STANDING_NORTH_EAST, AnimationFrames.builder()
+                        .resetIndex(0)
+                        .duration(0.3f)
+                        .origin(0, 5)
+                        .direction(AnimationFrames.Direction.HORIZONTAL)
+                        .playMode(Animation.PlayMode.LOOP)
+                        .frames(8)
+                        .build())
+                  .registerFrames(AnimationTypes.STANDING_EAST, AnimationFrames.builder()
+                        .resetIndex(0)
+                        .duration(0.3f)
+                        .origin(0, 6)
+                        .direction(AnimationFrames.Direction.HORIZONTAL)
+                        .playMode(Animation.PlayMode.LOOP)
+                        .frames(8)
+                        .build())
+                  .registerFrames(AnimationTypes.STANDING_SOUTH_EAST, AnimationFrames.builder()
+                        .resetIndex(0)
+                        .duration(0.3f)
+                        .origin(0, 7)
+                        .direction(AnimationFrames.Direction.HORIZONTAL)
+                        .playMode(Animation.PlayMode.LOOP)
+                        .frames(8)
+                        .build())
+                  .build(), new PlayerAnimationTypeResolver(), new AlwaysAnimationEnabler()
+      );
       context.getRenderManager().register("PLAYER", new AnimationRenderer(sheet,
             AnimationConfig.builder()
                   .registerFrames(AnimationTypes.STANDING_SOUTH, AnimationFrames.builder()
@@ -176,12 +246,13 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
          @Override
          public void render(GameObject object, Batch batch, float delta) {
             if (object.hasAttribute("debug")) {
-               batch.draw(test, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
+               batch.draw(gameObjectDebugTexture, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
             }
             Texture shadow = SharedAssetManager.getInstance().get(Assets.Textures.SHADOW, Texture.class);
             batch.draw(shadow, object.getLeft() + object.getOffsetX(), object.getTop() + object.getOffsetY(),
                   object.getWidth() * object.getScaleX(), object.getHeight() * object.getScaleY());
             super.render(object, batch, delta);
+            weaponRenderer.render(object, batch, delta);
          }
       });
       final Texture zombieTexture = SharedAssetManager.getInstance().get(Assets.Textures.ZOMBIE_SPRITESHEET);
@@ -257,7 +328,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
          @Override
          public void render(GameObject object, Batch batch, float delta) {
             if (object.hasAttribute("debug")) {
-               batch.draw(test, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
+               batch.draw(gameObjectDebugTexture, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
             }
             Texture shadow = SharedAssetManager.getInstance().get(Assets.Textures.SHADOW, Texture.class);
             batch.draw(shadow, object.getLeft() + object.getOffsetX(), object.getTop() + object.getOffsetY(),
