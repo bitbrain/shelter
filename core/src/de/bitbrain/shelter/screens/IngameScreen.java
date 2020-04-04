@@ -16,11 +16,12 @@ import de.bitbrain.shelter.ShelterGame;
 import de.bitbrain.shelter.animation.EntityAnimationRenderer;
 import de.bitbrain.shelter.graphics.RenderOrderComparator;
 import de.bitbrain.shelter.input.ingame.IngameKeyboardAdapter;
-import de.bitbrain.shelter.model.EntityMover;
 import de.bitbrain.shelter.model.EntityFactory;
+import de.bitbrain.shelter.model.EntityMover;
 import de.bitbrain.shelter.model.spawn.Spawner;
 import de.bitbrain.shelter.model.weapon.WeaponHandler;
 import de.bitbrain.shelter.model.weapon.WeaponType;
+import de.bitbrain.shelter.physics.BulletContactListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,14 +50,11 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
       setupWorld(context);
       setupRenderer(context);
       setupInput(context);
+      setupPhysics(context);
 
       for (Spawner spawner : spawners) {
          spawner.spawn(context, playerObject);
       }
-   }
-
-   @Override
-   protected void onUpdate(float delta) {
    }
 
    private void setupWorld(GameContext2D context) {
@@ -117,5 +115,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
 
    private void setupInput(GameContext2D context) {
       context.getInputManager().register(new IngameKeyboardAdapter(playerEntityMover, playerWeaponHandler, context));
+   }
+
+   private void setupPhysics(GameContext2D context) {
+      context.getPhysicsManager().setIterationCount(2);
+      context.getPhysicsManager().getPhysicsWorld().setContactListener(new BulletContactListener(context));
    }
 }

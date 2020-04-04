@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
@@ -23,14 +24,15 @@ public class Ak47Strategy implements FireStrategy {
    private final DeltaTimer fireRateTimer = new DeltaTimer();
 
    private Vector3 target = new Vector3();
-   private Vector2 direction = new Vector2();
 
    @Override
    public void fire(GameObject owner, GameContext2D context) {
       fireRateTimer.update(Gdx.graphics.getRawDeltaTime());
       if (fireRateTimer.reached(0.5f)) {
+
+         final Vector2 direction = new Vector2();
          // compute the center point
-         final float radius = 4;
+         final float radius = 14;
          final float centerX = owner.getLeft() + owner.getWidth() / 2f;
          final float centerY = owner.getTop() + owner.getHeight() / 2f;
 
@@ -46,23 +48,31 @@ public class Ak47Strategy implements FireStrategy {
          WeaponType ak74Type = WeaponType.AK47;
          GameObject bullet = context.getGameWorld().addObject();
          bullet.setType(ak74Type);
-         bullet.setDimensions(1, 2);
+         bullet.setDimensions(2, 2);
          bullet.setAttribute("tmx_layer_index", 0);
          BodyDef bodyDef = createBodyDef(bullet);
-         bodyDef.active = false;
-         FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 1f, 2f);
+         bodyDef.active = true;
+         FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 2f, 2f);
          Body body = context.getPhysicsManager().attachBody(bodyDef, fixtureDef, bullet);
          body.setTransform(centerX + direction.x, centerY + direction.y, direction.angleRad() + (90f * MathUtils.radiansToDegrees));
-         final EntityMover mover = new EntityMover(9000, context.getGameCamera());
+         final EntityMover mover = new EntityMover(55000, context.getGameCamera());
          context.getBehaviorManager().apply(new BehaviorAdapter() {
+
+            @Override
+            public void onAttach(GameObject source) {
+               super.onAttach(source);
+               mover.onAttach(source);
+            }
+
             @Override
             public void update(GameObject source, float delta) {
                mover.move(direction);
+               mover.update(source, delta);
             }
          }, bullet);
          bullet.setRotation(direction.angle());
-         PointLight light = context.getLightingManager().createPointLight(64f, Color.valueOf("ffaa88"));
-         context.getLightingManager().attach(light, bullet, 0f, 0f);
+         PointLight light = context.getLightingManager().createPointLight(125f, Color.valueOf("ffaa8855"));
+         context.getLightingManager().attach(light, bullet, 1f, 1f);
          fireRateTimer.reset();
       }
    }

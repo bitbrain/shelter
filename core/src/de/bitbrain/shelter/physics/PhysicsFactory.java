@@ -1,6 +1,5 @@
 package de.bitbrain.shelter.physics;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -24,7 +23,7 @@ public class PhysicsFactory {
       playerBody.setPosition(new Vector2(offsetX, offsetY));
       playerBody.setRadius(radius);
       bodyFixtureDef.shape = playerBody;
-      bodyFixtureDef.density = 0.00001f;
+      bodyFixtureDef.density = 0f;
       bodyFixtureDef.friction = 0f;
       bodyFixtureDef.restitution = 0f;
       return bodyFixtureDef;
