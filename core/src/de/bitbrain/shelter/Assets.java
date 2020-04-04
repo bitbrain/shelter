@@ -20,5 +20,6 @@ public interface Assets {
 
    interface Particles {
       String BLOOD_EXPLOSION = "particles/blood-explosion.p";
+      String BLOOD_IMPACT = "particles/blood-impact.p";
    }
 }

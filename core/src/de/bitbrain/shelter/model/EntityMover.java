@@ -14,7 +14,7 @@ public class EntityMover extends BehaviorAdapter {
    private final Vector3 tmp = new Vector3();
    private final GameCamera gameCamera;
    private final float maxSpeed;
-   private float speed = 0f;
+   private Vector2 movement = new Vector2();
    private GameObject gameObject;
 
    public EntityMover(float maxSpeed, GameCamera gameCamera) {
@@ -23,11 +23,16 @@ public class EntityMover extends BehaviorAdapter {
 
    }
 
-   public void move(Vector2 direction) {
+   public void move(Vector2 direction, float amount) {
       moveDirection.x = direction.x;
       moveDirection.y = direction.y;
       moveDirection.nor();
-      speed = maxSpeed;
+      movement.x += moveDirection.x * amount;
+      movement.y += moveDirection.y * amount;
+   }
+
+   public void move(Vector2 direction) {
+      move(direction, maxSpeed);
    }
 
    public Vector2 getLookDirection() {
@@ -55,8 +60,8 @@ public class EntityMover extends BehaviorAdapter {
 
    @Override
    public void update(GameObject source, float delta) {
-      float moveX = moveDirection.x * speed * delta;
-      float moveY = moveDirection.y * speed * delta;
+      float moveX = movement.x * delta;
+      float moveY = movement.y * delta;
       if (gameObject.hasAttribute(Body.class)) {
          Body body = gameObject.getAttribute(Body.class);
          if (body.isActive()) {
@@ -65,6 +70,6 @@ public class EntityMover extends BehaviorAdapter {
             gameObject.move(moveX, moveY);
          }
       }
-      speed = 0f;
+      movement.set(0f, 0f);
    }
 }

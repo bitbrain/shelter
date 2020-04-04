@@ -16,6 +16,7 @@ import de.bitbrain.braingdx.util.DeltaTimer;
 import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
+import de.bitbrain.shelter.model.DamageBehavior;
 import de.bitbrain.shelter.model.EntityMover;
 
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
@@ -68,35 +69,18 @@ public class Ak47Strategy implements FireStrategy {
          Body body = context.getPhysicsManager().attachBody(bodyDef, fixtureDef, bullet);
          body.setTransform(centerX + direction.x, centerY + direction.y, direction.angleRad() + (90f * MathUtils.radiansToDegrees));
          final EntityMover mover = new EntityMover(400, context.getGameCamera());
-         context.getBehaviorManager().apply(new BehaviorAdapter() {
-
+         context.getBehaviorManager().apply(new DamageBehavior(direction, bullet, context) {
             @Override
             public void onAttach(GameObject source) {
-               super.onAttach(source);
                mover.onAttach(source);
+               super.onAttach(source);
             }
 
             @Override
             public void update(GameObject source, float delta) {
                mover.move(direction);
                mover.update(source, delta);
-            }
-
-            @Override
-            public void update(GameObject source, GameObject target, float delta) {
-               super.update(source, target, delta);
-               if (source.collidesWith(target) && !target.getType().equals(source.getType())) {
-                  if (source.getId().equals(bullet.getId())) {
-                     context.getGameWorld().remove(source);
-                     context.getGameWorld().remove(target);
-                     context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_EXPLOSION, target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
-                  }
-                  if (target.getId().equals(bullet.getId())) {
-                     context.getGameWorld().remove(source);
-                     context.getGameWorld().remove(target);
-                     context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_EXPLOSION, target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
-                  }
-               }
+               super.update(source, delta);
             }
          }, bullet);
          bullet.setRotation(direction.angle() - 90f);

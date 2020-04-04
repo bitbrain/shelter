@@ -102,6 +102,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
             playerWeaponHandler = new WeaponHandler(object);
          } else if (object.getType().equals("SPAWNER")) {
             int capacity = object.getAttribute("capacity", 1);
+            context.getGameWorld().remove(object);
             spawners.add(new Spawner(object.getLeft(), object.getTop(), object.getWidth(), object.getHeight(), entityFactory, capacity));
 
          }
