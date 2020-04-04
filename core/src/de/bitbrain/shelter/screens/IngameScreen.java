@@ -9,22 +9,19 @@ import com.badlogic.gdx.math.Vector3;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
+import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.braingdx.graphics.animation.AnimationConfig;
 import de.bitbrain.braingdx.graphics.animation.AnimationFrames;
 import de.bitbrain.braingdx.graphics.animation.AnimationRenderer;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
-import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
-import de.bitbrain.braingdx.graphics.postprocessing.AutoReloadPostProcessorEffect;
-import de.bitbrain.braingdx.graphics.postprocessing.effects.Bloom;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
-import de.bitbrain.braingdx.tmx.TiledMapContext;
-import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
 import de.bitbrain.shelter.animation.AlwaysAnimationEnabler;
 import de.bitbrain.shelter.animation.AnimationTypes;
 import de.bitbrain.shelter.animation.PlayerAnimationTypeResolver;
+import de.bitbrain.shelter.graphics.RenderOrderComparator;
 import de.bitbrain.shelter.input.ingame.IngameKeyboardAdapter;
 import de.bitbrain.shelter.model.EntityMover;
 import de.bitbrain.shelter.model.EntitySpawner;
@@ -72,7 +69,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
       context.getTiledMapManager().load(FOREST, context.getGameCamera().getInternalCamera());
       for (GameObject object : context.getGameWorld().getObjects()) {
          if (object.getType().equals("PLAYER")) {
-            object.setDimensions(32f, 32f);
+            object.setDimensions(8f, 8f);
+            object.setScaleX(4f);
+            object.setScaleY(4f);
+            object.setOffset(-12f, -4f);
             context.getGameCamera().setTrackingTarget(object);
             context.getGameCamera().setStickToWorldBounds(true);
             context.getGameCamera().setTargetTrackingSpeed(0.01f);
@@ -85,8 +85,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
    }
 
    private void setupRenderer(GameContext2D context) {
+      context.getRenderManager().setRenderOrderComparator(new RenderOrderComparator());
       final Texture playerTexture = SharedAssetManager.getInstance().get(Assets.Textures.PLAYER_SPRITESHEET);
       AnimationSpriteSheet sheet = new AnimationSpriteSheet(playerTexture, 32);
+      final Texture test = GraphicsFactory.createTexture(2, 2, Color.RED);
       context.getRenderManager().register("PLAYER", new AnimationRenderer(sheet,
             AnimationConfig.builder()
                   .registerFrames(AnimationTypes.STANDING_SOUTH, AnimationFrames.builder()
@@ -157,8 +159,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
       ) {
          @Override
          public void render(GameObject object, Batch batch, float delta) {
+            batch.draw(test, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
             Texture shadow = SharedAssetManager.getInstance().get(Assets.Textures.SHADOW, Texture.class);
-            batch.draw(shadow, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
+            batch.draw(shadow, object.getLeft() + object.getOffsetX(), object.getTop() + object.getOffsetY(),
+                  object.getWidth() * object.getScaleX(), object.getHeight() * object.getScaleY());
             super.render(object, batch, delta);
          }
       });
@@ -234,8 +238,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
       ) {
          @Override
          public void render(GameObject object, Batch batch, float delta) {
+            batch.draw(test, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
             Texture shadow = SharedAssetManager.getInstance().get(Assets.Textures.SHADOW, Texture.class);
-            batch.draw(shadow, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
+            batch.draw(shadow, object.getLeft() + object.getOffsetX(), object.getTop() + object.getOffsetY(),
+                  object.getWidth() * object.getScaleX(), object.getHeight() * object.getScaleY());
             super.render(object, batch, delta);
          }
       });

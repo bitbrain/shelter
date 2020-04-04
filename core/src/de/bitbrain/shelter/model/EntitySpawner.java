@@ -19,7 +19,10 @@ public class EntitySpawner {
       zombie.setType("ZOMBIE");
       zombie.setPosition(x, y);
       zombie.setZIndex(99999f);
-      zombie.setDimensions(32f, 32f);
+      zombie.setDimensions(8f, 8f);
+      zombie.setScaleX(4f);
+      zombie.setScaleY(4f);
+      zombie.setOffset(-12f,-4f);
       EntityMover entityMover = new EntityMover(17f, context.getGameCamera());
       zombie.setAttribute(EntityMover.class, entityMover);
       zombie.setAttribute("tmx_layer_index", 0);
