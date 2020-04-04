@@ -1,5 +1,7 @@
 package de.bitbrain.shelter.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -8,6 +10,7 @@ import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.lighting.LightingConfig;
+import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
 import de.bitbrain.braingdx.graphics.renderer.SpriteRenderer;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.world.GameObject;
@@ -21,7 +24,6 @@ import de.bitbrain.shelter.model.EntityMover;
 import de.bitbrain.shelter.model.spawn.Spawner;
 import de.bitbrain.shelter.model.weapon.WeaponHandler;
 import de.bitbrain.shelter.model.weapon.WeaponType;
-import de.bitbrain.shelter.physics.BulletContactListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,16 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
 
    public IngameScreen(ShelterGame game) {
       super(game);
+   }
+
+   @Override
+   protected void onUpdate(float delta) {
+      super.onUpdate(delta);
+      if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+         for (Spawner spawner : spawners) {
+            spawner.spawn(context, playerObject);
+         }
+      }
    }
 
    @Override
@@ -103,6 +115,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
       for (WeaponType type : WeaponType.values()) {
          context.getRenderManager().register(type, new SpriteRenderer(SharedAssetManager.getInstance().get(type.getMunitionTexture(), Texture.class)));
       }
+      context.getRenderPipeline().moveAfter(RenderPipeIds.LIGHTING, RenderPipeIds.PARTICLES);
    }
 
    private void setupLighting(GameContext2D context) {
@@ -119,6 +132,5 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
 
    private void setupPhysics(GameContext2D context) {
       context.getPhysicsManager().setIterationCount(2);
-      context.getPhysicsManager().getPhysicsWorld().setContactListener(new BulletContactListener(context));
    }
 }

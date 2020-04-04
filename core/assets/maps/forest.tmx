@@ -14,7 +14,7 @@
     <property name="lighting.color" type="color" value="#ffffbeb2"/>
     <property name="lighting.offset.x" type="float" value="16"/>
     <property name="lighting.offset.y" type="float" value="8"/>
-    <property name="lighting.range" type="float" value="160"/>
+    <property name="lighting.range" type="float" value="220"/>
    </properties>
   </object>
   <object id="4" name="Spawner" type="SPAWNER" x="212.313" y="65.327" width="76.0592" height="49.2285">

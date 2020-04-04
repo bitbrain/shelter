@@ -17,4 +17,8 @@ public interface Assets {
       String ICON_WEAPON_AK47 = "textures/icon-ak47.png";
       String TILESET_WEAPON_AK47 = "textures/weapon-ak47-spritesheet.png";
    }
+
+   interface Particles {
+      String BLOOD_EXPLOSION = "particles/blood-explosion.p";
+   }
 }

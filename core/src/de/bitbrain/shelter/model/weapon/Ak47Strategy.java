@@ -13,7 +13,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.util.DeltaTimer;
+import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
+import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.model.EntityMover;
 
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
@@ -25,10 +27,14 @@ public class Ak47Strategy implements FireStrategy {
 
    private Vector3 target = new Vector3();
 
+   public  Ak47Strategy() {
+      fireRateTimer.update(0.2f);
+   }
+
    @Override
-   public void fire(GameObject owner, GameContext2D context) {
+   public void fire(GameObject owner, final GameContext2D context) {
       fireRateTimer.update(Gdx.graphics.getRawDeltaTime());
-      if (fireRateTimer.reached(0.5f)) {
+      if (fireRateTimer.reached(0.2f)) {
 
          final Vector2 direction = new Vector2();
          // compute the center point
@@ -45,17 +51,23 @@ public class Ak47Strategy implements FireStrategy {
          direction.y = target.y - centerY;
          direction.setLength(radius);
 
-         WeaponType ak74Type = WeaponType.AK47;
-         GameObject bullet = context.getGameWorld().addObject();
-         bullet.setType(ak74Type);
-         bullet.setDimensions(2, 2);
-         bullet.setAttribute("tmx_layer_index", 0);
+         final WeaponType ak74Type = WeaponType.AK47;
+         final GameObject bullet = context.getGameWorld().addObject(new Mutator<GameObject>() {
+            @Override
+            public void mutate(GameObject target) {
+               target.setType(ak74Type);
+               target.setPosition(centerX + direction.x, centerY + direction.y);
+               target.setRotation(direction.angle());
+               target.setDimensions(2, 4);
+               target.setAttribute("tmx_layer_index", 0);
+            }
+         });
          BodyDef bodyDef = createBodyDef(bullet);
-         bodyDef.active = true;
-         FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 2f, 2f);
+         bodyDef.active = false;
+         FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 4f, 2f);
          Body body = context.getPhysicsManager().attachBody(bodyDef, fixtureDef, bullet);
          body.setTransform(centerX + direction.x, centerY + direction.y, direction.angleRad() + (90f * MathUtils.radiansToDegrees));
-         final EntityMover mover = new EntityMover(55000, context.getGameCamera());
+         final EntityMover mover = new EntityMover(400, context.getGameCamera());
          context.getBehaviorManager().apply(new BehaviorAdapter() {
 
             @Override
@@ -69,9 +81,27 @@ public class Ak47Strategy implements FireStrategy {
                mover.move(direction);
                mover.update(source, delta);
             }
+
+            @Override
+            public void update(GameObject source, GameObject target, float delta) {
+               super.update(source, target, delta);
+               if (source.collidesWith(target) && !target.getType().equals(source.getType())) {
+                  if (source.getId().equals(bullet.getId())) {
+                     context.getGameWorld().remove(source);
+                     context.getGameWorld().remove(target);
+                     context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_EXPLOSION, target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
+                  }
+                  if (target.getId().equals(bullet.getId())) {
+                     context.getGameWorld().remove(source);
+                     context.getGameWorld().remove(target);
+                     context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_EXPLOSION, target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
+                  }
+               }
+            }
          }, bullet);
-         bullet.setRotation(direction.angle());
-         PointLight light = context.getLightingManager().createPointLight(125f, Color.valueOf("ffaa8855"));
+         bullet.setRotation(direction.angle() - 90f);
+         PointLight light = context.getLightingManager().createPointLight(135f, Color.valueOf("ffaa8855"));
+         light.setPosition(bullet.getLeft(), bullet.getTop());
          context.getLightingManager().attach(light, bullet, 1f, 1f);
          fireRateTimer.reset();
       }

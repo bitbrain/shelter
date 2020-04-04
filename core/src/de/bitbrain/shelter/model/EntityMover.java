@@ -55,9 +55,15 @@ public class EntityMover extends BehaviorAdapter {
 
    @Override
    public void update(GameObject source, float delta) {
+      float moveX = moveDirection.x * speed * delta;
+      float moveY = moveDirection.y * speed * delta;
       if (gameObject.hasAttribute(Body.class)) {
          Body body = gameObject.getAttribute(Body.class);
-         body.setLinearVelocity(moveDirection.x * speed * delta, moveDirection.y * speed * delta);
+         if (body.isActive()) {
+            body.setLinearVelocity(moveX, moveY);
+         } else {
+            gameObject.move(moveX, moveY);
+         }
       }
       speed = 0f;
    }
