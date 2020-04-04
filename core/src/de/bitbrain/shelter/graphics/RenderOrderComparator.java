@@ -13,6 +13,6 @@ public class RenderOrderComparator implements Comparator<GameObject> {
       else if (o1.getZIndex() < o2.getZIndex())
          return -1;
       else
-         return 0;
+         return (int) (o2.getTop() - o1.getTop());
    }
 }

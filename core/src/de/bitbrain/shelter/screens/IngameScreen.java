@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
@@ -14,6 +17,7 @@ import de.bitbrain.braingdx.graphics.animation.AnimationConfig;
 import de.bitbrain.braingdx.graphics.animation.AnimationFrames;
 import de.bitbrain.braingdx.graphics.animation.AnimationRenderer;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
+import de.bitbrain.braingdx.graphics.lighting.LightingConfig;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
@@ -27,6 +31,8 @@ import de.bitbrain.shelter.model.EntityMover;
 import de.bitbrain.shelter.model.EntitySpawner;
 
 import static de.bitbrain.shelter.Assets.TiledMaps.FOREST;
+import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
+import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyFixtureDef;
 
 public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
 
@@ -43,10 +49,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
    @Override
    protected void onCreate(GameContext2D context) {
       this.entitySpawner = new EntitySpawner(context);
+      setupLighting(context);
       setupWorld(context);
       setupInput(context);
       setupRenderer(context);
-      setupLighting(context);
    }
 
    @Override
@@ -69,17 +75,27 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
       context.getTiledMapManager().load(FOREST, context.getGameCamera().getInternalCamera());
       for (GameObject object : context.getGameWorld().getObjects()) {
          if (object.getType().equals("PLAYER")) {
+            // We need to make the actual entity smaller than the sprite
+            // sprite -> 32x32
+            // entity -> 8x8 for collision purposes
             object.setDimensions(8f, 8f);
             object.setScaleX(4f);
             object.setScaleY(4f);
             object.setOffset(-12f, -4f);
+
+            // Setup camera tracking
             context.getGameCamera().setTrackingTarget(object);
             context.getGameCamera().setStickToWorldBounds(true);
             context.getGameCamera().setTargetTrackingSpeed(0.01f);
             context.getGameCamera().setZoom(200, GameCamera.ZoomMode.TO_HEIGHT);
-            playerEntityMover = new EntityMover(50f, context.getGameCamera());
+            playerEntityMover = new EntityMover(2150f, context.getGameCamera());
             object.setAttribute(EntityMover.class, playerEntityMover);
             context.getBehaviorManager().apply(playerEntityMover, object);
+
+            // add physics
+            BodyDef bodyDef = createBodyDef(object);
+            FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 4f);
+            context.getPhysicsManager().attachBody(bodyDef, fixtureDef, object);
          }
       }
    }
@@ -159,7 +175,9 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
       ) {
          @Override
          public void render(GameObject object, Batch batch, float delta) {
-            batch.draw(test, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
+            if (object.hasAttribute("debug")) {
+               batch.draw(test, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
+            }
             Texture shadow = SharedAssetManager.getInstance().get(Assets.Textures.SHADOW, Texture.class);
             batch.draw(shadow, object.getLeft() + object.getOffsetX(), object.getTop() + object.getOffsetY(),
                   object.getWidth() * object.getScaleX(), object.getHeight() * object.getScaleY());
@@ -238,7 +256,9 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
       ) {
          @Override
          public void render(GameObject object, Batch batch, float delta) {
-            batch.draw(test, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
+            if (object.hasAttribute("debug")) {
+               batch.draw(test, object.getLeft(), object.getTop(), object.getWidth(), object.getHeight());
+            }
             Texture shadow = SharedAssetManager.getInstance().get(Assets.Textures.SHADOW, Texture.class);
             batch.draw(shadow, object.getLeft() + object.getOffsetX(), object.getTop() + object.getOffsetY(),
                   object.getWidth() * object.getScaleX(), object.getHeight() * object.getScaleY());
@@ -248,6 +268,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
    }
 
    private void setupLighting(GameContext2D context) {
+      LightingConfig config = new LightingConfig();
+      config.blur(true);
+      config.rays(500);
+      context.getLightingManager().setConfig(config);
       context.getLightingManager().setAmbientLight(Color.valueOf("110022"));
    }
 

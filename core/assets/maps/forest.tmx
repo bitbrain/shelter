@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="32" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="2">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="32" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="4">
  <tileset firstgid="1" name="tileset-forest" tilewidth="16" tileheight="16" tilecount="64" columns="8">
   <image source="tileset-forest.png" width="128" height="128"/>
  </tileset>
  <layer id="1" name="base" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJydldsOwyAMQ0ng/795q1Qk78im2x4itQnEzpUaY/RbJmQZnUrfcp0r+S/oC/fqtqm9xUZRLCfO7rjSr3JoweI54ujdGfBSLGX8dMB3sSj3VJcVMNWHywdz6PRlMDQ3KfYT9qm2jD/x3pza4Lnz5KE6frMm/3JP/aC+lpzVmBrfrlbT/LNPHe/t95tZf4pT+1rrTTv3RMqV20PsPfI4xedqTo7KIe1CzhRzRP5pRzI3jJOznHjS96nHyIGzqbhubllb14MJl/s27SaNf4veWeOzLjobv+wJ7n7W0r2Hy+jSO5HmTcXtb83TaS6fap32lvbVCxc/BFQ=
+   eAGF0VmKW0EQRFG13ftfc/uCDwRJYX8UOcSUT/r6fD6//rzf532f+eJpevG+/vbNevvm1TaHLS4/7L60sl71hW8e/PruDe6Oe3ky14fWrnrf9THTNOfDvzkMz359Yel2v30Ynrp4O98Lt5O5+N3ltRnh7dT69a2XL2fx9X/1tDJWyy/Mb9mO5nLxt24v3843NdvpzTSv6o7q6l59ev9r+H4T7JXRDh9uzo8nXhhe1e+2t95++a8ePyx/mbIujld95afrpePFoxl+b4kjE7b+cnHWh78apr83LIYjbzPC0roZR37z6vVX97871w/3VeW7cfN57L3ugVX9FnY8m+PzbvZw9neAyai2c5M71PV1w1YZ/7ohLM166feO9bLfrLtzd7ownr6RXzWffbxUGE/7V+X/qnvD9nHLoPkBFz8EVA==
   </data>
  </layer>
  <objectgroup id="2" name="objects">
-  <object id="1" name="PLAYER" type="PLAYER" x="230.364" y="138.727">
+  <object id="2" name="PLAYER" type="PLAYER" x="83.7585" y="116.189" width="8" height="8">
    <properties>
-    <property name="lighting.color" type="color" value="#c8ffc28f"/>
-    <property name="lighting.range" type="float" value="180"/>
+    <property name="lighting.color" type="color" value="#ffffbeb2"/>
+    <property name="lighting.offset.x" type="float" value="16"/>
+    <property name="lighting.offset.y" type="float" value="8"/>
+    <property name="lighting.range" type="float" value="160"/>
    </properties>
-   <point/>
   </object>
  </objectgroup>
 </map>

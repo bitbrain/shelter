@@ -2,6 +2,7 @@ package de.bitbrain.shelter.model;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.world.GameObject;
@@ -19,6 +20,7 @@ public class EntityMover extends BehaviorAdapter {
    public EntityMover(float maxSpeed, GameCamera gameCamera) {
       this.maxSpeed = maxSpeed;
       this.gameCamera = gameCamera;
+
    }
 
    public void move(Vector2 direction) {
@@ -53,7 +55,10 @@ public class EntityMover extends BehaviorAdapter {
 
    @Override
    public void update(GameObject source, float delta) {
-      source.move(moveDirection.x * speed * delta, moveDirection.y * speed * delta);
+      if (gameObject.hasAttribute(Body.class)) {
+         Body body = gameObject.getAttribute(Body.class);
+         body.setLinearVelocity(moveDirection.x * speed * delta, moveDirection.y * speed * delta);
+      }
       speed = 0f;
    }
 }
