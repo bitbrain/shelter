@@ -23,7 +23,7 @@ public class Spawner {
       for (int i = 0; i < capacity; ++i) {
          float targetX = origin.x + (float)(bounds.x * Math.random());
          float targetY = origin.y + (float)(bounds.y * Math.random());
-         GameObject zombie = entityFactory.addZombie(targetX, targetY);
+         entityFactory.addZombie(targetX, targetY);
       }
    }
 }

@@ -24,6 +24,7 @@ import de.bitbrain.shelter.model.EntityMover;
 import de.bitbrain.shelter.model.spawn.Spawner;
 import de.bitbrain.shelter.model.weapon.WeaponHandler;
 import de.bitbrain.shelter.model.weapon.WeaponType;
+import de.bitbrain.shelter.util.Supplier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import static de.bitbrain.shelter.Assets.TiledMaps.FOREST;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyFixtureDef;
 
-public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
+public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Supplier<GameObject> {
 
    private EntityMover playerEntityMover;
    private EntityFactory entityFactory;
@@ -57,7 +58,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
 
    @Override
    protected void onCreate(GameContext2D context) {
-      this.entityFactory = new EntityFactory(context);
+      this.entityFactory = new EntityFactory(context, this);
       setupLighting(context);
       setupWorld(context);
       setupRenderer(context);
@@ -133,5 +134,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> {
 
    private void setupPhysics(GameContext2D context) {
       context.getPhysicsManager().setIterationCount(2);
+   }
+
+   @Override
+   public GameObject supply() {
+      return playerObject;
    }
 }
