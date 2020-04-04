@@ -16,10 +16,17 @@ public interface Assets {
       String MUNITION_AK47 = "textures/ak47-munition.png";
       String ICON_WEAPON_AK47 = "textures/icon-ak47.png";
       String TILESET_WEAPON_AK47 = "textures/weapon-ak47-spritesheet.png";
+
+      String UI_HEALTH = "textures/ui-health.9.png";
+      String UI_HEALTH_ACTIVE = "textures/ui-health-active.9.png";
    }
 
    interface Particles {
       String BLOOD_EXPLOSION = "particles/blood-explosion.p";
       String BLOOD_IMPACT = "particles/blood-impact.p";
+   }
+
+   interface Fonts {
+      String EIGHTBIT_WONDER = "fonts/8bitwonder.ttf";
    }
 }

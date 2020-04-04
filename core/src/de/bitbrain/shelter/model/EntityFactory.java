@@ -25,6 +25,7 @@ public class EntityFactory {
 
    public GameObject addZombie(float x, float y) {
       GameObject zombie = context.getGameWorld().addObject();
+      zombie.setAttribute(HealthData.class, new HealthData(50));
       zombie.setType("ZOMBIE");
       zombie.setPosition(x, y);
       zombie.setZIndex(99999f);
@@ -36,7 +37,7 @@ public class EntityFactory {
       zombie.setAttribute(EntityMover.class, entityMover);
       zombie.setAttribute("tmx_layer_index", 0);
       context.getBehaviorManager().apply(entityMover, zombie);
-      context.getBehaviorManager().apply(new ZombieBehavior(playerObjectSupplier.supply(), entityMover), zombie);
+      context.getBehaviorManager().apply(new ZombieBehavior(playerObjectSupplier.supply(), context, entityMover), zombie);
       Color color = new Color(1f, 0, 0, 0.15f);
       PointLight light = context.getLightingManager().createPointLight(10f, color);
       context.getLightingManager().attach(light, zombie, 16f, 17f);

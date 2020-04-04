@@ -21,6 +21,6 @@ public class ChasingBehavior extends BehaviorAdapter {
       direction.x = playerObject.getLeft() - source.getLeft();
       direction.y = playerObject.getTop() - source.getTop();
       mover.lookAtWorld(source.getLeft() + direction.x, source.getTop() + direction.y);
-      mover.move(direction, 1940f);
+      mover.move(direction, 1240f);
    }
 }
