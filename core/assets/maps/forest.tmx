@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="20">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="36">
  <tileset firstgid="1" name="tileset-forest" tilewidth="16" tileheight="16" tilecount="64" columns="8">
   <image source="tileset-forest.png" width="128" height="128"/>
   <terraintypes>
@@ -22,14 +22,33 @@
   <tile id="26" terrain="0,1,1,1"/>
   <tile id="27" terrain="0,1,0,0"/>
   <tile id="28" terrain="1,0,0,0"/>
+  <tile id="42">
+   <objectgroup draworder="index" id="3">
+    <object id="2" x="8.86957" y="4.69565">
+     <ellipse/>
+    </object>
+   </objectgroup>
+  </tile>
+  <tile id="43">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="6.43478" y="3.95652">
+     <ellipse/>
+    </object>
+   </objectgroup>
+  </tile>
  </tileset>
  <layer id="1" name="base" width="64" height="64">
   <data encoding="base64" compression="zlib">
    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
   </data>
  </layer>
+ <layer id="5" name="Tile Layer 3" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eAHt1zkOwCAMBED+A/9/H7QWLUIra9KRgizjcI3hIUCAAIEkgXnCrKRAshBoLmDONS+w4REgQCBAwF4TUAQRCBAgQIAAAQIECBAgQOAS+H1fff291/1dQF4QIECAAAECBAgQIFAEnMELhwaBImB+FA4NAgQaCVjfGhUzYCgp/1NKjoCSiECAAAECBAgQIBAusAEPlQO+
+  </data>
+ </layer>
  <objectgroup id="2" name="objects">
-  <object id="2" name="PLAYER" type="PLAYER" x="423.516" y="692.401" width="8" height="8">
+  <object id="2" name="PLAYER" type="PLAYER" x="158.016" y="57.901" width="8" height="8">
    <properties>
     <property name="lighting.color" type="color" value="#ffffbeb2"/>
     <property name="lighting.offset.x" type="float" value="16"/>
@@ -87,5 +106,65 @@
     <property name="next" value="maps/forest-2.tmx"/>
    </properties>
   </object>
+  <object id="25" x="434.614" y="671.693" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="26" x="434.875" y="799.75" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="27" x="562.875" y="717.875" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="28" x="754.333" y="830.667" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="29" x="610.667" y="481" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="30" x="162.333" y="480.333" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="31" x="51.6667" y="143.667" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="32" x="482.333" y="239.667" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="33" x="610.333" y="80" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="34" x="932" y="479.667" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="35" x="274.75" y="846.75" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
+ <layer id="4" name="Tile Layer 2" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eAHt1zkOwCAMBED+Av9/Y1Ii1whW1qSChizjcGQMDwECBLIE5h9nZUWShkBrAWuudXlNjgABAhECzpqIMghBgAABAgQIECBAgAABAkXg9v/q6fedHq/w6BIgQIAAAQIECBAgUATcwQuILoFNwPrYMDQJEGglYH9rVc7nk0n5nlJyPC+IAAQIECBAgAABAgTCBT7/WAMO
+  </data>
+ </layer>
 </map>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="20">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="26">
  <tileset firstgid="1" name="tileset-forest" tilewidth="16" tileheight="16" tilecount="64" columns="8">
   <image source="tileset-forest.png" width="128" height="128"/>
   <terraintypes>
@@ -28,6 +28,11 @@
    eAHtmk1z1DAQRBc4EU4EOADh//9N9KryqrpUXmfN2rGY1WFKH5bk7p6Ro9Hm6XK5PDX70+y52UvUae9h39o6H5t9ejXqH7q6z7M/x/ucPsZgX5v1+MAPny/NGMs8zbVdg7Kff0Qb/ryrxyMu8YiPfjk6xzG2P7cx+mwJszqghXq4viXv+dXsR7OlNfbqA0v6Q26WcOE5eOCnpQ45NuP1VoxicE11pPzZ7Ggden+kX8D0+5W3+OBrHYxo9C+8Ux/3oWu7vtq+hw6Jh3qvi3Eixj14+05jAD1ZnxJTB+vocPSeEFNf9nqs7fF+7i1tYkBt1UH+9lOeEQu34L93TK9vcod3akB96W/MvRhGmm/MUxoPakC7Ov/kmloQF1h1/sY/ZfI3Fqrzl2fyNyYeaf/DX0tNHsH/xj380/f0V+e/xBne2Fs5xkh/x7Zi+d74ceaHP1z1u3pU5o5WeQ6UMzpQr84d35Nv4XM5G+/35lhb4/CM8d5HmFuZi+6da5zB7ZZ3yr/6t/2aFu59crxrYyr363/2fGWe17h5D8L379qY6v3eA1TnOfk9boxP30/fzxhYjgHzv8r6yJE8tzd/b1rivzYv1znrN5IlzNknfnM8clqNM585H305zzrnQ8dTMp6zkncEtkfMH+Cub8WZuOnD5CfnLJO/411LPUa9IxC7eOEuB7DrR58nb+uZH6idvC1H9D34E7sc5Sx/+uUhZ8uMH+dZOp9y1N8HzW30ee8/23JK3nzb+r2jhrmecylHjIOMAXylyV1OtPNbab/js81Y2jxzHeqj8gejlrjtkwP+lhN9cqbMedYZ67NRv4HuAbHKVQ6U6pD17Mu7Qf83J5+P6nv3M3sAvHIWuyX4sWwn57wLdT/leqP6Xv7eb/j/NH0s9PzX+LgW98Sshw4j7nu5Z9ljJx6MeTTYevftehkf+b6R62J3P6PDyHiPwqYO+P6od8x1p7YzBmYMZAx41h713iSx7lGXr3dG5lZn/n/tHrzW1kjO8M3zZZ7BqmrAWTnPlp6/kzua0P5fzpBr/u6fmSvAz3zBM6da2O8dCvujyjdB/nLOnMpzp7GgRpViIc+WnC8zT+CZ+VNyR6uKe6HfG7SND/ZAxkbqtDSvSl/Gx6NwruK7ajw4q1TjtIUPe3HL+Dl26jVjoF4MZM5mrprlyGfzt7Anj6X6XwvJBs8=
   </data>
  </layer>
+ <layer id="5" name="Tile Layer 3" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eAHt2LENwCAMBEBWIV1C9p8P70Bj46NH+j8QAsYwCBDIKLAi1J8xmEwECBAgQIAAAQLlBdw1yy+hAgQIECBAgAABAgQIECBAgEBzgRn9n8YGb3T/Dvv7IzsENJ0AgZQCN59tN3dLuZmEIkCAAAECBAgQIECgjYD3VpulVpQAAQIECBAgQKCYwAYJeAKh
+  </data>
+ </layer>
  <objectgroup id="2" name="objects">
   <object id="2" name="PLAYER" type="PLAYER" x="88.5159" y="929.734" width="8" height="8">
    <properties>
@@ -47,7 +52,7 @@
     <property name="capacity" type="int" value="10"/>
    </properties>
   </object>
-  <object id="10" name="Spawner" type="SPAWNER" x="691.464" y="338.569" width="293.059" height="237.728">
+  <object id="10" name="Spawner" type="SPAWNER" x="525.964" y="404.569" width="293.059" height="237.728">
    <properties>
     <property name="capacity" type="int" value="10"/>
    </properties>
@@ -72,7 +77,7 @@
     <property name="physics.enabled" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="15" name="Spawner" type="SPAWNER" x="343.804" y="-0.614667" width="317.559" height="379.728">
+  <object id="15" name="Spawner" type="SPAWNER" x="496.804" y="15.8853" width="476.059" height="287.728">
    <properties>
     <property name="capacity" type="int" value="20"/>
    </properties>
@@ -82,6 +87,41 @@
     <property name="capacity" type="int" value="20"/>
    </properties>
   </object>
-  <object id="18" type="SHELTER" x="862.273" y="114.909" width="43.2727" height="44.7273"/>
+  <object id="18" type="SHELTER" x="919.364" y="488.545" width="43.2727" height="44.7273"/>
+  <object id="20" x="339.045" y="832.045" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="21" x="34.6667" y="607" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="22" x="179" y="527.667" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="23" x="34" y="223.667" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="24" x="627.545" y="47.1818" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="25" x="915.25" y="607.625" width="26" height="10">
+   <properties>
+    <property name="physics.enabled" type="bool" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
+ <layer id="4" name="Tile Layer 2" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eAHt2MkNACAIBEB60f5r1B74cIwFmGUwRI2wCNQUOD/WrRlNKgIECBAgQIAAgeYC7prNGyg+AQIECBAgQIAAAQIECBAgQIBAWsAfWZrQBgQIFBSYPNsm11bwKIlEgAABAgQIECBAgMAiAe+tRc1WKgECBAgQIECAAIFGAg95lgGr
+  </data>
+ </layer>
 </map>

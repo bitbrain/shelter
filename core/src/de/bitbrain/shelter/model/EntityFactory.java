@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
+import de.bitbrain.braingdx.tmx.TiledMapContext;
 import de.bitbrain.braingdx.tweens.GameObjectTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.world.GameObject;
@@ -23,10 +24,12 @@ public class EntityFactory {
 
    private final GameContext2D context;
    private final Supplier<GameObject> playerObjectSupplier;
+   private final TiledMapContext tmxContext;
 
-   public EntityFactory(GameContext2D context, Supplier<GameObject> playerObjectSupplier) {
+   public EntityFactory(GameContext2D context, TiledMapContext tmxContext, Supplier<GameObject> playerObjectSupplier) {
       this.context = context;
       this.playerObjectSupplier = playerObjectSupplier;
+      this.tmxContext = tmxContext;
    }
 
    public GameObject addItem(float x, float y, final Item item) {
@@ -35,7 +38,7 @@ public class EntityFactory {
       itemObject.setPosition(x, y);
       itemObject.setZIndex(99999f);
       itemObject.setDimensions(9f, 9f);
-      itemObject.setAttribute("tmx_layer_index", 0);
+      itemObject.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 1);
       PointLight light = context.getLightingManager().createPointLight(100f, item.getLightColor());
       context.getLightingManager().attach(light, itemObject, 4, 4);
       context.getBehaviorManager().apply(new BehaviorAdapter() {
@@ -76,7 +79,7 @@ public class EntityFactory {
       zombie.setOffset(-12f,-4f);
       EntityMover entityMover = new EntityMover(717f, context.getGameCamera());
       zombie.setAttribute(EntityMover.class, entityMover);
-      zombie.setAttribute("tmx_layer_index", 0);
+      zombie.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 1);
       LootTable lootTable = new LootTable();
       lootTable.add(Item.AMMO, 0.1f);
       lootTable.add(Item.MEDIKIT, 0.1f);

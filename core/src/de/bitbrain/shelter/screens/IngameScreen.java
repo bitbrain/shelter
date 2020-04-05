@@ -97,7 +97,6 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    @Override
    protected void onCreate(GameContext2D context) {
       context.getScreenTransitions().in(0.5f);
-      this.entityFactory = new EntityFactory(context, this);
       setupLighting(context);
       setupWorld(context);
       setupRenderer(context);
@@ -113,12 +112,14 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    private void setupWorld(final GameContext2D context) {
       this.context = context;
       TiledMapContext tmxContext = context.getTiledMapManager().load(tiledMapPath, context.getGameCamera().getInternalCamera());
+
+      this.entityFactory = new EntityFactory(context, tmxContext, this);
       if (alternativeMapPath == null && "shelter".equals(tmxContext.getTiledMap().getProperties().get("name", "", String.class))) {
          // SAVE ROOM! GAME SUCCESS!
          saveRoom = true;
       }
       for (final GameObject object : context.getGameWorld().getObjects()) {
-         if (object.getType().equals("PLAYER")) {
+         if ("PLAYER".equals(object.getType())) {
             this.playerObject = object;
             // We need to make the actual entity smaller than the sprite
             // sprite -> 32x32
@@ -131,6 +132,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             object.setOffset(-12f, -4f);
             object.setAttribute(HealthData.class, new HealthData(900));
             object.setAttribute(Ammo.class, new Ammo(200));
+            object.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 1);
 
             // Setup camera tracking
             context.getGameCamera().setTrackingTarget(object);
