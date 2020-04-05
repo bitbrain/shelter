@@ -15,6 +15,7 @@ import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.tweens.TweenUtils;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
+import de.bitbrain.shelter.audio.JukeBox;
 import de.bitbrain.shelter.model.items.Item;
 import de.bitbrain.shelter.model.items.LootTable;
 
@@ -24,12 +25,25 @@ public class DamageBehavior extends BehaviorAdapter {
    private final GameObject bullet;
    private final GameContext2D context;
    private final EntityFactory entityFactory;
+   private final JukeBox zombieHitSounds, impactSounds, zombieDeathSounds;
 
    public DamageBehavior(Vector2 bulletDirection, GameObject bullet, GameContext2D context, EntityFactory entityFactory) {
       this.bulletDirection = bulletDirection;
       this.bullet = bullet;
       this.context = context;
       this.entityFactory = entityFactory;
+      this.zombieHitSounds = new JukeBox(context.getAudioManager(), 200,
+            Assets.Sounds.ZOMBIE_HIT_01,
+            Assets.Sounds.ZOMBIE_HIT_02,
+            Assets.Sounds.ZOMBIE_HIT_03,
+            Assets.Sounds.ZOMBIE_HIT_04);
+      this.impactSounds = new JukeBox(context.getAudioManager(), 200,
+            Assets.Sounds.IMPACT_01,
+            Assets.Sounds.IMPACT_02,
+            Assets.Sounds.IMPACT_03);
+      this.zombieDeathSounds = new JukeBox(context.getAudioManager(), 200,
+            Assets.Sounds.ZOMBIE_DEATH_01,
+            Assets.Sounds.ZOMBIE_DEATH_02);
    }
 
    @Override
@@ -55,6 +69,7 @@ public class DamageBehavior extends BehaviorAdapter {
             // RIP
             return;
          }
+         impactSounds.playSound(target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
          EntityMover mover = target.getAttribute(EntityMover.class);
          mover.move(bulletDirection, 1900f);
          context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_IMPACT, target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
@@ -64,10 +79,16 @@ public class DamageBehavior extends BehaviorAdapter {
          if ("PLAYER".equals(target.getType())) {
             context.getGameCamera().shake(0.2f, 0.2f);
          }
+         if ("ZOMBIE".equals(target.getType())) {
+            zombieHitSounds.playSound(target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
+         }
          if (healthData.isDead()) {
             if ("PLAYER".equals(target.getType())) {
                SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
                return;
+            }
+            if ("ZOMBIE".equals(target.getType())) {
+               zombieDeathSounds.playSound(target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
             }
             target.setActive(false);
             Color targetColor = Color.BLUE.cpy();

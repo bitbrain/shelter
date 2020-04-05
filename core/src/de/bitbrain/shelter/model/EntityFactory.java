@@ -77,7 +77,7 @@ public class EntityFactory {
       zombie.setScaleX(4f);
       zombie.setScaleY(4f);
       zombie.setOffset(-12f,-4f);
-      EntityMover entityMover = new EntityMover(717f, context.getGameCamera());
+      EntityMover entityMover = new EntityMover(717f, context.getGameCamera(), context.getAudioManager());
       zombie.setAttribute(EntityMover.class, entityMover);
       zombie.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
       LootTable lootTable = new LootTable();

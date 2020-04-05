@@ -9,6 +9,7 @@ public interface Assets {
    }
 
    interface Textures {
+      String ICON = "textures/icon.png";
       String LOGO = "textures/bitbrain-logo.png";
 
       String CROSSHAIR = "textures/crosshair.png";
@@ -36,7 +37,7 @@ public interface Assets {
    }
 
    interface Fonts {
-      String EIGHTBIT_WONDER = "fonts/8bitwonder.ttf";
+      String ANGIESNEW = "fonts/angiesnewhouse.ttf";
       String VISITOR = "fonts/visitor.ttf";
    }
 
@@ -46,6 +47,27 @@ public interface Assets {
       String GUN_EMPTY = "sound/gun-empty.ogg";
       String DEATH = "sound/death.ogg";
       String HEAL = "sound/heal.ogg";
+
+      String IMPACT_01 = "sound/impact-01.ogg";
+      String IMPACT_02 = "sound/impact-02.ogg";
+      String IMPACT_03 = "sound/impact-03.ogg";
+
+      String ZOMBIE_HIT_01 = "sound/zombie-hit-01.ogg";
+      String ZOMBIE_HIT_02 = "sound/zombie-hit-02.ogg";
+      String ZOMBIE_HIT_03 = "sound/zombie-hit-03.ogg";
+      String ZOMBIE_HIT_04 = "sound/zombie-hit-04.ogg";
+
+      String ZOMBIE_DEATH_01 = "sound/zombie-death-01.ogg";
+      String ZOMBIE_DEATH_02 = "sound/zombie-death-02.ogg";
+
+      String WALK_01 = "sound/walk-01.ogg";
+      String WALK_02 = "sound/walk-02.ogg";
+      String WALK_03 = "sound/walk-03.ogg";
+      String WALK_04 = "sound/walk-04.ogg";
+
+      String ZOMBIE_NOISE_1 = "sound/zombie-long-01.ogg";
+      String ZOMBIE_NOISE_2 = "sound/zombie-short-01.ogg";
+      String ZOMBIE_NOISE_3 = "sound/zombie-short-02.ogg";
    }
 
    interface Musics {

@@ -49,7 +49,7 @@ public class AmmoUI extends Actor {
             description.setColor(Colors.darken(Color.RED.cpy(), 0.2f));
          }
          description.setText(remainingAmmo);
-         description.setPosition(x + getWidth() + 3f, y + (getHeight() / 2f - description.getPrefHeight() / 2f) + 3f);
+         description.setPosition(x + getWidth() + 2f, y + (getHeight() / 2f - description.getPrefHeight() / 2f) + 6.4f);
          description.draw(batch, parentAlpha);
       }
    }

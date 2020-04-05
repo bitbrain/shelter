@@ -42,7 +42,7 @@ public class InventoryUI extends Actor {
          Texture texture = SharedAssetManager.getInstance().get(weapon.getIcon(), Texture.class);
          batch.draw(texture, x, y, getWidth(), getHeight());
          description.setText(weapon.getName());
-         description.setPosition(x + getWidth() + 3f, y + (getHeight() / 2f - description.getPrefHeight() / 2f) + 3f);
+         description.setPosition(x + getWidth() + 2f, y + (getHeight() / 2f - description.getPrefHeight() / 2f) + 6.4f);
          description.draw(batch, parentAlpha);
       }
    }

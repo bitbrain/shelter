@@ -9,6 +9,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "shelter";
 		config.forceExit = false;
+		config.audioDeviceBufferSize = 1024;
+		config.audioDeviceSimultaneousSources = 32;
 		new LwjglApplication(new ShelterGame(args), config);
 	}
 }

@@ -79,7 +79,7 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
          FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 4f, 2f);
          Body body = context.getPhysicsManager().attachBody(bodyDef, fixtureDef, bullet);
          body.setTransform(centerX + direction.x, centerY + direction.y, direction.angleRad() + (90f * MathUtils.radiansToDegrees));
-         final EntityMover mover = new EntityMover(400, context.getGameCamera());
+         final EntityMover mover = new EntityMover(400, context.getGameCamera(), context.getAudioManager());
          context.getBehaviorManager().apply(new DamageBehavior(direction, bullet, context, entityFactory) {
             @Override
             public void onAttach(GameObject source) {

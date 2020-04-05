@@ -5,10 +5,15 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.context.GameContext2D;
+import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
 import de.bitbrain.braingdx.graphics.postprocessing.AutoReloadPostProcessorEffect;
 import de.bitbrain.braingdx.graphics.postprocessing.effects.Bloom;
@@ -18,6 +23,7 @@ import de.bitbrain.braingdx.tweens.ActorTween;
 import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
+import de.bitbrain.shelter.ThemeColors;
 import de.bitbrain.shelter.ui.Styles;
 
 import static de.bitbrain.shelter.Assets.TiledMaps.FOREST;
@@ -34,6 +40,7 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
 
    @Override
    protected void onCreate(GameContext2D context) {
+      context.setBackgroundColor(ThemeColors.BACKGROUND);
       this.context = context;
       context.getScreenTransitions().in(1.5f);
 
@@ -50,13 +57,19 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
 
       Table layout = new Table();
       layout.setFillParent(true);
-      Label logo = new Label(".shelter", Styles.LABEL_LOGO);
+      Sprite sprite = new Sprite(SharedAssetManager.getInstance().get(Assets.Textures.ICON, Texture.class));
+      sprite.setSize(200, 200);
+      Image icon = new Image(new SpriteDrawable(sprite));
+      layout.add(icon).row();
+      Label logo = new Label("shelter", Styles.LABEL_LOGO);
       layout.add(logo).row();
 
       Label pressAnyButton = new Label("press any key", Styles.DIALOG_TEXT);
-      layout.add(pressAnyButton).padTop(Gdx.graphics.getHeight() / 6f).row();
+      layout.add(pressAnyButton).padTop(120f).row();
 
-      context.getStage().addActor(layout);
+      context.getWorldStage().addActor(layout);
+
+      context.getGameCamera().setZoom(1000, GameCamera.ZoomMode.TO_HEIGHT);
 
       pressAnyButton.getColor().a = 0f;
       Tween.to(pressAnyButton, ActorTween.ALPHA, 3f).target(1f).delay(2f)
@@ -84,7 +97,7 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
       });
 
 
-      context.getRenderPipeline().addEffects(RenderPipeIds.UI, bloom);
+      context.getRenderPipeline().addEffects(RenderPipeIds.WORLD_UI, bloom);
    }
 
    @Override

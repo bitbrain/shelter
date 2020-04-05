@@ -3,9 +3,12 @@ package de.bitbrain.shelter.model;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import de.bitbrain.braingdx.audio.AudioManager;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.world.GameObject;
+import de.bitbrain.shelter.Assets;
+import de.bitbrain.shelter.audio.JukeBox;
 
 public class EntityMover extends BehaviorAdapter {
 
@@ -16,10 +19,18 @@ public class EntityMover extends BehaviorAdapter {
    private final float maxSpeed;
    private Vector2 movement = new Vector2();
    private GameObject gameObject;
+   private JukeBox walkJukeBox;
 
-   public EntityMover(float maxSpeed, GameCamera gameCamera) {
+   public EntityMover(float maxSpeed, GameCamera gameCamera, AudioManager audioManager) {
       this.maxSpeed = maxSpeed;
       this.gameCamera = gameCamera;
+      this.walkJukeBox = new JukeBox(audioManager, 200,
+            Assets.Sounds.WALK_01,
+            Assets.Sounds.WALK_02,
+            Assets.Sounds.WALK_03,
+            Assets.Sounds.WALK_04
+      );
+      walkJukeBox.setVolume(0.1f);
 
    }
 
@@ -74,6 +85,9 @@ public class EntityMover extends BehaviorAdapter {
          Body body = gameObject.getAttribute(Body.class);
          if (body.isActive()) {
             body.setLinearVelocity(moveX, moveY);
+            if ((moveX != 0 || moveY != 0) && gameObject != null && "PLAYER".equals(gameObject.getType())) {
+               walkJukeBox.playSound(gameObject.getLeft() + gameObject.getWidth() / 2f, gameObject.getTop() + gameObject.getHeight() / 2f);
+            }
          } else {
             gameObject.move(moveX, moveY);
          }

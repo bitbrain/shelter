@@ -24,6 +24,7 @@ import de.bitbrain.braingdx.tmx.TiledMapContext;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
+import de.bitbrain.shelter.ThemeColors;
 import de.bitbrain.shelter.animation.AlwaysAnimationEnabler;
 import de.bitbrain.shelter.animation.EntityAnimationRenderer;
 import de.bitbrain.shelter.graphics.RenderOrderComparator;
@@ -96,6 +97,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
 
    @Override
    protected void onCreate(GameContext2D context) {
+      context.setBackgroundColor(ThemeColors.BACKGROUND);
       context.getScreenTransitions().in(0.5f);
       setupLighting(context);
       setupWorld(context);
@@ -140,7 +142,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             context.getGameCamera().setTargetTrackingSpeed(0.01f);
             context.getGameCamera().setZoomScalingFactor(0f);
             context.getGameCamera().setZoom(250, GameCamera.ZoomMode.TO_HEIGHT);
-            playerEntityMover = new EntityMover(2150f, context.getGameCamera());
+            playerEntityMover = new EntityMover(2150f, context.getGameCamera(), context.getAudioManager());
             object.setAttribute(EntityMover.class, playerEntityMover);
             context.getBehaviorManager().apply(playerEntityMover, object);
 
