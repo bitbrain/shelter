@@ -16,11 +16,17 @@ import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.animation.AnimationConfig;
 import de.bitbrain.braingdx.graphics.animation.AnimationFrames;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
+import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
+import de.bitbrain.braingdx.graphics.postprocessing.AutoReloadPostProcessorEffect;
+import de.bitbrain.braingdx.graphics.postprocessing.effects.Bloom;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.ui.AnimationDrawable;
+import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
+import de.bitbrain.shelter.i18n.Bundle;
+import de.bitbrain.shelter.i18n.Messages;
 import de.bitbrain.shelter.input.logo.LogoControllerInputAdapter;
 import de.bitbrain.shelter.input.logo.LogoKeyboardInputAdapter;
 import de.bitbrain.shelter.ui.GlitchLabel;
@@ -73,7 +79,7 @@ public class LogoScreen extends BrainGdxScreen2D<ShelterGame> {
       Image image = new Image(drawable);
       layout.add(image).width(256).height(256).padBottom(65).row();
 
-      slogan = new GlitchLabel("a bitbrain game", Styles.LABEL_INTRO_BITBRAIN);
+      slogan = new GlitchLabel(Bundle.get(Messages.BITBRAIN), Styles.LABEL_INTRO_BITBRAIN);
       slogan.setAlignment(Align.center);
       layout.add(slogan).width(Gdx.graphics.getWidth());
 
@@ -84,6 +90,16 @@ public class LogoScreen extends BrainGdxScreen2D<ShelterGame> {
       context.getGameCamera().getInternalCamera().update();
 
       setupInput(context);
+
+      AutoReloadPostProcessorEffect<Bloom> bloom = context.getShaderManager().createBloomEffect();
+      bloom.mutate(new Mutator<Bloom>() {
+         @Override
+         public void mutate(Bloom target) {
+            target.setBlurPasses(10);
+            target.setBloomIntesity(1.7f);
+         }
+      });
+      context.getRenderPipeline().addEffects(RenderPipeIds.WORLD_UI, bloom);
    }
 
    public void exit() {

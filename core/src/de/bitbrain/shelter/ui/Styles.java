@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ThemeColors;
@@ -17,6 +18,7 @@ public class Styles {
    public static final Label.LabelStyle LABEL_LOGO = new Label.LabelStyle();
    public static final Label.LabelStyle DIALOG_TEXT = new Label.LabelStyle();
    public static final Label.LabelStyle STORY = new Label.LabelStyle();
+   public static final Label.LabelStyle TIPS = new Label.LabelStyle();
 
 
    public static void init() {
@@ -30,6 +32,8 @@ public class Styles {
       DIALOG_TEXT.font = bake(Assets.Fonts.ANGIESNEW, 48, false);
       STORY.fontColor = ThemeColors.TEXT;
       STORY.font = bake(Assets.Fonts.ANGIESNEW, 48, false);
+      TIPS.fontColor = ThemeColors.TEXT;
+      TIPS.font = bake(Assets.Fonts.ANGIESNEW, 20, false);
       DIALOG_TEXT.fontColor = ThemeColors.BUTTON;
 
    }

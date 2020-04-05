@@ -13,10 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.context.GameContext2D;
+import de.bitbrain.braingdx.graphics.GameCamera;
+import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
+import de.bitbrain.braingdx.graphics.postprocessing.AutoReloadPostProcessorEffect;
+import de.bitbrain.braingdx.graphics.postprocessing.effects.Bloom;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.screens.AbstractScreen;
 import de.bitbrain.braingdx.tweens.ActorTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
+import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
 import de.bitbrain.shelter.i18n.Bundle;
@@ -56,8 +61,7 @@ public class StoryScreen extends BrainGdxScreen2D<ShelterGame> {
       label.setAlignment(Align.center);
       layout.center().add(label).width(600f).padBottom(200f).row();
       action = new Label(Bundle.get(Messages.PLAY_GAME), Styles.DIALOG_TEXT);
-      action.setColor(Color.WHITE);
-      action.getColor().a = 0.5f;
+      action.getColor().a = 1f;
       Tween.to(action, ActorTween.ALPHA, 1f).target(0.2f)
             .ease(TweenEquations.easeInOutCubic)
             .repeatYoyo(Tween.INFINITY, 0f)
@@ -65,6 +69,17 @@ public class StoryScreen extends BrainGdxScreen2D<ShelterGame> {
       layout.center().add(action).row();
 
       context.getWorldStage().addActor(layout);
+      context.getGameCamera().setZoom(1000, GameCamera.ZoomMode.TO_HEIGHT);
+
+      AutoReloadPostProcessorEffect<Bloom> bloom = context.getShaderManager().createBloomEffect();
+      bloom.mutate(new Mutator<Bloom>() {
+         @Override
+         public void mutate(Bloom target) {
+            target.setBlurPasses(10);
+            target.setBloomIntesity(0.7f);
+         }
+      });
+      context.getRenderPipeline().addEffects(RenderPipeIds.WORLD_UI, bloom);
    }
 
    @Override
@@ -72,6 +87,8 @@ public class StoryScreen extends BrainGdxScreen2D<ShelterGame> {
       super.onUpdate(delta);
       if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && !aborted) {
          aborted = true;
+         SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
+         context.getScreenTransitions().out(nextScreen, 1f);
       } else if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY) && !aborted) {
          if (teller.hasNextStoryPoint()) {
             Tween.to(label, ActorTween.ALPHA, 0.5f)

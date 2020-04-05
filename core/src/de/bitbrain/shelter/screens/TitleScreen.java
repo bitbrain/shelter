@@ -70,6 +70,9 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
       Label pressAnyButton = new Label(Bundle.get(Messages.PLAY_GAME), Styles.DIALOG_TEXT);
       layout.add(pressAnyButton).padTop(120f).row();
 
+      Label tips = new Label(Bundle.get(Messages.TIPS), Styles.TIPS);
+      layout.add(tips).padTop(170f);
+
       context.getWorldStage().addActor(layout);
 
       context.getGameCamera().setZoom(1000, GameCamera.ZoomMode.TO_HEIGHT);
@@ -98,8 +101,6 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
             target.setBloomIntesity(0.7f);
          }
       });
-
-
       context.getRenderPipeline().addEffects(RenderPipeIds.WORLD_UI, bloom);
    }
 
@@ -113,7 +114,10 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
          final IngameScreen initialScreen = new IngameScreen(getGame(), FOREST);
          SharedAssetManager.getInstance().get(Assets.Sounds.GUN_RELOAD, Sound.class).play(0.5f, 1f, 0f);
          context.getScreenTransitions().out(new StoryScreen(getGame(), initialScreen,
-               Messages.STORY_INTRO_1
+               Messages.STORY_INTRO_1,
+               Messages.STORY_INTRO_2,
+               Messages.STORY_INTRO_3,
+               Messages.STORY_INTRO_4
                ), 1f);
       }
    }

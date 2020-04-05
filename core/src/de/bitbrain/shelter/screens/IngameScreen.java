@@ -18,9 +18,12 @@ import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.animation.*;
 import de.bitbrain.braingdx.graphics.lighting.LightingConfig;
 import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
+import de.bitbrain.braingdx.graphics.postprocessing.AutoReloadPostProcessorEffect;
+import de.bitbrain.braingdx.graphics.postprocessing.effects.Bloom;
 import de.bitbrain.braingdx.graphics.renderer.SpriteRenderer;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.tmx.TiledMapContext;
+import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
@@ -121,7 +124,9 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
          // SAVE ROOM! GAME SUCCESS!
          saveRoom = true;
          context.getScreenTransitions().out(new StoryScreen(getGame(), new TitleScreen(getGame()),
-               Messages.STORY_OUTRO_1
+               Messages.STORY_OUTRO_1,
+               Messages.STORY_OUTRO_2,
+               Messages.STORY_OUTRO_3
          ), 3f);
       }
       for (final GameObject object : context.getGameWorld().getObjects()) {

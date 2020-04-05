@@ -18,7 +18,10 @@ import de.bitbrain.shelter.screens.LogoScreen;
 import de.bitbrain.shelter.ui.Styles;
 import org.apache.commons.lang.SystemUtils;
 
+import java.util.Locale;
+
 import static de.bitbrain.shelter.Assets.Textures.CROSSHAIR;
+import static de.bitbrain.shelter.i18n.Bundle.setLocale;
 
 public class ShelterGame extends BrainGdxGame {
 
@@ -53,6 +56,7 @@ public class ShelterGame extends BrainGdxGame {
       configureSettings();
       Bundle.load();
       Styles.init();
+      setLocale(Locale.GERMAN);
       return new LogoScreen(this);
    }
 
@@ -71,8 +75,8 @@ public class ShelterGame extends BrainGdxGame {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
          }
          graphicsSettings.setRadialBlurQuality(RadialBlur.Quality.High);
-         graphicsSettings.setRenderScale(0.3f);
-         graphicsSettings.setParticleMultiplier(0.5f);
+         graphicsSettings.setRenderScale(0.1f);
+         graphicsSettings.setParticleMultiplier(0.7f);
          graphicsSettings.save();
       }
    }

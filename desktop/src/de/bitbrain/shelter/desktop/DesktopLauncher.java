@@ -7,7 +7,7 @@ import de.bitbrain.shelter.ShelterGame;
 public class DesktopLauncher {
 	public static void main (String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "shelter";
+		config.title = "shelter (minibeansjam5 edition)";
 		config.forceExit = false;
 		config.audioDeviceBufferSize = 1024;
 		config.audioDeviceSimultaneousSources = 32;
