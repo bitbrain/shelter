@@ -38,7 +38,7 @@ public class EntityFactory {
       itemObject.setPosition(x, y);
       itemObject.setZIndex(99999f);
       itemObject.setDimensions(9f, 9f);
-      itemObject.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 1);
+      itemObject.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
       PointLight light = context.getLightingManager().createPointLight(100f, item.getLightColor());
       context.getLightingManager().attach(light, itemObject, 4, 4);
       context.getBehaviorManager().apply(new BehaviorAdapter() {
@@ -79,7 +79,7 @@ public class EntityFactory {
       zombie.setOffset(-12f,-4f);
       EntityMover entityMover = new EntityMover(717f, context.getGameCamera());
       zombie.setAttribute(EntityMover.class, entityMover);
-      zombie.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 1);
+      zombie.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
       LootTable lootTable = new LootTable();
       lootTable.add(Item.AMMO, 0.1f);
       lootTable.add(Item.MEDIKIT, 0.1f);

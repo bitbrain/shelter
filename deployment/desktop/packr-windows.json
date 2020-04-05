@@ -10,7 +10,7 @@
     "Xmx1G"
   ],
   "resources": [
-    "assets"
+    "core/assets"
   ],
   "minimizejre": "soft",
   "output": ""

@@ -132,7 +132,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             object.setOffset(-12f, -4f);
             object.setAttribute(HealthData.class, new HealthData(900));
             object.setAttribute(Ammo.class, new Ammo(200));
-            object.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 1);
+            object.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
 
             // Setup camera tracking
             context.getGameCamera().setTrackingTarget(object);
