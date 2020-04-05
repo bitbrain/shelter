@@ -28,7 +28,7 @@ public class IngameKeyboardAdapter extends InputAdapter implements Updateable {
    @Override
    public void update(float delta) {
       playerEntityMover.lookAtScreen(Gdx.input.getX(), Gdx.input.getY());
-      if (input.isKeyPressed(Input.Keys.Eshelter)) {
+      if (input.isKeyPressed(ESCAPE)) {
          Gdx.app.exit();
       }
       if (input.isKeyPressed(W)) {
