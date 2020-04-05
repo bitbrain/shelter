@@ -18,6 +18,9 @@ public class StoryTeller {
     }
 
     public String getNextStoryPoint() {
+        if (texts.isEmpty()) {
+            return "";
+        }
         return texts.remove(0);
     }
 
