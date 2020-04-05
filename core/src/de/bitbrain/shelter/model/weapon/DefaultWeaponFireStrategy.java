@@ -58,6 +58,11 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
          // compute the target point (world coordinates)
          target.x = Gdx.input.getX();
          target.y = Gdx.input.getY();
+
+         // Apply error rate
+         target.x += -4f + Math.random() * 8f;
+         target.y += -4f + Math.random() * 8f;
+
          context.getGameCamera().getInternalCamera().unproject(target);
 
          direction.x = target.x - centerX;

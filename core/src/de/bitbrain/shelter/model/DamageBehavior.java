@@ -111,7 +111,9 @@ public class DamageBehavior extends BehaviorAdapter {
                   .ease(TweenEquations.easeInOutCubic)
                   .start(SharedTweenManager.getInstance());
             context.getBehaviorManager().remove(target);
-            context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_EXPLOSION, target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
+            float randomX = (float) (target.getWidth() * 2f * Math.random());
+            float randomY = (float) (target.getHeight() * 2f * Math.random());
+            context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_EXPLOSION, target.getLeft() + randomX - target.getWidth() / 2f, target.getTop() + randomY + target.getHeight() / 2f);
 
             // Drop an item if we can
             if (target.hasAttribute(LootTable.class)) {
