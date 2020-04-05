@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.world.GameObject;
+import de.bitbrain.shelter.Assets;
+import de.bitbrain.shelter.audio.JukeBox;
 import de.bitbrain.shelter.model.DamageBehavior;
 import de.bitbrain.shelter.model.EntityFactory;
 import de.bitbrain.shelter.model.EntityMover;
@@ -19,6 +21,7 @@ public class ZombieBehavior extends BehaviorAdapter {
    private DamageBehavior bitingBehavior;
    private final GameContext2D context;
    private final EntityFactory entityFactory;
+   private final JukeBox zombieScreamSound;
 
    public ZombieBehavior(GameObject playerObject, GameContext2D context, EntityMover mover, EntityFactory entityFactory) {
       this.chasingBehavior = new ChasingBehavior(playerObject);
@@ -26,6 +29,10 @@ public class ZombieBehavior extends BehaviorAdapter {
       this.playerObject = playerObject;
       this.context = context;
       this.entityFactory = entityFactory;
+      zombieScreamSound = new JukeBox(context.getAudioManager(), 1000,
+            Assets.Sounds.ZOMBIE_NOISE_1,
+            Assets.Sounds.ZOMBIE_NOISE_2,
+            Assets.Sounds.ZOMBIE_NOISE_3);
    }
 
    @Override
@@ -41,6 +48,9 @@ public class ZombieBehavior extends BehaviorAdapter {
       if (bitingBehavior == null) {
          this.bitingBehavior = new DamageBehavior(Vector2.Zero, source, context, entityFactory);
       }
+      if (source.getType() == null) {
+         source.setType("ZOMBIE");
+      }
       tmp.x = playerObject.getLeft() - source.getLeft();
       tmp.y = playerObject.getTop() - source.getTop();
       if (tmp.len() <= AGGRO_RANGE) {
@@ -49,5 +59,8 @@ public class ZombieBehavior extends BehaviorAdapter {
          randomMovementBehavior.update(source, delta);
       }
       bitingBehavior.update(source, delta);
+      if (Math.random() < 0.000065f) {
+         zombieScreamSound.playSound(source.getLeft() + source.getWidth() / 2f, source.getTop() + source.getTop() / 2f);
+      }
    }
 }

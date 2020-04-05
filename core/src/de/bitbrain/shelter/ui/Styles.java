@@ -16,6 +16,7 @@ public class Styles {
    public static final GlitchLabel.GlitchLabelStyle LABEL_INTRO_BITBRAIN = new GlitchLabel.GlitchLabelStyle();
    public static final Label.LabelStyle LABEL_LOGO = new Label.LabelStyle();
    public static final Label.LabelStyle DIALOG_TEXT = new Label.LabelStyle();
+   public static final Label.LabelStyle STORY = new Label.LabelStyle();
 
 
    public static void init() {
@@ -27,6 +28,8 @@ public class Styles {
       LABEL_LOGO.font = bake(Assets.Fonts.ANGIESNEW, 190, false);
       LABEL_LOGO.fontColor = ThemeColors.TEXT;
       DIALOG_TEXT.font = bake(Assets.Fonts.ANGIESNEW, 48, false);
+      STORY.fontColor = ThemeColors.TEXT;
+      STORY.font = bake(Assets.Fonts.ANGIESNEW, 48, false);
       DIALOG_TEXT.fontColor = ThemeColors.BUTTON;
 
    }

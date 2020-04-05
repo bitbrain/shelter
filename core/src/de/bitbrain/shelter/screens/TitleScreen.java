@@ -24,6 +24,9 @@ import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
 import de.bitbrain.shelter.ThemeColors;
+import de.bitbrain.shelter.i18n.Bundle;
+import de.bitbrain.shelter.i18n.Messages;
+import de.bitbrain.shelter.model.story.StoryTeller;
 import de.bitbrain.shelter.ui.Styles;
 
 import static de.bitbrain.shelter.Assets.TiledMaps.FOREST;
@@ -64,7 +67,7 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
       Label logo = new Label("shelter", Styles.LABEL_LOGO);
       layout.add(logo).row();
 
-      Label pressAnyButton = new Label("press any key", Styles.DIALOG_TEXT);
+      Label pressAnyButton = new Label(Bundle.get(Messages.PLAY_GAME), Styles.DIALOG_TEXT);
       layout.add(pressAnyButton).padTop(120f).row();
 
       context.getWorldStage().addActor(layout);
@@ -102,10 +105,16 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
 
    @Override
    protected void onUpdate(float delta) {
+      if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+         Gdx.app.exit();
+      }
       if (!exiting && (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY))) {
          exiting = true;
-         SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
-         context.getScreenTransitions().out(new IngameScreen(getGame(), FOREST), 1f);
+         final IngameScreen initialScreen = new IngameScreen(getGame(), FOREST);
+         SharedAssetManager.getInstance().get(Assets.Sounds.GUN_RELOAD, Sound.class).play(0.5f, 1f, 0f);
+         context.getScreenTransitions().out(new StoryScreen(getGame(), initialScreen,
+               Messages.STORY_INTRO_1
+               ), 1f);
       }
    }
 }

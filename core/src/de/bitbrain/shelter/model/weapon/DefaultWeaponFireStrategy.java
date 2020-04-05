@@ -48,7 +48,7 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
          }
          ammo.reduceAmmo();
          Sound sound = SharedAssetManager.getInstance().get(ak74Type.getShootSoundFx(), Sound.class);
-         sound.play(0.3f, (float) (0.95f + Math.random() * 0.1), 0f);
+         sound.play(0.2f, (float) (0.95f + Math.random() * 0.1), 0f);
          final Vector2 direction = new Vector2();
          // compute the center point
          final float radius = 6f;

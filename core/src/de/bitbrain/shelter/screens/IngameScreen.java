@@ -28,6 +28,7 @@ import de.bitbrain.shelter.ThemeColors;
 import de.bitbrain.shelter.animation.AlwaysAnimationEnabler;
 import de.bitbrain.shelter.animation.EntityAnimationRenderer;
 import de.bitbrain.shelter.graphics.RenderOrderComparator;
+import de.bitbrain.shelter.i18n.Messages;
 import de.bitbrain.shelter.input.ingame.IngameKeyboardAdapter;
 import de.bitbrain.shelter.model.Ammo;
 import de.bitbrain.shelter.model.EntityFactory;
@@ -98,7 +99,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    @Override
    protected void onCreate(GameContext2D context) {
       context.setBackgroundColor(ThemeColors.BACKGROUND);
-      context.getScreenTransitions().in(0.5f);
+      context.getScreenTransitions().in(2.5f);
       setupLighting(context);
       setupWorld(context);
       setupRenderer(context);
@@ -119,6 +120,9 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       if (alternativeMapPath == null && "shelter".equals(tmxContext.getTiledMap().getProperties().get("name", "", String.class))) {
          // SAVE ROOM! GAME SUCCESS!
          saveRoom = true;
+         context.getScreenTransitions().out(new StoryScreen(getGame(), new TitleScreen(getGame()),
+               Messages.STORY_OUTRO_1
+         ), 3f);
       }
       for (final GameObject object : context.getGameWorld().getObjects()) {
          if ("PLAYER".equals(object.getType())) {
@@ -132,7 +136,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             object.setScaleX(4f);
             object.setScaleY(4f);
             object.setOffset(-12f, -4f);
-            object.setAttribute(HealthData.class, new HealthData(900));
+            object.setAttribute(HealthData.class, new HealthData(500));
             object.setAttribute(Ammo.class, new Ammo(200));
             object.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
 
@@ -222,9 +226,9 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             @Override
             public void render(GameObject object, Batch batch, float delta) {
                Texture shadow = SharedAssetManager.getInstance().get(Assets.Textures.SHADOW, Texture.class);
-               float scale = 6f * (object.getOffsetY()/ 8);
-                  batch.draw(shadow, object.getLeft() - scale * 2f, object.getTop() - scale - 2f,
-                        object.getWidth() + scale * 4f, object.getHeight() + scale * 2f + 3f);
+               float scale = 6f * (object.getOffsetY() / 8);
+               batch.draw(shadow, object.getLeft() - scale * 2f, object.getTop() - scale - 2f,
+                     object.getWidth() + scale * 4f, object.getHeight() + scale * 2f + 3f);
                super.render(object, batch, delta);
             }
          });
