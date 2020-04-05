@@ -29,6 +29,7 @@ prepare_and_push() {
     download_if_not_exist https://bitbucket.org/alexkasko/openjdk-unofficial-builds/downloads/$3 $3
     java -jar packr.jar --jdk $3 --output shelter-$1$4 -- deployment/desktop/$2
 
+    mv shelter-$1$4/assets/* shelter-$1$4 && rm -rf shelter-$1$4/assets
     zip -r shelter-$1.zip shelter-$1$4
     rm -rf shelter-$1
 
