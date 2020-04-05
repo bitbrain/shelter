@@ -56,7 +56,6 @@ public class ShelterGame extends BrainGdxGame {
       configureSettings();
       Bundle.load();
       Styles.init();
-      setLocale(Locale.GERMAN);
       return new LogoScreen(this);
    }
 
