@@ -30,11 +30,11 @@
  </layer>
  <layer id="5" name="Tile Layer 3" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eAHt2LENwCAMBEBWIV1C9p8P70Bj46NH+j8QAsYwCBDIKLAi1J8xmEwECBAgQIAAAQLlBdw1yy+hAgQIECBAgAABAgQIECBAgEBzgRn9n8YGb3T/Dvv7IzsENJ0AgZQCN59tN3dLuZmEIkCAAAECBAgQIECgjYD3VpulVpQAAQIECBAgQKCYwAYJeAKh
+   eAHt2D0OgCAMBlCvops/i256/4PZI5CwlPKYS9LvQQiwLAYBAhkFzmjqytiYnggQIECAAAECBIYXcNccfgkFIECAAAECBAgQIECAAAECBCYXWCP/NrHBHtmPzvz+yDoBTSdAIKVA5bOtcraUm0lTBAgQIECAAAECBAhMI+C9Nc1SC0qgnMAdiZ5yqdoDvVH6tZerJECAAIEBBX5eWwN3
   </data>
  </layer>
  <objectgroup id="2" name="objects">
-  <object id="2" name="PLAYER" type="PLAYER" x="88.5159" y="929.734" width="8" height="8">
+  <object id="2" name="PLAYER" type="PLAYER" x="91.2432" y="924.643" width="8" height="8">
    <properties>
     <property name="lighting.color" type="color" value="#ffffbeb2"/>
     <property name="lighting.offset.x" type="float" value="16"/>
