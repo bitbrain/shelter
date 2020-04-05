@@ -82,5 +82,6 @@ public class ExplosionBehavior extends BehaviorAdapter {
             .setCallbackTriggers(TweenCallback.COMPLETE)
             .start(SharedTweenManager.getInstance());
       context.getParticleManager().spawnEffect(Assets.Particles.EXPLOSION, barrel.getLeft() + barrel.getWidth() / 2f, barrel.getTop() + barrel.getHeight() / 2f);
+      context.getAudioManager().spawnSound(Assets.Sounds.EXPLOSION, barrel.getLeft() + barrel.getWidth() / 2f, barrel.getTop() + barrel.getHeight() / 2f, 1f, 8f, explosionRadius * 4f);
    }
 }

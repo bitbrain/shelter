@@ -75,6 +75,8 @@ public interface Assets {
       String ZOMBIE_NOISE_1 = "sound/zombie-long-01.ogg";
       String ZOMBIE_NOISE_2 = "sound/zombie-short-01.ogg";
       String ZOMBIE_NOISE_3 = "sound/zombie-short-02.ogg";
+
+      String EXPLOSION = "sound/explosion.ogg";
    }
 
    interface Musics {
