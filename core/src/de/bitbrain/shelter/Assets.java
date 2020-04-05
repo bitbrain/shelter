@@ -5,6 +5,7 @@ public interface Assets {
    interface TiledMaps {
       String FOREST = "maps/forest.tmx";
       String FOREST_2 = "maps/forest-2.tmx";
+      String SHELTER = "maps/shelter.tmx";
    }
 
    interface Textures {

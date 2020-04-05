@@ -58,11 +58,18 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    private GameObject playerObject;
    private final Vector2 spawnPoint = new Vector2();
    private final String tiledMapPath;
-   private boolean levelComplete;
+   private final String alternativeMapPath;
+   private boolean saveRoom;
 
    public IngameScreen(ShelterGame game, String tiledMapPath) {
+      this(game, tiledMapPath, null);
+   }
+
+
+   public IngameScreen(ShelterGame game, String tiledMapPath, String alternativeMapPath) {
       super(game);
       this.tiledMapPath = tiledMapPath;
+      this.alternativeMapPath = alternativeMapPath;
    }
 
    @Override
@@ -106,6 +113,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    private void setupWorld(final GameContext2D context) {
       this.context = context;
       TiledMapContext tmxContext = context.getTiledMapManager().load(tiledMapPath, context.getGameCamera().getInternalCamera());
+      if (alternativeMapPath == null && "shelter".equals(tmxContext.getTiledMap().getProperties().get("name", "", String.class))) {
+         // SAVE ROOM! GAME SUCCESS!
+         saveRoom = true;
+      }
       for (final GameObject object : context.getGameWorld().getObjects()) {
          if (object.getType().equals("PLAYER")) {
             this.playerObject = object;
@@ -118,7 +129,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             object.setScaleX(4f);
             object.setScaleY(4f);
             object.setOffset(-12f, -4f);
-            object.setAttribute(HealthData.class, new HealthData(400));
+            object.setAttribute(HealthData.class, new HealthData(900));
             object.setAttribute(Ammo.class, new Ammo(200));
 
             // Setup camera tracking
@@ -139,7 +150,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             // Give it a nice weapon
             object.setAttribute(WeaponType.class, WeaponType.AK47);
             playerWeaponHandler = new WeaponHandler(object, entityFactory);
-         } else if (object.getType().equals("SPAWNER")) {
+         } else if (object.getType().equals("SPAWNER") && !saveRoom) {
             int capacity = object.getAttribute("capacity", 1);
             context.getGameWorld().remove(object);
             spawners.add(new Spawner(object.getLeft(), object.getTop(), object.getWidth(), object.getHeight(), entityFactory, capacity));
@@ -151,15 +162,31 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                public void update(GameObject source, GameObject target, float delta) {
                   if (source.collidesWith(target)) {
                      if ("PLAYER".equals(source.getType()) || "PLAYER".equals(target.getType())) {
-                        levelComplete = true;
                         context.getBehaviorManager().clear();
                         playerObject.setActive(false);
                         String next = object.getAttribute("next", String.class);
-                        context.getScreenTransitions().out(new ShelterScreen(getGame(), next), 0.5f);
+                        context.getScreenTransitions().out(new IngameScreen(getGame(), Assets.TiledMaps.SHELTER, next), 0.5f);
                      }
                   }
                }
             }, object);
+         } else if (object.getType().equals("DOOR")) {
+            if (alternativeMapPath != null) {
+               context.getBehaviorManager().apply(new BehaviorAdapter() {
+
+                  private boolean entered = false;
+
+                  @Override
+                  public void update(GameObject source, GameObject target, float delta) {
+                     if (source.collidesWith(target) && !entered) {
+                        if ("PLAYER".equals(source.getType()) || "PLAYER".equals(target.getType())) {
+                           entered = true;
+                           context.getScreenTransitions().out(new IngameScreen(getGame(), alternativeMapPath), 1f);
+                        }
+                     }
+                  }
+               }, object);
+            }
          }
       }
    }
@@ -206,7 +233,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       config.blur(true);
       config.rays(500);
       context.getLightingManager().setConfig(config);
-      context.getLightingManager().setAmbientLight(Color.valueOf("110022"));
+      context.getLightingManager().setAmbientLight(Color.valueOf("220022"));
    }
 
    private void setupInput(GameContext2D context) {
