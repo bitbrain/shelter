@@ -18,12 +18,9 @@ import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.animation.*;
 import de.bitbrain.braingdx.graphics.lighting.LightingConfig;
 import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
-import de.bitbrain.braingdx.graphics.postprocessing.AutoReloadPostProcessorEffect;
-import de.bitbrain.braingdx.graphics.postprocessing.effects.Bloom;
 import de.bitbrain.braingdx.graphics.renderer.SpriteRenderer;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.tmx.TiledMapContext;
-import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
@@ -178,6 +175,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                         context.getBehaviorManager().clear();
                         playerObject.setActive(false);
                         String next = object.getAttribute("next", String.class);
+                        context.getAudioManager().spawnSound(Assets.Sounds.DOOR_OPEN, source.getLeft(), source.getTop(), 1f, 0.5f, 1200);
                         context.getScreenTransitions().out(new IngameScreen(getGame(), Assets.TiledMaps.SHELTER, next), 0.5f);
                      }
                   }
@@ -194,6 +192,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                      if (source.collidesWith(target) && !entered) {
                         if ("PLAYER".equals(source.getType()) || "PLAYER".equals(target.getType())) {
                            entered = true;
+                           context.getAudioManager().spawnSound(Assets.Sounds.DOOR_SHUT, source.getLeft(), source.getTop(), 1f, 0.5f, 1200);
                            context.getScreenTransitions().out(new IngameScreen(getGame(), alternativeMapPath), 1f);
                         }
                      }

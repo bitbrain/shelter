@@ -94,22 +94,6 @@ public class DamageBehavior extends BehaviorAdapter {
             Color targetColor = Color.BLUE.cpy();
             targetColor.a = 0f;
             TweenUtils.toColor(target.getColor(), targetColor, 0.7f);
-            Tween.to(target, GameObjectTween.SCALE_Y, 0.7f)
-                  .target(10f)
-                  .ease(TweenEquations.easeInOutCubic)
-                  .start(SharedTweenManager.getInstance());
-            Tween.to(target, GameObjectTween.OFFSET_Y, 0.7f)
-                  .target(40f)
-                  .setCallbackTriggers(TweenCallback.COMPLETE)
-                  .ease(TweenEquations.easeInOutCubic)
-                  .setCallback(new TweenCallback() {
-                     @Override
-                     public void onEvent(int type, BaseTween<?> source) {
-                        context.getGameWorld().remove(target);
-                     }
-                  })
-                  .ease(TweenEquations.easeInOutCubic)
-                  .start(SharedTweenManager.getInstance());
             context.getBehaviorManager().remove(target);
             float randomX = (float) (target.getWidth() * 2f * Math.random());
             float randomY = (float) (target.getHeight() * 2f * Math.random());

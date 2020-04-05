@@ -48,6 +48,9 @@ public interface Assets {
       String DEATH = "sound/death.ogg";
       String HEAL = "sound/heal.ogg";
 
+      String DOOR_OPEN = "sound/door-open.ogg";
+      String DOOR_SHUT = "sound/door-shut.ogg";
+
       String IMPACT_01 = "sound/impact-01.ogg";
       String IMPACT_02 = "sound/impact-02.ogg";
       String IMPACT_03 = "sound/impact-03.ogg";
