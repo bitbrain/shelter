@@ -1,5 +1,7 @@
 package de.bitbrain.shelter;
 
+import com.badlogic.gdx.graphics.Texture;
+
 public interface Assets {
 
    interface TiledMaps {
@@ -26,10 +28,12 @@ public interface Assets {
       String UI_EQUIP = "textures/ui-equip.9.png";
       String UI_HEALTH = "textures/ui-health.9.png";
       String UI_HEALTH_ACTIVE = "textures/ui-health-active.9.png";
+      String BARREL = "textures/barrel.png";
    }
 
    interface Particles {
       String BLOOD_EXPLOSION = "particles/blood-explosion.p";
+      String EXPLOSION = "particles/explosion.p";
       String BLOOD_IMPACT = "particles/blood-impact.p";
       String MEDIPACK = "particles/medipack.p";
       String AMMO = "particles/ammo.p";

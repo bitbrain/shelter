@@ -90,16 +90,6 @@ public class LogoScreen extends BrainGdxScreen2D<ShelterGame> {
       context.getGameCamera().getInternalCamera().update();
 
       setupInput(context);
-
-      AutoReloadPostProcessorEffect<Bloom> bloom = context.getShaderManager().createBloomEffect();
-      bloom.mutate(new Mutator<Bloom>() {
-         @Override
-         public void mutate(Bloom target) {
-            target.setBlurPasses(10);
-            target.setBloomIntesity(1.7f);
-         }
-      });
-      context.getRenderPipeline().addEffects(RenderPipeIds.WORLD_UI, bloom);
    }
 
    public void exit() {

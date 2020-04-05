@@ -92,16 +92,6 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
       Tween.to(logo, ActorTween.ALPHA, 3f).target(1f).delay(0f)
             .ease(TweenEquations.easeInCubic)
             .start(context.getTweenManager());
-
-      AutoReloadPostProcessorEffect<Bloom> bloom = context.getShaderManager().createBloomEffect();
-      bloom.mutate(new Mutator<Bloom>() {
-         @Override
-         public void mutate(Bloom target) {
-            target.setBlurPasses(20);
-            target.setBloomIntesity(0.7f);
-         }
-      });
-      context.getRenderPipeline().addEffects(RenderPipeIds.WORLD_UI, bloom);
    }
 
    @Override

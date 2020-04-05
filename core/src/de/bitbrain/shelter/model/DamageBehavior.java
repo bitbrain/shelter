@@ -1,17 +1,11 @@
 package de.bitbrain.shelter.model;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
-import de.bitbrain.braingdx.tweens.GameObjectTween;
-import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.tweens.TweenUtils;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
@@ -47,6 +41,11 @@ public class DamageBehavior extends BehaviorAdapter {
    }
 
    @Override
+   public void update(GameObject source, float delta) {
+      super.update(source, delta);
+   }
+
+   @Override
    public void update(GameObject source, GameObject target, float delta) {
       super.update(source, target, delta);
       if (source.collidesWith(target) && !target.getType().equals(source.getType())) {
@@ -55,6 +54,38 @@ public class DamageBehavior extends BehaviorAdapter {
          }
          if (target.getId().equals(bullet.getId())) {
             dealDamage(target, source);
+         }
+      }
+      healthcheck(target);
+   }
+
+   private void healthcheck(GameObject target) {
+      HealthData healthData = target.getAttribute(HealthData.class);
+      EntityMover entityMover = target.getAttribute(EntityMover.class);
+      if (healthData != null && healthData.isDead() && entityMover != null) {
+         if ("PLAYER".equals(target.getType())) {
+            SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
+            return;
+         }
+         if ("ZOMBIE".equals(target.getType())) {
+            zombieDeathSounds.playSound(target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
+         }
+         target.setActive(false);
+         Color targetColor = Color.BLUE.cpy();
+         targetColor.a = 0f;
+         TweenUtils.toColor(target.getColor(), targetColor, 0.7f);
+         context.getBehaviorManager().remove(target);
+         float randomX = (float) (target.getWidth() * 2f * Math.random());
+         float randomY = (float) (target.getHeight() * 2f * Math.random());
+         context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_EXPLOSION, target.getLeft() + randomX - target.getWidth() / 2f, target.getTop() + randomY + target.getHeight() / 2f);
+
+         // Drop an item if we can
+         if (target.hasAttribute(LootTable.class)) {
+            LootTable lootTable = target.getAttribute(LootTable.class);
+            Item item = lootTable.drop();
+            if (item != null) {
+               entityFactory.addItem(target.getLeft(), target.getTop(),item);
+            }
          }
       }
    }
@@ -71,42 +102,21 @@ public class DamageBehavior extends BehaviorAdapter {
          }
          impactSounds.playSound(target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
          EntityMover mover = target.getAttribute(EntityMover.class);
-         mover.move(bulletDirection, 1900f);
-         context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_IMPACT, target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
-         target.setColor(Color.RED);
-         TweenUtils.toColor(target.getColor(), Color.WHITE.cpy(), 0.5f);
-         healthData.reduceHealth(5);
+         if (mover != null) {
+            mover.move(bulletDirection, 1900f);
+            context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_IMPACT, target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
+            target.setColor(Color.RED);
+            TweenUtils.toColor(target.getColor(), Color.WHITE.cpy(), 0.5f);
+         }
+         if (!("ZOMBIE".equals(damageDealer.getType()) && "BARREL".equals(target.getType()))) {
+            healthData.reduceHealth(5);
+         }
+
          if ("PLAYER".equals(target.getType())) {
             context.getGameCamera().shake(0.2f, 0.2f);
          }
          if ("ZOMBIE".equals(target.getType())) {
             zombieHitSounds.playSound(target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
-         }
-         if (healthData.isDead()) {
-            if ("PLAYER".equals(target.getType())) {
-               SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
-               return;
-            }
-            if ("ZOMBIE".equals(target.getType())) {
-               zombieDeathSounds.playSound(target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
-            }
-            target.setActive(false);
-            Color targetColor = Color.BLUE.cpy();
-            targetColor.a = 0f;
-            TweenUtils.toColor(target.getColor(), targetColor, 0.7f);
-            context.getBehaviorManager().remove(target);
-            float randomX = (float) (target.getWidth() * 2f * Math.random());
-            float randomY = (float) (target.getHeight() * 2f * Math.random());
-            context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_EXPLOSION, target.getLeft() + randomX - target.getWidth() / 2f, target.getTop() + randomY + target.getHeight() / 2f);
-
-            // Drop an item if we can
-            if (target.hasAttribute(LootTable.class)) {
-               LootTable lootTable = target.getAttribute(LootTable.class);
-               Item item = lootTable.drop();
-               if (item != null) {
-                  entityFactory.addItem(target.getLeft(), target.getTop(),item);
-               }
-            }
          }
       }
    }

@@ -32,6 +32,26 @@ public class EntityFactory {
       this.tmxContext = tmxContext;
    }
 
+   public GameObject addBarrel(GameObject originalBarrel) {
+      GameObject barrel = context.getGameWorld().addObject("npcs");
+      barrel.setType(originalBarrel.getType());
+      barrel.setPosition(originalBarrel.getLeft(), originalBarrel.getTop());
+      barrel.setZIndex(99999f);
+      barrel.setDimensions(22f, 22f);
+      barrel.setAttribute(HealthData.class, new HealthData(45));
+      barrel.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
+      PointLight light = context.getLightingManager().createPointLight(100f, Color.RED);
+      context.getLightingManager().attach(light, barrel, 10, 10);
+      context.getBehaviorManager().apply(new ExplosionBehavior(80f, 500, context), barrel);
+
+      // add physics
+      BodyDef bodyDef = createBodyDef(barrel);
+      bodyDef.type = BodyDef.BodyType.StaticBody;
+      FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 10f);
+      context.getPhysicsManager().attachBody(bodyDef, fixtureDef, barrel);
+      return barrel;
+   }
+
    public GameObject addItem(float x, float y, final Item item) {
       GameObject itemObject = context.getGameWorld().addObject("npcs");
       itemObject.setType(item);

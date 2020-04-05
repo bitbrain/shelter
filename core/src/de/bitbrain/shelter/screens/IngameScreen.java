@@ -46,6 +46,7 @@ import de.bitbrain.shelter.util.Supplier;
 import java.util.ArrayList;
 import java.util.List;
 
+import static de.bitbrain.shelter.ThemeColors.AMBIENT;
 import static de.bitbrain.shelter.animation.AnimationTypes.STANDING_SOUTH;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyFixtureDef;
@@ -59,6 +60,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    private List<Spawner> spawners = new ArrayList<Spawner>();
    private GameObject playerObject;
    private final Vector2 spawnPoint = new Vector2();
+   private final List<GameObject> originalBarrels = new ArrayList<>();
    private final String tiledMapPath;
    private final String alternativeMapPath;
    private boolean saveRoom;
@@ -88,6 +90,9 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
          }
          for (Spawner spawner : spawners) {
             spawner.spawn(context, playerObject);
+         }
+         for (GameObject barrel : originalBarrels) {
+            entityFactory.addBarrel(barrel);
          }
          playerObject.getAttribute(Ammo.class).reset();
          playerObject.getAttribute(HealthData.class).reset();
@@ -199,6 +204,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                   }
                }, object);
             }
+         } else if (object.getType().equals("BARREL")) {
+            originalBarrels.add(object.copy());
+            entityFactory.addBarrel(object);
+            context.getGameWorld().remove(object);
          }
       }
    }
@@ -207,6 +216,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       context.getRenderManager().setRenderOrderComparator(new RenderOrderComparator());
       context.getRenderManager().register("PLAYER", new EntityAnimationRenderer(Assets.Textures.PLAYER_SPRITESHEET, 0.6f));
       context.getRenderManager().register("ZOMBIE", new EntityAnimationRenderer(Assets.Textures.ZOMBIE_SPRITESHEET, 0.3f));
+      context.getRenderManager().register("BARREL", new SpriteRenderer(Assets.Textures.BARREL));
       Texture itemTexture = SharedAssetManager.getInstance().get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
       AnimationSpriteSheet itemSpriteSheet = new AnimationSpriteSheet(itemTexture, 9);
       for (WeaponType type : WeaponType.values()) {
@@ -245,7 +255,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       config.blur(true);
       config.rays(500);
       context.getLightingManager().setConfig(config);
-      context.getLightingManager().setAmbientLight(Color.valueOf("220022"));
+      context.getLightingManager().setAmbientLight(AMBIENT);
    }
 
    private void setupInput(GameContext2D context) {

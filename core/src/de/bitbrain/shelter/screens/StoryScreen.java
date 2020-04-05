@@ -70,16 +70,6 @@ public class StoryScreen extends BrainGdxScreen2D<ShelterGame> {
 
       context.getWorldStage().addActor(layout);
       context.getGameCamera().setZoom(1000, GameCamera.ZoomMode.TO_HEIGHT);
-
-      AutoReloadPostProcessorEffect<Bloom> bloom = context.getShaderManager().createBloomEffect();
-      bloom.mutate(new Mutator<Bloom>() {
-         @Override
-         public void mutate(Bloom target) {
-            target.setBlurPasses(10);
-            target.setBloomIntesity(0.7f);
-         }
-      });
-      context.getRenderPipeline().addEffects(RenderPipeIds.WORLD_UI, bloom);
    }
 
    @Override
