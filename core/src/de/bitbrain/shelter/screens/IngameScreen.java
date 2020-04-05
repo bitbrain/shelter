@@ -1,5 +1,6 @@
 package de.bitbrain.shelter.screens;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.animation.*;
@@ -18,6 +20,7 @@ import de.bitbrain.braingdx.graphics.lighting.LightingConfig;
 import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
 import de.bitbrain.braingdx.graphics.renderer.SpriteRenderer;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
+import de.bitbrain.braingdx.tmx.TiledMapContext;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
@@ -41,7 +44,6 @@ import de.bitbrain.shelter.util.Supplier;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.bitbrain.shelter.Assets.TiledMaps.FOREST;
 import static de.bitbrain.shelter.animation.AnimationTypes.STANDING_SOUTH;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyFixtureDef;
@@ -55,9 +57,12 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    private List<Spawner> spawners = new ArrayList<Spawner>();
    private GameObject playerObject;
    private final Vector2 spawnPoint = new Vector2();
+   private final String tiledMapPath;
+   private boolean levelComplete;
 
-   public IngameScreen(ShelterGame game) {
+   public IngameScreen(ShelterGame game, String tiledMapPath) {
       super(game);
+      this.tiledMapPath = tiledMapPath;
    }
 
    @Override
@@ -98,10 +103,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       }
    }
 
-   private void setupWorld(GameContext2D context) {
+   private void setupWorld(final GameContext2D context) {
       this.context = context;
-      context.getTiledMapManager().load(FOREST, context.getGameCamera().getInternalCamera());
-      for (GameObject object : context.getGameWorld().getObjects()) {
+      TiledMapContext tmxContext = context.getTiledMapManager().load(tiledMapPath, context.getGameCamera().getInternalCamera());
+      for (final GameObject object : context.getGameWorld().getObjects()) {
          if (object.getType().equals("PLAYER")) {
             this.playerObject = object;
             // We need to make the actual entity smaller than the sprite
@@ -113,7 +118,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             object.setScaleX(4f);
             object.setScaleY(4f);
             object.setOffset(-12f, -4f);
-            object.setAttribute(HealthData.class, new HealthData(500));
+            object.setAttribute(HealthData.class, new HealthData(400));
             object.setAttribute(Ammo.class, new Ammo(200));
 
             // Setup camera tracking
@@ -139,7 +144,22 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             context.getGameWorld().remove(object);
             spawners.add(new Spawner(object.getLeft(), object.getTop(), object.getWidth(), object.getHeight(), entityFactory, capacity));
          } else if (object.getType().equals("SHELTER")) {
-
+            PointLight light = context.getLightingManager().createPointLight(250, Color.RED);
+            context.getLightingManager().attach(light, object, object.getWidth() / 2f, object.getHeight() / 2f);
+            context.getBehaviorManager().apply(new BehaviorAdapter() {
+               @Override
+               public void update(GameObject source, GameObject target, float delta) {
+                  if (source.collidesWith(target)) {
+                     if ("PLAYER".equals(source.getType()) || "PLAYER".equals(target.getType())) {
+                        levelComplete = true;
+                        context.getBehaviorManager().clear();
+                        playerObject.setActive(false);
+                        String next = object.getAttribute("next", String.class);
+                        context.getScreenTransitions().out(new ShelterScreen(getGame(), next), 0.5f);
+                     }
+                  }
+               }
+            }, object);
          }
       }
    }

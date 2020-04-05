@@ -7,13 +7,27 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.shelter.Assets;
 
+import static com.badlogic.gdx.graphics.Color.valueOf;
+
 public class Styles {
 
    public static final Label.LabelStyle LABEL_DESCRIPTION = new Label.LabelStyle();
+   public static final GlitchLabel.GlitchLabelStyle LABEL_INTRO_BITBRAIN = new GlitchLabel.GlitchLabelStyle();
+   public static final Label.LabelStyle LABEL_LOGO = new Label.LabelStyle();
+   public static final Label.LabelStyle DIALOG_TEXT = new Label.LabelStyle();
 
 
    public static void init() {
       LABEL_DESCRIPTION.font = bake(Assets.Fonts.EIGHTBIT_WONDER, 18);
+
+      LABEL_INTRO_BITBRAIN.font = bake(Assets.Fonts.VISITOR, 48);
+      LABEL_INTRO_BITBRAIN.fontColor = valueOf("00d56e");
+      LABEL_INTRO_BITBRAIN.glitchPool = "01";
+      LABEL_LOGO.font = bake(Assets.Fonts.VISITOR, 90);
+      LABEL_LOGO.fontColor = Color.RED;
+      DIALOG_TEXT.font = bake(Assets.Fonts.VISITOR, 48);
+      DIALOG_TEXT.fontColor = Color.RED;
+
    }
 
 

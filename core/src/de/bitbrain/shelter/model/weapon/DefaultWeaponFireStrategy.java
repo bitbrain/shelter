@@ -51,7 +51,7 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
          sound.play(0.3f, (float) (0.95f + Math.random() * 0.1), 0f);
          final Vector2 direction = new Vector2();
          // compute the center point
-         final float radius = 14;
+         final float radius = 6f;
          final float centerX = owner.getLeft() + owner.getWidth() / 2f;
          final float centerY = owner.getTop() + owner.getHeight() / 2f;
 

@@ -56,14 +56,17 @@ public class EntityFactory {
             .ease(TweenEquations.easeInBounce)
             .repeatYoyo(Tween.INFINITY, 0f)
             .start(SharedTweenManager.getInstance());
-
+      itemObject.getColor().a = 0f;
+      Tween.to(itemObject.getColor(), GameObjectTween.ALPHA, 0.5f)
+            .target(1f)
+            .start(SharedTweenManager.getInstance());
       context.getParticleManager().attachEffect(item.getParticleEffectPath(), itemObject, 4, 4);
       return itemObject;
    }
 
    public GameObject addZombie(float x, float y) {
       GameObject zombie = context.getGameWorld().addObject("npcs");
-      zombie.setAttribute(HealthData.class, new HealthData(20));
+      zombie.setAttribute(HealthData.class, new HealthData(45));
       zombie.setType("ZOMBIE");
       zombie.setPosition(x, y);
       zombie.setZIndex(99999f);
@@ -76,7 +79,7 @@ public class EntityFactory {
       zombie.setAttribute("tmx_layer_index", 0);
       LootTable lootTable = new LootTable();
       lootTable.add(Item.AMMO, 0.1f);
-      lootTable.add(Item.MEDIKIT, 0.3f);
+      lootTable.add(Item.MEDIKIT, 0.1f);
       zombie.setAttribute(LootTable.class, lootTable);
       context.getBehaviorManager().apply(entityMover, zombie);
       context.getBehaviorManager().apply(new ZombieBehavior(playerObjectSupplier.supply(), context, entityMover, this), zombie);
@@ -87,6 +90,10 @@ public class EntityFactory {
       BodyDef bodyDef = createBodyDef(zombie);
       FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 4f);
       context.getPhysicsManager().attachBody(bodyDef, fixtureDef, zombie);
+      zombie.getColor().a = 0f;
+      Tween.to(zombie.getColor(), GameObjectTween.ALPHA, 0.7f)
+            .target(1f)
+            .start(SharedTweenManager.getInstance());
       return zombie;
    }
 }

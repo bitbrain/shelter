@@ -14,6 +14,7 @@ import de.bitbrain.braingdx.graphics.postprocessing.filters.RadialBlur;
 import de.bitbrain.braingdx.screens.AbstractScreen;
 import de.bitbrain.shelter.i18n.Bundle;
 import de.bitbrain.shelter.screens.IngameScreen;
+import de.bitbrain.shelter.screens.LogoScreen;
 import de.bitbrain.shelter.ui.Styles;
 import org.apache.commons.lang.SystemUtils;
 
@@ -52,7 +53,7 @@ public class ShelterGame extends BrainGdxGame {
       configureSettings();
       Bundle.load();
       Styles.init();
-      return new IngameScreen(this);
+      return new LogoScreen(this);
    }
 
    private void configureSettings() {

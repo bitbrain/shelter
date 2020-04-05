@@ -1,6 +1,6 @@
 package de.bitbrain.shelter.model.items;
 
-import de.bitbrain.braingdx.context.GameContext;
+import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.model.Ammo;
@@ -8,7 +8,7 @@ import de.bitbrain.shelter.model.Ammo;
 public class AmmoCollectEffect implements CollectEffect {
 
    @Override
-   public void onCollect(Item item, GameObject player, GameContext context) {
+   public void onCollect(Item item, GameObject player, GameContext2D context) {
       Ammo ammo = player.getAttribute(Ammo.class);
       if (ammo != null) {
          ammo.addAmmo((int) (ammo.getMaxAmmo() * (0.1f + Math.random() * 0.1f)));

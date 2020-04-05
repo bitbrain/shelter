@@ -4,8 +4,10 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.tweens.GameObjectTween;
@@ -59,8 +61,12 @@ public class DamageBehavior extends BehaviorAdapter {
          target.setColor(Color.RED);
          TweenUtils.toColor(target.getColor(), Color.WHITE.cpy(), 0.5f);
          healthData.reduceHealth(5);
+         if ("PLAYER".equals(target.getType())) {
+            context.getGameCamera().shake(0.2f, 0.2f);
+         }
          if (healthData.isDead()) {
             if ("PLAYER".equals(target.getType())) {
+               SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
                return;
             }
             target.setActive(false);
