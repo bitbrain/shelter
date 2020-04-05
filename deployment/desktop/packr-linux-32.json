@@ -1,0 +1,17 @@
+{
+  "platform": "linux32",
+  "executable": "shelter",
+  "jdk": "",
+  "classpath": [
+    "shelter.jar"
+  ],
+  "mainclass": "de.bitbrain.shelter.desktop.DesktopLauncher",
+  "vmargs": [
+    "Xmx1G"
+  ],
+  "resources": [
+    "assets"
+  ],
+  "minimizejre": "soft",
+  "output": ""
+}
