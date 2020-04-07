@@ -62,9 +62,10 @@ public class DamageBehavior extends BehaviorAdapter {
    private void healthcheck(GameObject target) {
       HealthData healthData = target.getAttribute(HealthData.class);
       EntityMover entityMover = target.getAttribute(EntityMover.class);
-      if (healthData != null && healthData.isDead() && entityMover != null) {
+      if (healthData != null && healthData.isDead() && entityMover != null && target.isActive()) {
          if ("PLAYER".equals(target.getType())) {
-            SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
+            SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(0.8f, 1f, 0f);
+            target.setActive(false);
             return;
          }
          if ("ZOMBIE".equals(target.getType())) {

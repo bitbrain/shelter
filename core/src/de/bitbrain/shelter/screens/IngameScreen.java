@@ -94,6 +94,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
          for (GameObject barrel : originalBarrels) {
             entityFactory.addBarrel(barrel);
          }
+         playerObject.setActive(true);
          playerObject.getAttribute(Ammo.class).reset();
          playerObject.getAttribute(HealthData.class).reset();
          playerObject.getAttribute(Body.class).setTransform(spawnPoint.x, spawnPoint.y, 0f);

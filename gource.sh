@@ -1,0 +1,33 @@
+#!/bin/bash
+
+gource \
+    -1920x1080 \
+    -e 0.5 \
+    --multi-sampling \
+    --stop-at-end \
+    --key \
+    --highlight-users \
+    --background-colour 0f0e11 \
+    --font-colour d14040 \
+    --filename-colour d14040 \
+    --dir-colour 689868 \
+    --file-font-size 30 \
+    --dir-font-size 30 \
+    --font-file core/assets/fonts/visitor.ttf \
+    --font-scale 3 \
+    --logo core/assets/icon-64.png \
+    --user-image-dir .git/avatar \
+    --bloom-multiplier 4.5 \
+    --bloom-intensity 0.2 \
+    --title "shelter #minibeansjam5 development (48 hours)" \
+    --dir-name-position 0.5 \
+    --output-framerate 60 \
+    --hide usernames,dirnames  \
+    --user-friction 0.5 \
+    --padding 1.2 \
+    --seconds-per-day 30 \
+    --filename-time 3 \
+    --auto-skip-seconds 10 \
+    --disable-input \
+    --hash-seed minibeansjam5 \
+    -o gource.ppm
