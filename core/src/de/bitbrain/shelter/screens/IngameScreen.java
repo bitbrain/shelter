@@ -64,6 +64,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    private final String tiledMapPath;
    private final String alternativeMapPath;
    private boolean saveRoom;
+   private boolean entered;
 
    public IngameScreen(ShelterGame game, String tiledMapPath) {
       this(game, tiledMapPath, null);
@@ -94,6 +95,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
          for (GameObject barrel : originalBarrels) {
             entityFactory.addBarrel(barrel);
          }
+         entered = false;
          playerObject.setActive(true);
          playerObject.getAttribute(Ammo.class).reset();
          playerObject.getAttribute(HealthData.class).reset();
@@ -182,7 +184,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                         playerObject.setActive(false);
                         String next = object.getAttribute("next", String.class);
                         context.getAudioManager().spawnSound(Assets.Sounds.DOOR_OPEN, source.getLeft(), source.getTop(), 1f, 0.5f, 1200);
-                        context.getScreenTransitions().out(new IngameScreen(getGame(), Assets.TiledMaps.SHELTER, next), 0.5f);
+                        context.getScreenTransitions().out(new IngameScreen(getGame(), Assets.TiledMaps.SHELTER, next), 0.3f);
                      }
                   }
                }
@@ -191,15 +193,15 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             if (alternativeMapPath != null) {
                context.getBehaviorManager().apply(new BehaviorAdapter() {
 
-                  private boolean entered = false;
-
                   @Override
                   public void update(GameObject source, GameObject target, float delta) {
                      if (source.collidesWith(target) && !entered) {
                         if ("PLAYER".equals(source.getType()) || "PLAYER".equals(target.getType())) {
                            entered = true;
+                           context.getBehaviorManager().clear();
+                           playerObject.setActive(false);
                            context.getAudioManager().spawnSound(Assets.Sounds.DOOR_SHUT, source.getLeft(), source.getTop(), 1f, 0.5f, 1200);
-                           context.getScreenTransitions().out(new IngameScreen(getGame(), alternativeMapPath), 1f);
+                           context.getScreenTransitions().out(new IngameScreen(getGame(), alternativeMapPath), 0.3f);
                         }
                      }
                   }
