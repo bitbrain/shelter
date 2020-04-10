@@ -1,12 +1,18 @@
-package de.bitbrain.shelter.animation;
+package de.bitbrain.shelter.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.graphics.animation.AnimationConfig;
+import de.bitbrain.braingdx.graphics.animation.AnimationFrames;
 import de.bitbrain.braingdx.graphics.animation.AnimationRenderer;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
+import de.bitbrain.shelter.animation.AlwaysAnimationEnabler;
+import de.bitbrain.shelter.animation.PlayerAnimationTypeResolver;
+import de.bitbrain.shelter.model.Ammo;
 import de.bitbrain.shelter.model.HealthData;
 import de.bitbrain.shelter.model.weapon.WeaponType;
 

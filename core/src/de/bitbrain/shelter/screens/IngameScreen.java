@@ -26,7 +26,8 @@ import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
 import de.bitbrain.shelter.ThemeColors;
 import de.bitbrain.shelter.animation.AlwaysAnimationEnabler;
-import de.bitbrain.shelter.animation.EntityAnimationRenderer;
+import de.bitbrain.shelter.graphics.BulletRenderer;
+import de.bitbrain.shelter.graphics.EntityAnimationRenderer;
 import de.bitbrain.shelter.graphics.RenderOrderComparator;
 import de.bitbrain.shelter.i18n.Messages;
 import de.bitbrain.shelter.input.ingame.IngameKeyboardAdapter;
@@ -223,7 +224,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       Texture itemTexture = SharedAssetManager.getInstance().get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
       AnimationSpriteSheet itemSpriteSheet = new AnimationSpriteSheet(itemTexture, 9);
       for (WeaponType type : WeaponType.values()) {
-         context.getRenderManager().register(type, new SpriteRenderer(SharedAssetManager.getInstance().get(type.getMunitionTexture(), Texture.class)));
+         context.getRenderManager().register(type, new BulletRenderer(type));
       }
       for (Item type : Item.values()) {
          context.getRenderManager().register(type, new AnimationRenderer(itemSpriteSheet, AnimationConfig.builder()

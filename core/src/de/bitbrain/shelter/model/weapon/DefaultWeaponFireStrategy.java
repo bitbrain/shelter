@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.util.DeltaTimer;
-import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.model.*;
@@ -36,10 +35,10 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
       if (owner.hasAttribute(HealthData.class) && owner.getAttribute(HealthData.class).isDead()) {
          return;
       }
-      final WeaponType ak74Type = WeaponType.AK47;
+      final WeaponType weaponType = owner.getAttribute(WeaponType.class);
       fireRateTimer.update(Gdx.graphics.getRawDeltaTime());
       Ammo ammo = owner.getAttribute(Ammo.class);
-      if (fireRateTimer.reached(0.1f)) {
+      if (fireRateTimer.reached(0.13f)) {
          if (ammo == null || ammo.isMagazineEmpty()) {
             fireRateTimer.reset();
             Sound sound = SharedAssetManager.getInstance().get(Assets.Sounds.GUN_EMPTY, Sound.class);
@@ -47,7 +46,7 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
             return;
          }
          ammo.reduceAmmo();
-         Sound sound = SharedAssetManager.getInstance().get(ak74Type.getShootSoundFx(), Sound.class);
+         Sound sound = SharedAssetManager.getInstance().get(weaponType.getShootSoundFx(), Sound.class);
          sound.play(0.2f, (float) (0.95f + Math.random() * 0.1), 0f);
          final Vector2 direction = new Vector2();
          // compute the center point
@@ -69,22 +68,10 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
          direction.y = target.y - centerY;
          direction.setLength(radius);
 
-         final GameObject bullet = context.getGameWorld().addObject(new Mutator<GameObject>() {
-            @Override
-            public void mutate(GameObject target) {
-               target.setType(ak74Type);
-               target.setPosition(centerX + direction.x, centerY + direction.y);
-               target.setRotation(direction.angle());
-               target.setDimensions(2, 4);
-               target.setAttribute("tmx_layer_index", 0);
-            }
-         });
-         BodyDef bodyDef = createBodyDef(bullet);
-         bodyDef.active = false;
-         FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 4f, 2f);
-         Body body = context.getPhysicsManager().attachBody(bodyDef, fixtureDef, bullet);
-         body.setTransform(centerX + direction.x, centerY + direction.y, direction.angleRad() + (90f * MathUtils.radiansToDegrees));
-         final EntityMover mover = new EntityMover(400, context.getGameCamera(), context.getAudioManager());
+         final GameObject bullet = entityFactory.addBullet(weaponType, centerX + direction.x, centerY + direction.y, direction);
+         owner.setAttribute("lastBullet", bullet);
+         bullet.setAttribute("owner", owner);
+         final EntityMover mover = new EntityMover(600, context.getGameCamera(), context.getAudioManager());
          context.getBehaviorManager().apply(new DamageBehavior(direction, bullet, context, entityFactory) {
             @Override
             public void onAttach(GameObject source) {

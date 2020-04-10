@@ -96,11 +96,12 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
 
    @Override
    protected void onUpdate(float delta) {
-      if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+      if (!exiting && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
          Gdx.app.exit();
       }
       if (!exiting && (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY))) {
          exiting = true;
+         context.getInputManager().clear();
          final IngameScreen initialScreen = new IngameScreen(getGame(), FOREST);
          SharedAssetManager.getInstance().get(Assets.Sounds.GUN_RELOAD, Sound.class).play(0.5f, 1f, 0f);
          context.getScreenTransitions().out(new StoryScreen(getGame(), initialScreen,

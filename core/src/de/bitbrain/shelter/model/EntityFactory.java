@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
@@ -11,10 +12,12 @@ import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.tmx.TiledMapContext;
 import de.bitbrain.braingdx.tweens.GameObjectTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
+import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.ai.ZombieBehavior;
 import de.bitbrain.shelter.model.items.Item;
 import de.bitbrain.shelter.model.items.LootTable;
+import de.bitbrain.shelter.model.weapon.WeaponType;
 import de.bitbrain.shelter.util.Supplier;
 
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
@@ -118,5 +121,18 @@ public class EntityFactory {
             .target(1f)
             .start(SharedTweenManager.getInstance());
       return zombie;
+   }
+
+   public GameObject addBullet(final WeaponType type, final float centerX, final float centerY,  final Vector2 direction) {
+      return context.getGameWorld().addObject(new Mutator<GameObject>() {
+         @Override
+         public void mutate(GameObject target) {
+            target.setType(type);
+            target.setPosition(centerX + direction.x, centerY + direction.y);
+            target.setRotation(direction.angle());
+            target.setDimensions(3, 3);
+            target.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
+         }
+      });
    }
 }

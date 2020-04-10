@@ -91,6 +91,8 @@ public class EntityMover extends BehaviorAdapter {
          } else {
             gameObject.move(moveX, moveY);
          }
+      } else {
+         gameObject.move(moveX, moveY);
       }
       movement.set(0f, 0f);
    }

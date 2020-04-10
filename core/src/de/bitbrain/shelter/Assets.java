@@ -19,6 +19,7 @@ public interface Assets {
       String PLAYER_SPRITESHEET = "textures/player-spritesheet.png";
       String ZOMBIE_SPRITESHEET = "textures/zombie-spritesheet.png";
       String ITEMS_SPRITESHEET = "textures/items-spritesheet.png";
+      String SHOOT_OVERLAY_SPRITESHEET = "textures/shoot-overlay-spritesheet.png";
       String SHADOW = "textures/shadow.png";
 
       String MUNITION_AK47 = "textures/ak47-munition.png";
