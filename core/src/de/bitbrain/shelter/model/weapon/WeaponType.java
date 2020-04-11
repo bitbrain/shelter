@@ -31,6 +31,17 @@ public enum WeaponType implements InventoryItem {
          null,
          null,
          Assets.Particles.BLOOD_IMPACT,
+         new CloseAttackStrategy()),
+   RUSTY_CROWBAR("Rusty Crowbar",
+         "A rusty but intact crowbar. Made from cast iron.",
+         new Damage(8, 14),
+         0.9f,
+         Rarity.COMMON,
+         null,
+         null,
+         null,
+         null,
+         Assets.Particles.BLOOD_IMPACT,
          new CloseAttackStrategy());
 
    private final String name;

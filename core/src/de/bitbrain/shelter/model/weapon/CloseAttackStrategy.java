@@ -43,7 +43,7 @@ public class CloseAttackStrategy implements AttackStrategy {
             public void onEvent(int type, BaseTween<?> source) {
                context.getGameWorld().remove(telegraph);
             }
-         }).delay(1.1f)
+         }).delay(0.1f)
            .start(SharedTweenManager.getInstance());
          context.getBehaviorManager().apply(new DamageBehavior(direction, telegraph, context, entityFactory), telegraph);
          telegraph.setAttribute("owner", owner);
