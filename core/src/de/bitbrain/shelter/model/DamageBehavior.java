@@ -1,17 +1,11 @@
 package de.bitbrain.shelter.model;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import box2dLight.Light;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
-import de.bitbrain.braingdx.tweens.PointLight2DTween;
-import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.tweens.TweenUtils;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
@@ -22,15 +16,15 @@ import de.bitbrain.shelter.model.weapon.WeaponType;
 
 public class DamageBehavior extends BehaviorAdapter {
 
-   private final Vector2 bulletDirection;
-   private final GameObject bullet;
+   private final Vector2 impactDirection;
+   private final GameObject damageDealer;
    private final GameContext2D context;
    private final EntityFactory entityFactory;
    private final JukeBox zombieHitSounds, zombieDeathSounds;
 
-   public DamageBehavior(Vector2 bulletDirection, GameObject bullet, GameContext2D context, EntityFactory entityFactory) {
-      this.bulletDirection = bulletDirection;
-      this.bullet = bullet;
+   public DamageBehavior(Vector2 impactDirection, GameObject damageDealer, GameContext2D context, EntityFactory entityFactory) {
+      this.impactDirection = impactDirection;
+      this.damageDealer = damageDealer;
       this.context = context;
       this.entityFactory = entityFactory;
       this.zombieHitSounds = new JukeBox(context.getAudioManager(), 200,
@@ -45,18 +39,18 @@ public class DamageBehavior extends BehaviorAdapter {
 
    @Override
    public void update(GameObject source, float delta) {
+      if (damageDealer.hasAttribute("eligible_for_removal")) {
+         context.getGameWorld().remove(damageDealer);
+      }
       super.update(source, delta);
    }
 
    @Override
    public void update(GameObject source, GameObject target, float delta) {
       super.update(source, target, delta);
-      if (source.collidesWith(target) && !target.getType().equals(source.getType())) {
-         if (source.getId().equals(bullet.getId())) {
-            dealDamage(source, target);
-         }
-         if (target.getId().equals(bullet.getId())) {
-            dealDamage(target, source);
+      if (damageDealer.collidesWith(target) && !target.getId().equals(source.getId())) {
+         if (source.getId().equals(damageDealer.getId())) {
+            dealDamage(target);
          }
       }
       healthcheck(target);
@@ -94,30 +88,24 @@ public class DamageBehavior extends BehaviorAdapter {
       }
    }
 
-   private void dealDamage(GameObject damageDealer, final GameObject target) {
+   private void dealDamage(final GameObject target) {
+      if (target.equals(damageDealer.getAttribute("owner"))) {
+         return;
+      }
+      GameObject owner = (GameObject) damageDealer.getAttribute("owner");
+      if (owner.getType().equals(target.getType())) {
+         return;
+      }
       if (target.getType() instanceof Item) {
          // To not deal damage on items but ignore them
          return;
       }
-      if (!damageDealer.hasAttribute(HealthData.class)) {
-         context.getGameWorld().remove(damageDealer);
-      }
+      damageDealer.setAttribute("eligible_for_removal", true);
       if (damageDealer.getType() instanceof WeaponType) {
          WeaponType type = (WeaponType) damageDealer.getType();
          float impactX = damageDealer.getLeft() + damageDealer.getWidth() / 2f;
          float impactY = damageDealer.getTop() + damageDealer.getHeight() / 2f;
          context.getParticleManager().spawnEffect(type.getImpactParticleFx(), impactX, impactY);
-         final Light light = context.getLightingManager().createPointLight(32f, Color.valueOf("ffaa8855"));
-         light.setPosition(impactX, impactY);
-         Tween.to(light, PointLight2DTween.COLOR_A, 0.1f)
-               .target(0f)
-               .setCallbackTriggers(TweenCallback.COMPLETE)
-               .setCallback(new TweenCallback() {
-                  @Override
-                  public void onEvent(int type, BaseTween<?> source) {
-                     context.getLightingManager().destroyLight(light);
-                  }
-               }).start(SharedTweenManager.getInstance());
       }
       if (target.hasAttribute(MaterialType.class)) {
          final JukeBox impactSound = target.getAttribute(MaterialType.class).getImpactSoundFx(context.getAudioManager());
@@ -131,13 +119,12 @@ public class DamageBehavior extends BehaviorAdapter {
          }
          EntityMover mover = target.getAttribute(EntityMover.class);
          if (mover != null) {
-            mover.move(bulletDirection, 1900f);
-            context.getParticleManager().spawnEffect(Assets.Particles.BLOOD_IMPACT, target.getLeft() + target.getWidth() / 2f, target.getTop() + target.getHeight() / 2f);
+            mover.move(impactDirection, 1900f);
+         }
+         if (damageDealer.getType() instanceof WeaponType) {
+            healthData.reduceHealth(((WeaponType) damageDealer.getType()).getDamage().get());
             target.setColor(Color.RED);
             TweenUtils.toColor(target.getColor(), Color.WHITE.cpy(), 0.5f);
-         }
-         if (!("ZOMBIE".equals(damageDealer.getType()) && "BARREL".equals(target.getType())) && damageDealer.getType() instanceof WeaponType) {
-            healthData.reduceHealth(((WeaponType) damageDealer.getType()).getDamage().get());
          }
 
          if ("PLAYER".equals(target.getType())) {

@@ -101,6 +101,7 @@ public class EntityFactory {
       zombie.setScaleY(4f);
       zombie.setOffset(-12f,-4f);
       zombie.setAttribute(MaterialType.class, MaterialType.FLESH);
+      zombie.setAttribute(WeaponType.class, WeaponType.ZOMBIE_BITE);
       EntityMover entityMover = new EntityMover(717f, context.getGameCamera(), context.getAudioManager());
       zombie.setAttribute(EntityMover.class, entityMover);
       zombie.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
@@ -141,6 +142,20 @@ public class EntityFactory {
             PointLight light = context.getLightingManager().createPointLight(135f, Color.valueOf("ffaa8855"));
             light.setPosition(target.getLeft(), target.getTop());
             context.getLightingManager().attach(light, target, 1f, 1f);
+         }
+      });
+   }
+
+   public GameObject addDamageTelegraph(final WeaponType type, final float centerX, final float centerY, final float width, final float height, final float rotation) {
+      return context.getGameWorld().addObject(new Mutator<GameObject>() {
+         @Override
+         public void mutate(GameObject target) {
+            target.setType(type);
+            target.setPosition(centerX, centerY);
+            target.setRotation(rotation);
+            target.setDimensions(width, height);
+            target.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
+
          }
       });
    }

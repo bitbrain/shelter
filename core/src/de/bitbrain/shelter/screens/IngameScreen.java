@@ -34,16 +34,18 @@ import de.bitbrain.shelter.input.ingame.IngameKeyboardAdapter;
 import de.bitbrain.shelter.model.*;
 import de.bitbrain.shelter.model.items.Item;
 import de.bitbrain.shelter.model.spawn.Spawner;
-import de.bitbrain.shelter.model.weapon.WeaponHandler;
+import de.bitbrain.shelter.model.weapon.AttackHandler;
 import de.bitbrain.shelter.model.weapon.WeaponType;
 import de.bitbrain.shelter.ui.AmmoUI;
 import de.bitbrain.shelter.ui.HealthUI;
+import de.bitbrain.shelter.ui.InventoryTooltip;
 import de.bitbrain.shelter.ui.InventoryUI;
 import de.bitbrain.shelter.util.Supplier;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static de.bitbrain.braingdx.graphics.GraphicsFactory.createTexture;
 import static de.bitbrain.shelter.ThemeColors.AMBIENT;
 import static de.bitbrain.shelter.animation.AnimationTypes.STANDING_SOUTH;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
@@ -54,7 +56,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    private EntityMover playerEntityMover;
    private EntityFactory entityFactory;
    private GameContext2D context;
-   private WeaponHandler playerWeaponHandler;
+   private AttackHandler playerAttackHandler;
    private List<Spawner> spawners = new ArrayList<Spawner>();
    private GameObject playerObject;
    private final Vector2 spawnPoint = new Vector2();
@@ -166,7 +168,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
 
             // Give it a nice weapon
             object.setAttribute(WeaponType.class, WeaponType.AK47);
-            playerWeaponHandler = new WeaponHandler(object, entityFactory);
+            playerAttackHandler = new AttackHandler(object, entityFactory);
          } else if (object.getType().equals("SPAWNER") && !saveRoom) {
             int capacity = object.getAttribute("capacity", 1);
             context.getGameWorld().remove(object);
@@ -223,7 +225,11 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       Texture itemTexture = SharedAssetManager.getInstance().get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
       AnimationSpriteSheet itemSpriteSheet = new AnimationSpriteSheet(itemTexture, 9);
       for (WeaponType type : WeaponType.values()) {
-         context.getRenderManager().register(type, new BulletRenderer(type));
+         if (type.getWeaponTexture() != null) {
+            context.getRenderManager().register(type, new BulletRenderer(type));
+         }// else {
+          //  context.getRenderManager().register(type, new SpriteRenderer(createTexture(2, 2, Color.RED)));
+        // }
       }
       for (Item type : Item.values()) {
          context.getRenderManager().register(type, new AnimationRenderer(itemSpriteSheet, AnimationConfig.builder()
@@ -262,7 +268,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    }
 
    private void setupInput(GameContext2D context) {
-      context.getInputManager().register(new IngameKeyboardAdapter(playerEntityMover, playerWeaponHandler, context));
+      context.getInputManager().register(new IngameKeyboardAdapter(playerEntityMover, playerAttackHandler, context));
    }
 
    private void setupPhysics(GameContext2D context) {
@@ -276,17 +282,25 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       healthUI.setPosition(16f, 16f);
       context.getWorldStage().addActor(healthUI);
 
-      InventoryUI inventoryUI = new InventoryUI(playerObject, context.getGameCamera());
-      inventoryUI.setWidth(16f);
-      inventoryUI.setHeight(16f);
-      inventoryUI.setPosition(32f, 16f);
-      context.getWorldStage().addActor(inventoryUI);
-
       AmmoUI ammoUI = new AmmoUI(playerObject, context.getGameCamera());
       ammoUI.setWidth(16f);
       ammoUI.setHeight(16f);
       ammoUI.setPosition(32f, 32f);
       context.getWorldStage().addActor(ammoUI);
+
+      final InventoryTooltip inventoryTooltip = new InventoryTooltip();
+      inventoryTooltip.setSize(170, 60f);
+      inventoryTooltip.setColor(1f, 1f, 1f, 0f);
+
+      InventoryUI inventoryUI = new InventoryUI(playerObject, context.getGameCamera());
+      inventoryUI.setDebug(true);
+      inventoryUI.setWidth(16f);
+      inventoryUI.setHeight(16f);
+      inventoryUI.setPosition(32f, 16f);
+
+      context.getWorldStage().addActor(inventoryUI);
+
+      context.getWorldStage().addActor(inventoryTooltip);
 
    }
 

@@ -1,13 +1,12 @@
 package de.bitbrain.shelter.input.ingame;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.util.Updateable;
 import de.bitbrain.shelter.model.EntityMover;
-import de.bitbrain.shelter.model.weapon.WeaponHandler;
+import de.bitbrain.shelter.model.weapon.AttackHandler;
 
 import static com.badlogic.gdx.Gdx.input;
 import static com.badlogic.gdx.Input.Keys.*;
@@ -16,12 +15,12 @@ public class IngameKeyboardAdapter extends InputAdapter implements Updateable {
 
    private Vector2 moveDirection = new Vector2();
    private final EntityMover playerEntityMover;
-   private final WeaponHandler playerWeaponHandler;
+   private final AttackHandler playerAttackHandler;
    private final GameContext2D context;
 
-   public IngameKeyboardAdapter(EntityMover playerEntityMover, WeaponHandler playerWeaponHandler, GameContext2D context) {
+   public IngameKeyboardAdapter(EntityMover playerEntityMover, AttackHandler playerAttackHandler, GameContext2D context) {
       this.playerEntityMover = playerEntityMover;
-      this.playerWeaponHandler = playerWeaponHandler;
+      this.playerAttackHandler = playerAttackHandler;
       this.context = context;
    }
 
@@ -44,7 +43,7 @@ public class IngameKeyboardAdapter extends InputAdapter implements Updateable {
          moveDirection.x = 1;
       }
       if (input.isTouched()) {
-         playerWeaponHandler.fire(context);
+         playerAttackHandler.attack(context);
       }
       playerEntityMover.move(moveDirection);
       moveDirection.x = 0;

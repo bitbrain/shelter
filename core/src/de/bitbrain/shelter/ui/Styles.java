@@ -3,6 +3,7 @@ package de.bitbrain.shelter.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
@@ -19,7 +20,10 @@ public class Styles {
    public static final Label.LabelStyle DIALOG_TEXT = new Label.LabelStyle();
    public static final Label.LabelStyle STORY = new Label.LabelStyle();
    public static final Label.LabelStyle TIPS = new Label.LabelStyle();
-
+   public static final Label.LabelStyle LABEL_TOOLTIP_NAME = new Label.LabelStyle();
+   public static final Label.LabelStyle LABEL_TOOLTIP_STATS = new Label.LabelStyle();
+   public static final Label.LabelStyle LABEL_TOOLTIP_DESCRIPTION = new Label.LabelStyle();
+   public static final ImageButton.ImageButtonStyle INVENTORY_ICON = new ImageButton.ImageButtonStyle();
 
    public static void init() {
       LABEL_DESCRIPTION.font = bake(Assets.Fonts.ANGIESNEW, 24);
@@ -28,13 +32,21 @@ public class Styles {
       LABEL_INTRO_BITBRAIN.fontColor = valueOf("00d56e");
       LABEL_INTRO_BITBRAIN.glitchPool = "01";
       LABEL_LOGO.font = bake(Assets.Fonts.ANGIESNEW, 190, false);
-      LABEL_LOGO.fontColor = ThemeColors.TEXT;
+      LABEL_LOGO.fontColor = ThemeColors.TEXT.cpy();
       DIALOG_TEXT.font = bake(Assets.Fonts.ANGIESNEW, 48, false);
-      STORY.fontColor = ThemeColors.TEXT;
+      STORY.fontColor = ThemeColors.TEXT.cpy();
       STORY.font = bake(Assets.Fonts.ANGIESNEW, 48, false);
-      TIPS.fontColor = ThemeColors.TEXT;
+      TIPS.fontColor = ThemeColors.TEXT.cpy();
       TIPS.font = bake(Assets.Fonts.ANGIESNEW, 20, false);
-      DIALOG_TEXT.fontColor = ThemeColors.BUTTON;
+      DIALOG_TEXT.fontColor = ThemeColors.BUTTON.cpy();
+
+      LABEL_TOOLTIP_NAME.fontColor = Color.WHITE.cpy();
+      LABEL_TOOLTIP_NAME.font = bake(Assets.Fonts.ANGIESNEW, 28);
+      LABEL_TOOLTIP_STATS.fontColor = Color.WHITE.cpy();
+      LABEL_TOOLTIP_STATS.font = bake(Assets.Fonts.ANGIESNEW, 26);
+      LABEL_TOOLTIP_DESCRIPTION.fontColor = Color.WHITE.cpy();
+      LABEL_TOOLTIP_DESCRIPTION.font = bake(Assets.Fonts.ANGIESNEW, 26);
+
 
    }
 

@@ -20,7 +20,7 @@ public class BulletRenderer extends SpriteRenderer {
    private final AnimationRenderer shootOverlay;
 
    public BulletRenderer(WeaponType type) {
-      super(SharedAssetManager.getInstance().get(type.getMunitionTexture(), Texture.class));
+      super(SharedAssetManager.getInstance().get(type.getWeaponTexture(), Texture.class));
       Texture overlayTexture = SharedAssetManager.getInstance().get(Assets.Textures.SHOOT_OVERLAY_SPRITESHEET, Texture.class);
       AnimationSpriteSheet overlaySheet = new AnimationSpriteSheet(overlayTexture, 16);
       this.shootOverlay = new AnimationRenderer(overlaySheet, AnimationConfig.builder()
@@ -45,6 +45,9 @@ public class BulletRenderer extends SpriteRenderer {
       super.render(object, batch, delta);
       if (object.hasAttribute("owner")) {
          GameObject owner = (GameObject) object.getAttribute("owner");
+         if (!owner.hasAttribute("lastBullet")) {
+            return;
+         }
          if (!owner.getAttribute("lastBullet").equals(object)) {
             return;
          }

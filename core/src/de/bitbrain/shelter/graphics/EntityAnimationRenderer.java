@@ -40,7 +40,7 @@ public class EntityAnimationRenderer extends AnimationRenderer {
                object.getWidth() * object.getScaleX(), object.getHeight() * object.getScaleY());
       }
       super.render(object, batch, delta);
-      if (object.hasAttribute(WeaponType.class)) {
+      if (object.hasAttribute(WeaponType.class) && object.getAttribute(WeaponType.class).getTileset() != null) {
          WeaponType type = object.getAttribute(WeaponType.class);
          AnimationRenderer renderer = currentlyEquippedItemRenderer.get(type);
          if (renderer == null) {

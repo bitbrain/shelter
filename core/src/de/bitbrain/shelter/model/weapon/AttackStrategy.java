@@ -4,7 +4,7 @@ import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.model.EntityFactory;
 
-public interface FireStrategy {
+public interface AttackStrategy {
 
-   void fire(GameObject owner, GameContext2D context, EntityFactory entityFactory);
+   void attack(GameObject owner, GameContext2D context, EntityFactory entityFactory);
 }

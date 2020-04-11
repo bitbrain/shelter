@@ -28,6 +28,7 @@ public class AmmoUI extends Actor {
       this.background = GraphicsFactory.createNinePatch(SharedAssetManager.getInstance().get(Assets.Textures.UI_EQUIP, Texture.class), 4);
       this.description = new Label("", Styles.LABEL_DESCRIPTION);
       this.description.setFontScale(0.4f);
+      setZIndex(1);
    }
 
    @Override
@@ -40,7 +41,7 @@ public class AmmoUI extends Actor {
       if (playerGameObject.hasAttribute(WeaponType.class)) {
          WeaponType weapon = playerGameObject.getAttribute(WeaponType.class);
          Ammo ammo = playerGameObject.getAttribute(Ammo.class);
-         Texture texture = SharedAssetManager.getInstance().get(weapon.getMunitionTexture(), Texture.class);
+         Texture texture = SharedAssetManager.getInstance().get(weapon.getWeaponTexture(), Texture.class);
          batch.draw(texture, x + getWidth() / 3f, y + getHeight() / 3f, getWidth() / 3f, getHeight() / 3f);
          int remainingAmmo = ammo != null ? ammo.getAmmo() : 0;
          if (ammo != null && !ammo.isMagazineEmpty()) {

@@ -19,37 +19,48 @@ public enum WeaponType implements InventoryItem {
          Textures.MUNITION_AK47,
          Sounds.WEAPON_AK_47,
          Assets.Particles.SHOT_IMPACT,
-         new DefaultWeaponFireStrategy()
-   );
+         new RangeAttackStrategy()
+   ),
+   ZOMBIE_BITE("Zombie Bite",
+         "A sharp bite with long, moldy teeth. This hurts!",
+         new Damage(5, 30),
+         0.4f,
+         Rarity.COMMON,
+         null,
+         null,
+         null,
+         null,
+         Assets.Particles.BLOOD_IMPACT,
+         new CloseAttackStrategy());
 
    private final String name;
    private final String description;
    private final String icon;
    private final String tileset;
-   private final String munitionTexture;
-   private final String shootSoundFx;
+   private final String attackTexture;
+   private final String attackSoundFx;
    private final String impactParticleFx;
-   private final FireStrategy fireStrategy;
+   private final AttackStrategy attackStrategy;
    private final Rarity rarity;
    private final Damage damage;
    private final float speed;
 
-   WeaponType(String name, String description, Damage damage, float speed, Rarity rarity, String icon, String tileset, String munitionTexture, String shootSoundFx, String impactParticleFx, FireStrategy fireStrategy) {
+   WeaponType(String name, String description, Damage damage, float speed, Rarity rarity, String icon, String tileset, String attackTexture, String attackSoundFx, String impactParticleFx, AttackStrategy attackStrategy) {
       this.name = name;
       this.description = description;
       this.icon = icon;
       this.tileset = tileset;
-      this.munitionTexture = munitionTexture;
-      this.shootSoundFx = shootSoundFx;
+      this.attackTexture = attackTexture;
+      this.attackSoundFx = attackSoundFx;
       this.impactParticleFx = impactParticleFx;
-      this.fireStrategy = fireStrategy;
+      this.attackStrategy = attackStrategy;
       this.damage = damage;
       this.rarity = rarity;
       this.speed = speed;
    }
 
-   public String getMunitionTexture() {
-      return munitionTexture;
+   public String getWeaponTexture() {
+      return attackTexture;
    }
 
    @Override
@@ -78,8 +89,8 @@ public enum WeaponType implements InventoryItem {
       return description;
    }
 
-   public String getShootSoundFx() {
-      return shootSoundFx;
+   public String getAttackSoundFx() {
+      return attackSoundFx;
    }
 
    public String getIcon() {
@@ -90,8 +101,8 @@ public enum WeaponType implements InventoryItem {
       return tileset;
    }
 
-   public FireStrategy getFireStrategy() {
-      return fireStrategy;
+   public AttackStrategy getAttackStrategy() {
+      return attackStrategy;
    }
 
    public String getImpactParticleFx() {

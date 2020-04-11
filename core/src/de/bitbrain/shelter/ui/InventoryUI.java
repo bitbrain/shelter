@@ -1,6 +1,5 @@
 package de.bitbrain.shelter.ui;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -12,8 +11,6 @@ import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.model.weapon.WeaponType;
-
-import javax.management.ObjectName;
 
 public class InventoryUI extends Actor {
 
