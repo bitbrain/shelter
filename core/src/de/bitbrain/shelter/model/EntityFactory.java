@@ -100,6 +100,7 @@ public class EntityFactory {
       zombie.setScaleX(4f);
       zombie.setScaleY(4f);
       zombie.setOffset(-12f,-4f);
+      zombie.setAttribute(MaterialType.class, MaterialType.FLESH);
       EntityMover entityMover = new EntityMover(717f, context.getGameCamera(), context.getAudioManager());
       zombie.setAttribute(EntityMover.class, entityMover);
       zombie.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
@@ -132,6 +133,14 @@ public class EntityFactory {
             target.setRotation(direction.angle());
             target.setDimensions(3, 3);
             target.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
+            target.setColor(1f, 1f, 1f, 0f);
+            Tween.to(target, GameObjectTween.ALPHA, 0.15f)
+                  .target(1f)
+                  .start(SharedTweenManager.getInstance());
+            target.setRotation(direction.angle() - 90f);
+            PointLight light = context.getLightingManager().createPointLight(135f, Color.valueOf("ffaa8855"));
+            light.setPosition(target.getLeft(), target.getTop());
+            context.getLightingManager().attach(light, target, 1f, 1f);
          }
       });
    }

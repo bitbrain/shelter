@@ -1,5 +1,6 @@
 package de.bitbrain.shelter.audio;
 
+import com.badlogic.gdx.Gdx;
 import de.bitbrain.braingdx.audio.AudioManager;
 
 public class JukeBox {
@@ -28,6 +29,10 @@ public class JukeBox {
    }
 
    public void playSound(float x, float y) {
+      if (audioFiles.length == 0) {
+         Gdx.app.error("SOUND", "Missing audio files in JukeBox!");
+         return;
+      }
       if (interval >= 0 && System.currentTimeMillis() - interval < MINIMUM_INTERVAL_MILLIS) {
          return;
       }

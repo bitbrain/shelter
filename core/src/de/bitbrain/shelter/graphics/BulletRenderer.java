@@ -1,5 +1,6 @@
 package de.bitbrain.shelter.graphics;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -35,6 +36,8 @@ public class BulletRenderer extends SpriteRenderer {
             .size(16, 16)
             .offset(-6, -6);
       size(1, 14);
+      origin(0, 0);
+      rotationalOffset(0f, -14);
    }
 
    @Override
@@ -47,7 +50,10 @@ public class BulletRenderer extends SpriteRenderer {
          }
          Ammo ammo = owner.getAttribute(Ammo.class);
          shootOverlay.enabled(ammo.getAmmo() < owner.getAttribute("previousMunitionCount", 0));
+         Color color = object.getColor();
+         object.setColor(1f, 1f, 1f, 1f);
          shootOverlay.render(object, batch, delta);
+         object.setColor(color);
          owner.setAttribute("previousMunitionCount", ammo.getAmmo());
       }
    }

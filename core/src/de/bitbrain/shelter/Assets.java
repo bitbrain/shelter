@@ -36,6 +36,7 @@ public interface Assets {
       String BLOOD_EXPLOSION = "particles/blood-explosion.p";
       String EXPLOSION = "particles/explosion.p";
       String BLOOD_IMPACT = "particles/blood-impact.p";
+      String SHOT_IMPACT = "particles/shot-impact.p";
       String MEDIPACK = "particles/medipack.p";
       String AMMO = "particles/ammo.p";
       String HEAL = "particles/heal.p";

@@ -31,10 +31,7 @@ import de.bitbrain.shelter.graphics.EntityAnimationRenderer;
 import de.bitbrain.shelter.graphics.RenderOrderComparator;
 import de.bitbrain.shelter.i18n.Messages;
 import de.bitbrain.shelter.input.ingame.IngameKeyboardAdapter;
-import de.bitbrain.shelter.model.Ammo;
-import de.bitbrain.shelter.model.EntityFactory;
-import de.bitbrain.shelter.model.EntityMover;
-import de.bitbrain.shelter.model.HealthData;
+import de.bitbrain.shelter.model.*;
 import de.bitbrain.shelter.model.items.Item;
 import de.bitbrain.shelter.model.spawn.Spawner;
 import de.bitbrain.shelter.model.weapon.WeaponHandler;
@@ -138,6 +135,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       for (final GameObject object : context.getGameWorld().getObjects()) {
          if ("PLAYER".equals(object.getType())) {
             this.playerObject = object;
+            playerObject.setAttribute(MaterialType.class, MaterialType.FLESH);
             // We need to make the actual entity smaller than the sprite
             // sprite -> 32x32
             // entity -> 8x8 for collision purposes
@@ -209,6 +207,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                }, object);
             }
          } else if (object.getType().equals("BARREL")) {
+            playerObject.setAttribute(MaterialType.class, MaterialType.STEEL);
             originalBarrels.add(object.copy());
             entityFactory.addBarrel(object);
             context.getGameWorld().remove(object);

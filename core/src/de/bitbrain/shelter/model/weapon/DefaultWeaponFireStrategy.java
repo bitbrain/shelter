@@ -86,10 +86,6 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
                super.update(source, delta);
             }
          }, bullet);
-         bullet.setRotation(direction.angle() - 90f);
-         PointLight light = context.getLightingManager().createPointLight(135f, Color.valueOf("ffaa8855"));
-         light.setPosition(bullet.getLeft(), bullet.getTop());
-         context.getLightingManager().attach(light, bullet, 1f, 1f);
          fireRateTimer.reset();
       }
    }
