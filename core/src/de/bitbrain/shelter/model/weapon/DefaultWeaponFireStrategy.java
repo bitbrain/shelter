@@ -38,7 +38,7 @@ public class DefaultWeaponFireStrategy implements FireStrategy {
       final WeaponType weaponType = owner.getAttribute(WeaponType.class);
       fireRateTimer.update(Gdx.graphics.getRawDeltaTime());
       Ammo ammo = owner.getAttribute(Ammo.class);
-      if (fireRateTimer.reached(0.13f)) {
+      if (fireRateTimer.reached(weaponType.getSpeed())) {
          if (ammo == null || ammo.isMagazineEmpty()) {
             fireRateTimer.reset();
             Sound sound = SharedAssetManager.getInstance().get(Assets.Sounds.GUN_EMPTY, Sound.class);

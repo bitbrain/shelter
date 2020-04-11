@@ -88,7 +88,7 @@ public class DamageBehavior extends BehaviorAdapter {
             LootTable lootTable = target.getAttribute(LootTable.class);
             Item item = lootTable.drop();
             if (item != null) {
-               entityFactory.addItem(target.getLeft(), target.getTop(),item);
+               entityFactory.addItem(target.getLeft(), target.getTop(), item);
             }
          }
       }
@@ -136,8 +136,8 @@ public class DamageBehavior extends BehaviorAdapter {
             target.setColor(Color.RED);
             TweenUtils.toColor(target.getColor(), Color.WHITE.cpy(), 0.5f);
          }
-         if (!("ZOMBIE".equals(damageDealer.getType()) && "BARREL".equals(target.getType()))) {
-            healthData.reduceHealth(5);
+         if (!("ZOMBIE".equals(damageDealer.getType()) && "BARREL".equals(target.getType())) && damageDealer.getType() instanceof WeaponType) {
+            healthData.reduceHealth(((WeaponType) damageDealer.getType()).getDamage().get());
          }
 
          if ("PLAYER".equals(target.getType())) {
