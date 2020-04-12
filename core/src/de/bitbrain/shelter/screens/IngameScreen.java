@@ -171,6 +171,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             // Initialise inventory
             Inventory inventory = new Inventory(object);
             inventory.addWeapon(WeaponType.RUSTY_CROWBAR);
+            object.setAttribute(Inventory.class, inventory);
             playerAttackHandler = new AttackHandler(object, entityFactory);
          } else if (object.getType().equals("SPAWNER") && !saveRoom) {
             int capacity = object.getAttribute("capacity", 1);

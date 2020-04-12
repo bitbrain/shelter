@@ -31,7 +31,7 @@ public class AmmoUI extends Actor {
       this.description = new Label("", Styles.LABEL_DESCRIPTION);
       this.description.setFontScale(0.4f);
       setZIndex(1);
-      this.iconTexture = new TextureRegion(SharedAssetManager.getInstance().get(Assets.Textures.ICONS, Texture.class), 0, 16, 16, 16);
+      this.iconTexture = new TextureRegion(SharedAssetManager.getInstance().get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class), 0, 9, 9, 9);
    }
 
    @Override
@@ -42,20 +42,17 @@ public class AmmoUI extends Actor {
       background.draw(batch, x, y, getWidth(), getHeight());
 
       if (playerGameObject.hasAttribute(WeaponType.class)) {
-         WeaponType weapon = playerGameObject.getAttribute(WeaponType.class);
          Ammo ammo = playerGameObject.getAttribute(Ammo.class);
-         if (weapon.getAttackTexture() != null) {
-            batch.draw(iconTexture, x, y, 16f, 16f);
-            int remainingAmmo = ammo != null ? ammo.getAmmo() : 0;
-            if (ammo != null && !ammo.isMagazineEmpty()) {
-               description.setColor(Color.WHITE);
-            } else {
-               description.setColor(Colors.darken(Color.RED.cpy(), 0.2f));
-            }
-            description.setText(remainingAmmo);
-            description.setPosition(x + getWidth() + 2f, y + (getHeight() / 2f - description.getPrefHeight() / 2f) + 6.4f);
-            description.draw(batch, parentAlpha);
+         batch.draw(iconTexture, x + 3.5f, y + 3.5f, 9f, 9f);
+         int remainingAmmo = ammo != null ? ammo.getAmmo() : 0;
+         if (ammo != null && !ammo.isMagazineEmpty()) {
+            description.setColor(Color.WHITE);
+         } else {
+            description.setColor(Colors.darken(Color.RED.cpy(), 0.2f));
          }
+         description.setText(remainingAmmo);
+         description.setPosition(x + getWidth() + 2f, y + (getHeight() / 2f - description.getPrefHeight() / 2f) + 6.4f);
+         description.draw(batch, parentAlpha);
       }
    }
 }

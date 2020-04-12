@@ -26,6 +26,10 @@ public class Ammo {
       return ammo == 0;
    }
 
+   public boolean isMagazineFull() {
+      return ammo == getMaxAmmo();
+   }
+
    public int getMaxAmmo() {
       return maxAmmo;
    }

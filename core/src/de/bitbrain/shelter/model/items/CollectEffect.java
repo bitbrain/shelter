@@ -5,5 +5,5 @@ import de.bitbrain.braingdx.world.GameObject;
 
 public interface CollectEffect {
 
-   void onCollect(Item item, GameObject player, GameContext2D context);
+   boolean onCollect(Item item, GameObject player, GameContext2D context);
 }

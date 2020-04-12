@@ -72,8 +72,9 @@ public class EntityFactory {
             if (source.collidesWith(target) && isItem && isPlayer) {
                GameObject player = "PLAYER".equals(source.getType()) ? source : target;
                GameObject itemObject = "PLAYER".equals(source.getType()) ? target : source;
-               item.getCollectEffect().onCollect(item, player, context);
-               context.getGameWorld().remove(itemObject);
+               if (item.getCollectEffect().onCollect(item, player, context)) {
+                  context.getGameWorld().remove(itemObject);
+               }
             }
          }
       }, itemObject);
@@ -106,6 +107,7 @@ public class EntityFactory {
       zombie.setAttribute(EntityMover.class, entityMover);
       zombie.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
       LootTable lootTable = new LootTable();
+      lootTable.add(Item.AK47, 0.01f);
       lootTable.add(Item.AMMO, 0.1f);
       lootTable.add(Item.MEDIKIT, 0.1f);
       zombie.setAttribute(LootTable.class, lootTable);

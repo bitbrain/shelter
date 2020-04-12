@@ -20,15 +20,19 @@ public class Inventory {
       this.owner = owner;
    }
 
-   public void addWeapon(WeaponType weapon) {
+   public boolean addWeapon(WeaponType weapon) {
       List<WeaponType> weapons = availableWeapons.get(weapon.getRangeType());
       if (weapons == null) {
          weapons = new ArrayList<WeaponType>();
          availableWeapons.put(weapon.getRangeType(), weapons);
       }
+      if (weapons.contains(weapon)) {
+         return false;
+      }
       weapons.add(weapon);
       selectNextWeapon(weapon.getRangeType());
       equipSelected(weapon.getRangeType());
+      return true;
    }
 
    public void equipSelected(RangeType rangeType) {

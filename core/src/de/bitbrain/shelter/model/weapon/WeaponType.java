@@ -16,10 +16,11 @@ public enum WeaponType implements InventoryItem {
          0.15f,
          Rarity.RARE,
          0,
-         0,
+         3,
          Textures.TILESET_WEAPON_AK47,
          Textures.MUNITION_AK47,
          Sounds.WEAPON_AK_47,
+         Sounds.GUN_RELOAD,
          Assets.Particles.SHOT_IMPACT,
          RangeType.LONG_RANGE
    ),
@@ -33,6 +34,7 @@ public enum WeaponType implements InventoryItem {
          null,
          null,
          null,
+         null,
          Assets.Particles.BLOOD_IMPACT,
          RangeType.CLOSE_RANGE),
    RUSTY_CROWBAR("Rusty Crowbar",
@@ -40,8 +42,9 @@ public enum WeaponType implements InventoryItem {
          new Damage(8, 14, 14, 8),
          1f,
          Rarity.COMMON,
-         1,
          0,
+         2,
+         null,
          null,
          null,
          null,
@@ -55,13 +58,14 @@ public enum WeaponType implements InventoryItem {
    private final String tileset;
    private final String attackTexture;
    private final String attackSoundFx;
+   private final String reloadSoundFx;
    private final String impactParticleFx;
    private final RangeType rangeType;
    private final Rarity rarity;
    private final Damage damage;
    private final float speed;
 
-   WeaponType(String name, String description, Damage damage, float speed, Rarity rarity, Integer iconIndexX, Integer iconIndexY, String tileset, String attackTexture, String attackSoundFx, String impactParticleFx, RangeType rangeType) {
+   WeaponType(String name, String description, Damage damage, float speed, Rarity rarity, Integer iconIndexX, Integer iconIndexY, String tileset, String attackTexture, String attackSoundFx, String reloadSoundFx, String impactParticleFx, RangeType rangeType) {
       this.name = name;
       this.description = description;
       this.iconIndexX = iconIndexX;
@@ -69,11 +73,16 @@ public enum WeaponType implements InventoryItem {
       this.tileset = tileset;
       this.attackTexture = attackTexture;
       this.attackSoundFx = attackSoundFx;
+      this.reloadSoundFx = reloadSoundFx;
       this.impactParticleFx = impactParticleFx;
       this.rangeType = rangeType;
       this.damage = damage;
       this.rarity = rarity;
       this.speed = speed;
+   }
+
+   public String getReloadSoundFx() {
+      return reloadSoundFx;
    }
 
    public String getAttackTexture() {

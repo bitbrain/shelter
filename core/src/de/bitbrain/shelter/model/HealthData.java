@@ -34,4 +34,8 @@ public class HealthData {
    public void reset() {
       currentHealth = maximumHealth;
    }
+
+   public boolean isFullHealth() {
+      return currentHealth == maximumHealth;
+   }
 }

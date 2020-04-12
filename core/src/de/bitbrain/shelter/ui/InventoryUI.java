@@ -31,7 +31,7 @@ public class InventoryUI extends Actor {
       this.background = GraphicsFactory.createNinePatch(SharedAssetManager.getInstance().get(Assets.Textures.UI_EQUIP, Texture.class), 4);
       this.description = new Label("", Styles.LABEL_DESCRIPTION);
       this.description.setFontScale(0.4f);
-      this.iconTexture = SharedAssetManager.getInstance().get(Assets.Textures.ICONS, Texture.class);
+      this.iconTexture = SharedAssetManager.getInstance().get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
    }
 
    @Override
@@ -46,10 +46,10 @@ public class InventoryUI extends Actor {
          if (weapon.getIconIndexX() != null && weapon.getIconIndexY() != null) {
             TextureRegion region = regionCache.get(weapon);
             if (region == null) {
-               region = new TextureRegion(iconTexture, weapon.getIconIndexX() * 16, weapon.getIconIndexY() * 16, 16, 16);
+               region = new TextureRegion(iconTexture, weapon.getIconIndexX() * 9, weapon.getIconIndexY() * 9, 9, 9);
                regionCache.put(weapon, region);
             }
-            batch.draw(region, x, y, getWidth(), getHeight());
+            batch.draw(region, x + 3.5f, y + 3.5f, 9f, 9f);
          }
          description.setText(weapon.getName());
          description.setPosition(x + getWidth() + 2f, y + (getHeight() / 2f - description.getPrefHeight() / 2f) + 6.4f);
