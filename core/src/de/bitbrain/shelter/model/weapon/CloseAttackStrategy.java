@@ -3,7 +3,6 @@ package de.bitbrain.shelter.model.weapon;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
@@ -51,7 +50,7 @@ public class CloseAttackStrategy implements AttackStrategy {
             }
          }).delay(0.1f)
            .start(SharedTweenManager.getInstance());
-         context.getBehaviorManager().apply(new DamageBehavior(direction, telegraph, context, entityFactory), telegraph);
+         context.getBehaviorManager().apply(new DamageBehavior(direction, telegraph, context), telegraph);
          telegraph.setAttribute("owner", owner);
       }
    }

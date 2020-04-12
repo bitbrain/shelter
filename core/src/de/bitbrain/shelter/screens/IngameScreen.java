@@ -170,7 +170,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
 
             // Initialise inventory
             Inventory inventory = new Inventory(object);
-            inventory.addWeapon(WeaponType.RUSTY_CROWBAR);
+            inventory.addWeapon(WeaponType.AK47);
             object.setAttribute(Inventory.class, inventory);
             playerAttackHandler = new AttackHandler(object, entityFactory);
          } else if (object.getType().equals("SPAWNER") && !saveRoom) {
@@ -219,6 +219,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             context.getGameWorld().remove(object);
          }
       }
+      context.getBehaviorManager().apply(new HealthCheckBehavior(context, entityFactory));
    }
 
    private void setupRenderer(GameContext2D context) {

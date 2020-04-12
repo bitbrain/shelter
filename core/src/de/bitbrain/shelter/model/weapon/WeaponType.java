@@ -47,7 +47,7 @@ public enum WeaponType implements InventoryItem {
          null,
          null,
          null,
-         null,
+         Sounds.CROWBAR_DRAW,
          Assets.Particles.BLOOD_IMPACT,
          RangeType.CLOSE_RANGE);
 

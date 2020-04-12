@@ -51,6 +51,7 @@ public class InventoryUI extends Actor {
             }
             batch.draw(region, x + 3.5f, y + 3.5f, 9f, 9f);
          }
+         description.setColor(weapon.getRarity().getColor());
          description.setText(weapon.getName());
          description.setPosition(x + getWidth() + 2f, y + (getHeight() / 2f - description.getPrefHeight() / 2f) + 6.4f);
          description.draw(batch, parentAlpha);

@@ -8,6 +8,7 @@ public enum Item {
 
    AMMO("Ammo", new AmmoCollectEffect(), 1, Color.valueOf("ffcf66cc"), Assets.Particles.AMMO),
    MEDIKIT("Medikit", new MedikitCollectEffect(), 0, Color.valueOf("ff0011bb"), Assets.Particles.MEDIPACK),
+   RUSTY_CROWBAR(WeaponType.RUSTY_CROWBAR.getName(), new WeaponCollectEffect(WeaponType.RUSTY_CROWBAR), 2, Color.valueOf("ff0011bb"), Assets.Particles.MEDIPACK),
    AK47(WeaponType.AK47.getName(), new WeaponCollectEffect(WeaponType.AK47), 3, Color.valueOf("ff0011bb"), Assets.Particles.MEDIPACK);
 
    private final String name;

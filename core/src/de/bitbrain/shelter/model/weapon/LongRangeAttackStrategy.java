@@ -51,7 +51,7 @@ public class LongRangeAttackStrategy implements AttackStrategy {
          owner.setAttribute("lastBullet", bullet);
          bullet.setAttribute("owner", owner);
          final EntityMover mover = new EntityMover(600, context.getGameCamera(), context.getAudioManager());
-         context.getBehaviorManager().apply(new DamageBehavior(direction, bullet, context, entityFactory) {
+         context.getBehaviorManager().apply(new DamageBehavior(direction, bullet, context) {
             @Override
             public void onAttach(GameObject source) {
                mover.onAttach(source);
