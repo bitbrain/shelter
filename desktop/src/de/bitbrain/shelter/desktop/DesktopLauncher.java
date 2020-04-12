@@ -12,7 +12,7 @@ import javax.swing.*;
 public class DesktopLauncher {
 	public static void main (String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "shelter (minibeansjam5 edition)";
+		config.title = "shelter";
 		config.forceExit = false;
 		config.audioDeviceBufferSize = 1024;
 		config.audioDeviceSimultaneousSources = 32;

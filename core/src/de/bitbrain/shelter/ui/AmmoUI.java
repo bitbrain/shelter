@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
@@ -21,6 +22,7 @@ public class AmmoUI extends Actor {
    private final NinePatch background;
    private final GameCamera camera;
    private final Label description;
+   private final TextureRegion iconTexture;
 
    public AmmoUI(GameObject playerGameObject, GameCamera camera) {
       this.playerGameObject = playerGameObject;
@@ -29,6 +31,7 @@ public class AmmoUI extends Actor {
       this.description = new Label("", Styles.LABEL_DESCRIPTION);
       this.description.setFontScale(0.4f);
       setZIndex(1);
+      this.iconTexture = new TextureRegion(SharedAssetManager.getInstance().get(Assets.Textures.ICONS, Texture.class), 0, 16, 16, 16);
    }
 
    @Override
@@ -41,9 +44,8 @@ public class AmmoUI extends Actor {
       if (playerGameObject.hasAttribute(WeaponType.class)) {
          WeaponType weapon = playerGameObject.getAttribute(WeaponType.class);
          Ammo ammo = playerGameObject.getAttribute(Ammo.class);
-         if (weapon.getWeaponTexture() != null) {
-            Texture texture = SharedAssetManager.getInstance().get(weapon.getWeaponTexture(), Texture.class);
-            batch.draw(texture, x + getWidth() / 3f, y + getHeight() / 3f, getWidth() / 3f, getHeight() / 3f);
+         if (weapon.getAttackTexture() != null) {
+            batch.draw(iconTexture, x, y, 16f, 16f);
             int remainingAmmo = ammo != null ? ammo.getAmmo() : 0;
             if (ammo != null && !ammo.isMagazineEmpty()) {
                description.setColor(Color.WHITE);

@@ -29,6 +29,7 @@ public class ChasingBehavior extends BehaviorAdapter {
          attackHandler = new AttackHandler(source, entityFactory);
       }
       super.update(source, delta);
+      attackHandler.update(delta);
       EntityMover mover = source.getAttribute(EntityMover.class);
       direction.x = playerObject.getLeft() - source.getLeft();
       direction.y = playerObject.getTop() - source.getTop();

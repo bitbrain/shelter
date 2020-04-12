@@ -1,5 +1,6 @@
 package de.bitbrain.shelter.model.weapon;
 
+import de.bitbrain.braingdx.util.Factory;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.Assets.Sounds;
 import de.bitbrain.shelter.Assets.Textures;
@@ -11,66 +12,71 @@ public enum WeaponType implements InventoryItem {
 
    AK47("AK 47",
          "A powerful distance weapon. Made in Russia.",
-         new Damage(5, 10),
+         new Damage(5, 10, 3, 3),
          0.15f,
          Rarity.RARE,
-         Textures.ICON_WEAPON_AK47,
+         0,
+         0,
          Textures.TILESET_WEAPON_AK47,
          Textures.MUNITION_AK47,
          Sounds.WEAPON_AK_47,
          Assets.Particles.SHOT_IMPACT,
-         new RangeAttackStrategy()
+         RangeType.LONG_RANGE
    ),
    ZOMBIE_BITE("Zombie Bite",
          "A sharp bite with long, moldy teeth. This hurts!",
-         new Damage(5, 30),
-         0.4f,
+         new Damage(5, 30, 3, 6),
+         0.7f,
          Rarity.COMMON,
          null,
          null,
          null,
          null,
+         null,
          Assets.Particles.BLOOD_IMPACT,
-         new CloseAttackStrategy()),
+         RangeType.CLOSE_RANGE),
    RUSTY_CROWBAR("Rusty Crowbar",
          "A rusty but intact crowbar. Made from cast iron.",
-         new Damage(8, 14),
-         0.9f,
+         new Damage(8, 14, 14, 8),
+         1f,
          Rarity.COMMON,
-         null,
+         1,
+         0,
          null,
          null,
          null,
          Assets.Particles.BLOOD_IMPACT,
-         new CloseAttackStrategy());
+         RangeType.CLOSE_RANGE);
 
    private final String name;
    private final String description;
-   private final String icon;
+   private final Integer iconIndexX;
+   private final Integer iconIndexY;
    private final String tileset;
    private final String attackTexture;
    private final String attackSoundFx;
    private final String impactParticleFx;
-   private final AttackStrategy attackStrategy;
+   private final RangeType rangeType;
    private final Rarity rarity;
    private final Damage damage;
    private final float speed;
 
-   WeaponType(String name, String description, Damage damage, float speed, Rarity rarity, String icon, String tileset, String attackTexture, String attackSoundFx, String impactParticleFx, AttackStrategy attackStrategy) {
+   WeaponType(String name, String description, Damage damage, float speed, Rarity rarity, Integer iconIndexX, Integer iconIndexY, String tileset, String attackTexture, String attackSoundFx, String impactParticleFx, RangeType rangeType) {
       this.name = name;
       this.description = description;
-      this.icon = icon;
+      this.iconIndexX = iconIndexX;
+      this.iconIndexY = iconIndexY;
       this.tileset = tileset;
       this.attackTexture = attackTexture;
       this.attackSoundFx = attackSoundFx;
       this.impactParticleFx = impactParticleFx;
-      this.attackStrategy = attackStrategy;
+      this.rangeType = rangeType;
       this.damage = damage;
       this.rarity = rarity;
       this.speed = speed;
    }
 
-   public String getWeaponTexture() {
+   public String getAttackTexture() {
       return attackTexture;
    }
 
@@ -104,20 +110,28 @@ public enum WeaponType implements InventoryItem {
       return attackSoundFx;
    }
 
-   public String getIcon() {
-      return icon;
+   public Integer getIconIndexX() {
+      return iconIndexX;
+   }
+
+   public Integer getIconIndexY() {
+      return iconIndexY;
    }
 
    public String getTileset() {
       return tileset;
    }
 
-   public AttackStrategy getAttackStrategy() {
-      return attackStrategy;
+   public Factory<AttackStrategy> getAttackStrategyFactory() {
+      return rangeType.getAttackStrategyFactory();
    }
 
    public String getImpactParticleFx() {
       return impactParticleFx;
+   }
+
+   public RangeType getRangeType() {
+      return rangeType;
    }
 
    private float computeDps() {

@@ -32,6 +32,7 @@ import de.bitbrain.shelter.graphics.RenderOrderComparator;
 import de.bitbrain.shelter.i18n.Messages;
 import de.bitbrain.shelter.input.ingame.IngameKeyboardAdapter;
 import de.bitbrain.shelter.model.*;
+import de.bitbrain.shelter.model.items.Inventory;
 import de.bitbrain.shelter.model.items.Item;
 import de.bitbrain.shelter.model.spawn.Spawner;
 import de.bitbrain.shelter.model.weapon.AttackHandler;
@@ -80,6 +81,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    @Override
    protected void onUpdate(float delta) {
       super.onUpdate(delta);
+      playerAttackHandler.update(delta);
       if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
          for (Spawner spawner : spawners) {
             spawner.spawn(context, playerObject);
@@ -166,8 +168,9 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 4f);
             context.getPhysicsManager().attachBody(bodyDef, fixtureDef, object);
 
-            // Give it a nice weapon
-            object.setAttribute(WeaponType.class, WeaponType.AK47);
+            // Initialise inventory
+            Inventory inventory = new Inventory(object);
+            inventory.addWeapon(WeaponType.RUSTY_CROWBAR);
             playerAttackHandler = new AttackHandler(object, entityFactory);
          } else if (object.getType().equals("SPAWNER") && !saveRoom) {
             int capacity = object.getAttribute("capacity", 1);
@@ -225,10 +228,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       Texture itemTexture = SharedAssetManager.getInstance().get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
       AnimationSpriteSheet itemSpriteSheet = new AnimationSpriteSheet(itemTexture, 9);
       for (WeaponType type : WeaponType.values()) {
-         if (type.getWeaponTexture() != null) {
+         if (type.getAttackTexture() != null) {
             context.getRenderManager().register(type, new BulletRenderer(type));
          }// else {
-          //  context.getRenderManager().register(type, new SpriteRenderer(createTexture(2, 2, Color.RED)));
+        //    context.getRenderManager().register(type, new SpriteRenderer(createTexture(2, 2, Color.RED)));
         // }
       }
       for (Item type : Item.values()) {

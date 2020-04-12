@@ -24,20 +24,26 @@ public class CloseAttackStrategy implements AttackStrategy {
          return;
       }
       final WeaponType weaponType = owner.getAttribute(WeaponType.class);
-      attackRateTimer.update(Gdx.graphics.getRawDeltaTime());
       if (attackRateTimer.reached(weaponType.getSpeed())) {
          final Vector2 direction = new Vector2();
          attackRateTimer.reset();
          float centerX = owner.getLeft() + owner.getWidth() / 2f;
          float centerY = owner.getTop() + owner.getHeight() / 2f;
-         final float radius = 16f;
+         final float radius = 8f;
 
          direction.set(1f, 0f);
          if (owner.hasAttribute(EntityMover.class)) {
             direction.setAngle(owner.getAttribute(EntityMover.class).getLookDirection().angle() - 180f);
          }
          direction.setLength(radius);
-         final GameObject telegraph = entityFactory.addDamageTelegraph(weaponType, centerX + direction.x, centerY + direction.y, 8f, 4f, owner.getRotation());
+         final GameObject telegraph = entityFactory.addDamageTelegraph(
+               weaponType,
+               centerX + direction.x,
+               centerY + direction.y,
+               weaponType.getDamage().getImpactWidth(),
+               weaponType.getDamage().getImpactHeight(),
+               owner.getRotation()
+         );
          Tween.call(new TweenCallback() {
             @Override
             public void onEvent(int type, BaseTween<?> source) {
@@ -48,5 +54,10 @@ public class CloseAttackStrategy implements AttackStrategy {
          context.getBehaviorManager().apply(new DamageBehavior(direction, telegraph, context, entityFactory), telegraph);
          telegraph.setAttribute("owner", owner);
       }
+   }
+
+   @Override
+   public void update(float delta) {
+      attackRateTimer.update(delta);
    }
 }

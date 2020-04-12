@@ -3,7 +3,6 @@ package de.bitbrain.shelter.model.weapon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.util.DeltaTimer;
@@ -11,11 +10,11 @@ import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.model.*;
 
-public class RangeAttackStrategy implements AttackStrategy {
+public class LongRangeAttackStrategy implements AttackStrategy {
 
    private final DeltaTimer attackRateTimer = new DeltaTimer();
 
-   public RangeAttackStrategy() {
+   public LongRangeAttackStrategy() {
       attackRateTimer.update(100f);
    }
 
@@ -25,7 +24,6 @@ public class RangeAttackStrategy implements AttackStrategy {
          return;
       }
       final WeaponType weaponType = owner.getAttribute(WeaponType.class);
-      attackRateTimer.update(Gdx.graphics.getRawDeltaTime());
       Ammo ammo = owner.getAttribute(Ammo.class);
       if (attackRateTimer.reached(weaponType.getSpeed())) {
          if (ammo == null || ammo.isMagazineEmpty()) {
@@ -69,5 +67,10 @@ public class RangeAttackStrategy implements AttackStrategy {
          }, bullet);
          attackRateTimer.reset();
       }
+   }
+
+   @Override
+   public void update(float delta) {
+      attackRateTimer.update(Gdx.graphics.getRawDeltaTime());
    }
 }

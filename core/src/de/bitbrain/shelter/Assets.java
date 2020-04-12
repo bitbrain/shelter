@@ -22,8 +22,8 @@ public interface Assets {
       String SHOOT_OVERLAY_SPRITESHEET = "textures/shoot-overlay-spritesheet.png";
       String SHADOW = "textures/shadow.png";
 
+      String ICONS = "textures/icons.png";
       String MUNITION_AK47 = "textures/ak47-munition.png";
-      String ICON_WEAPON_AK47 = "textures/icon-ak47.png";
       String TILESET_WEAPON_AK47 = "textures/weapon-ak47-spritesheet.png";
 
       String UI_EQUIP = "textures/ui-equip.9.png";
