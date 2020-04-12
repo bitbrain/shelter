@@ -7,7 +7,6 @@ public class Ammo {
 
    public Ammo(int maxAmmo) {
       this.maxAmmo = maxAmmo;
-      this.ammo = maxAmmo;
    }
 
    public void addAmmo(int ammo) {

@@ -32,7 +32,7 @@ public class DamageBehavior extends BehaviorAdapter {
    @Override
    public void update(GameObject source, float delta) {
       if (damageDealer.hasAttribute("eligible_for_removal")) {
-         context.getGameWorld().remove(damageDealer);
+         context.getGameWorld().remove(damageDealer.getId());
       }
       super.update(source, delta);
    }

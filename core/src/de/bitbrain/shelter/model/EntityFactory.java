@@ -56,7 +56,8 @@ public class EntityFactory {
    }
 
    public GameObject addItem(float x, float y, final Item item) {
-      GameObject itemObject = context.getGameWorld().addObject("npcs");
+      GameObject itemObject = context.getGameWorld().addObject("npcs", false);
+      final String itemObjectId = itemObject.getId();
       itemObject.setType(item);
       itemObject.setPosition(x, y);
       itemObject.setZIndex(99999f);
@@ -67,13 +68,12 @@ public class EntityFactory {
       context.getBehaviorManager().apply(new BehaviorAdapter() {
          @Override
          public void update(GameObject source, GameObject target, float delta) {
-            boolean isItem = item.equals(source.getType()) || item.equals(target.getType());
-            boolean isPlayer = "PLAYER".equals(source.getType()) || "PLAYER".equals(target.getType());
+            boolean isItem = source.getId().equals(itemObjectId);
+            boolean isPlayer = "PLAYER".equals(target.getType());
             if (source.collidesWith(target) && isItem && isPlayer) {
                GameObject player = "PLAYER".equals(source.getType()) ? source : target;
-               GameObject itemObject = "PLAYER".equals(source.getType()) ? target : source;
                if (item.getCollectEffect().onCollect(item, player, context)) {
-                  context.getGameWorld().remove(itemObject);
+                  context.getGameWorld().remove(itemObjectId);
                }
             }
          }
@@ -92,7 +92,7 @@ public class EntityFactory {
    }
 
    public GameObject addZombie(float x, float y) {
-      GameObject zombie = context.getGameWorld().addObject("npcs");
+      GameObject zombie = context.getGameWorld().addObject("npcs", false);
       zombie.setAttribute(HealthData.class, new HealthData(35));
       zombie.setType("ZOMBIE");
       zombie.setPosition(x, y);
@@ -107,9 +107,9 @@ public class EntityFactory {
       zombie.setAttribute(EntityMover.class, entityMover);
       zombie.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
       LootTable lootTable = new LootTable();
-      lootTable.add(Item.AK47, 0.01f);
-      lootTable.add(Item.AMMO, 0.1f);
-      lootTable.add(Item.MEDIKIT, 0.1f);
+      lootTable.add(Item.AK47_ITEM, 0.01f);
+      lootTable.add(Item.AMMO_ITEM, 0.1f);
+      lootTable.add(Item.MEDIKIT_ITEM, 0.1f);
       zombie.setAttribute(LootTable.class, lootTable);
       context.getBehaviorManager().apply(entityMover, zombie);
       context.getBehaviorManager().apply(new ZombieBehavior(playerObjectSupplier.supply(), context, entityMover, this), zombie);
@@ -145,7 +145,7 @@ public class EntityFactory {
             light.setPosition(target.getLeft(), target.getTop());
             context.getLightingManager().attach(light, target, 1f, 1f);
          }
-      });
+      }, false);
    }
 
    public GameObject addDamageTelegraph(final WeaponType type, final float centerX, final float centerY, final float width, final float height, final float rotation) {
@@ -159,6 +159,6 @@ public class EntityFactory {
             target.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
 
          }
-      });
+      }, false);
    }
 }

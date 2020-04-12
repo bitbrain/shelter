@@ -31,9 +31,6 @@ public class ZombieBehavior extends BehaviorAdapter {
 
    @Override
    public void update(GameObject source, float delta) {
-      if (source.getType() == null) {
-         source.setType("ZOMBIE");
-      }
       tmp.x = playerObject.getLeft() - source.getLeft();
       tmp.y = playerObject.getTop() - source.getTop();
       if (tmp.len() <= AGGRO_RANGE) {

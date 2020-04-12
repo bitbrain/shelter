@@ -1,6 +1,7 @@
 package de.bitbrain.shelter.model.items;
 
 import de.bitbrain.braingdx.world.GameObject;
+import de.bitbrain.shelter.model.Ammo;
 import de.bitbrain.shelter.model.weapon.RangeType;
 import de.bitbrain.shelter.model.weapon.WeaponType;
 
@@ -14,10 +15,19 @@ public class Inventory {
    private final Map<RangeType, List<WeaponType>> availableWeapons = new HashMap<RangeType, List<WeaponType>>();
    private final Map<RangeType, Integer> selectedIndices = new HashMap<RangeType, Integer>();
 
-   private final GameObject owner;
+   private GameObject owner;
+   private final Ammo ammo;
+   private RangeType currentlyEquippedType;
 
-   public Inventory(GameObject owner) {
+   public Inventory() {
+      this.ammo = new Ammo(200);
+   }
+
+   public void setOwner(GameObject owner) {
       this.owner = owner;
+      if (currentlyEquippedType != null) {
+         equipSelected(currentlyEquippedType);
+      }
    }
 
    public boolean addWeapon(WeaponType weapon) {
@@ -34,9 +44,16 @@ public class Inventory {
       equipSelected(weapon.getRangeType());
       return true;
    }
+   
+   public Ammo getAmmo() {
+      return ammo;
+   }
 
    public void equipSelected(RangeType rangeType) {
-      owner.setAttribute(WeaponType.class, getSelectedWeapon(rangeType));
+      if (owner != null) {
+         owner.setAttribute(WeaponType.class, getSelectedWeapon(rangeType));
+         currentlyEquippedType = rangeType;
+      }
    }
 
    public WeaponType getSelectedWeapon(RangeType rangeType) {

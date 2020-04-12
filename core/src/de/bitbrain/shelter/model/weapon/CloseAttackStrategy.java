@@ -18,7 +18,7 @@ public class CloseAttackStrategy implements AttackStrategy {
    private final DeltaTimer attackRateTimer = new DeltaTimer();
 
    @Override
-   public void attack(GameObject owner, final GameContext2D context, EntityFactory entityFactory) {
+   public void attack(final GameObject owner, final GameContext2D context, final EntityFactory entityFactory) {
       if (owner.hasAttribute(HealthData.class) && owner.getAttribute(HealthData.class).isDead()) {
          return;
       }
@@ -26,8 +26,6 @@ public class CloseAttackStrategy implements AttackStrategy {
       if (attackRateTimer.reached(weaponType.getSpeed())) {
          final Vector2 direction = new Vector2();
          attackRateTimer.reset();
-         float centerX = owner.getLeft() + owner.getWidth() / 2f;
-         float centerY = owner.getTop() + owner.getHeight() / 2f;
          final float radius = 8f;
 
          direction.set(1f, 0f);
@@ -35,24 +33,42 @@ public class CloseAttackStrategy implements AttackStrategy {
             direction.setAngle(owner.getAttribute(EntityMover.class).getLookDirection().angle() - 180f);
          }
          direction.setLength(radius);
-         final GameObject telegraph = entityFactory.addDamageTelegraph(
-               weaponType,
-               centerX + direction.x,
-               centerY + direction.y,
-               weaponType.getDamage().getImpactWidth(),
-               weaponType.getDamage().getImpactHeight(),
-               owner.getRotation()
-         );
-         Tween.call(new TweenCallback() {
-            @Override
-            public void onEvent(int type, BaseTween<?> source) {
-               context.getGameWorld().remove(telegraph);
-            }
-         }).delay(0.1f)
-           .start(SharedTweenManager.getInstance());
-         context.getBehaviorManager().apply(new DamageBehavior(direction, telegraph, context), telegraph);
-         telegraph.setAttribute("owner", owner);
+         if (weaponType.getDamage().getDamageDelay() > 0f) {
+            Tween.call(new TweenCallback() {
+               @Override
+               public void onEvent(int type, BaseTween<?> source) {
+                  spawnTelegraph(context, owner, direction, weaponType, entityFactory);
+               }
+            }).delay(weaponType.getDamage().getDamageDelay())
+                  .start(SharedTweenManager.getInstance());
+         } else {
+            spawnTelegraph(context, owner, direction, weaponType, entityFactory);
+         }
+
       }
+   }
+
+   private void spawnTelegraph(final GameContext2D context, GameObject owner, Vector2 direction, WeaponType weaponType, EntityFactory entityFactory) {
+      float centerX = owner.getLeft() + owner.getWidth() / 2f;
+      float centerY = owner.getTop() + owner.getHeight() / 2f;
+      final GameObject telegraph = entityFactory.addDamageTelegraph(
+            weaponType,
+            centerX + direction.x,
+            centerY + direction.y,
+            weaponType.getDamage().getImpactWidth(),
+            weaponType.getDamage().getImpactHeight(),
+            owner.getRotation()
+      );
+      final String id = telegraph.getId();
+      Tween.call(new TweenCallback() {
+         @Override
+         public void onEvent(int type, BaseTween<?> source) {
+            context.getGameWorld().remove(id);
+         }
+      }).delay(0.1f)
+            .start(SharedTweenManager.getInstance());
+      context.getBehaviorManager().apply(new DamageBehavior(direction, telegraph, context), telegraph);
+      telegraph.setAttribute("owner", owner);
    }
 
    @Override

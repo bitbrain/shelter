@@ -46,7 +46,6 @@ import de.bitbrain.shelter.util.Supplier;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.bitbrain.braingdx.graphics.GraphicsFactory.createTexture;
 import static de.bitbrain.shelter.ThemeColors.AMBIENT;
 import static de.bitbrain.shelter.animation.AnimationTypes.STANDING_SOUTH;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
@@ -64,18 +63,26 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    private final List<GameObject> originalBarrels = new ArrayList<>();
    private final String tiledMapPath;
    private final String alternativeMapPath;
+   private final Inventory existingInventory;
+   private final HealthData existingHealthData;
    private boolean saveRoom;
    private boolean entered;
 
    public IngameScreen(ShelterGame game, String tiledMapPath) {
-      this(game, tiledMapPath, null);
+      this(game, tiledMapPath, null, null);
    }
 
 
-   public IngameScreen(ShelterGame game, String tiledMapPath, String alternativeMapPath) {
+   public IngameScreen(ShelterGame game, String tiledMapPath, Inventory inventory, HealthData healthData) {
+      this(game, tiledMapPath, inventory, healthData, null);
+   }
+
+   public IngameScreen(ShelterGame game, String tiledMapPath, Inventory inventory, HealthData healthData, String alternativeMapPath) {
       super(game);
       this.tiledMapPath = tiledMapPath;
+      this.existingInventory = inventory;
       this.alternativeMapPath = alternativeMapPath;
+      this.existingHealthData = healthData;
    }
 
    @Override
@@ -99,7 +106,6 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
          }
          entered = false;
          playerObject.setActive(true);
-         playerObject.getAttribute(Ammo.class).reset();
          playerObject.getAttribute(HealthData.class).reset();
          playerObject.getAttribute(Body.class).setTransform(spawnPoint.x, spawnPoint.y, 0f);
          context.getScreenTransitions().in(0.5f);
@@ -149,8 +155,6 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             object.setScaleX(4f);
             object.setScaleY(4f);
             object.setOffset(-12f, -4f);
-            object.setAttribute(HealthData.class, new HealthData(500));
-            object.setAttribute(Ammo.class, new Ammo(200));
             object.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
 
             // Setup camera tracking
@@ -169,8 +173,12 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             context.getPhysicsManager().attachBody(bodyDef, fixtureDef, object);
 
             // Initialise inventory
-            Inventory inventory = new Inventory(object);
-            inventory.addWeapon(WeaponType.AK47);
+            Inventory inventory = existingInventory != null ? existingInventory : new Inventory();
+            inventory.setOwner(playerObject);
+            object.setAttribute(Ammo.class, inventory.getAmmo());
+            object.setAttribute(HealthData.class, existingHealthData != null ? existingHealthData :
+                  new HealthData(500));
+            inventory.addWeapon(WeaponType.RUSTY_CROWBAR);
             object.setAttribute(Inventory.class, inventory);
             playerAttackHandler = new AttackHandler(object, entityFactory);
          } else if (object.getType().equals("SPAWNER") && !saveRoom) {
@@ -189,7 +197,13 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                         playerObject.setActive(false);
                         String next = object.getAttribute("next", String.class);
                         context.getAudioManager().spawnSound(Assets.Sounds.DOOR_OPEN, source.getLeft(), source.getTop(), 1f, 0.5f, 1200);
-                        context.getScreenTransitions().out(new IngameScreen(getGame(), Assets.TiledMaps.SHELTER, next), 0.3f);
+                        context.getScreenTransitions().out(new IngameScreen(
+                              getGame(),
+                              Assets.TiledMaps.SHELTER,
+                              playerObject.getAttribute(Inventory.class),
+                              playerObject.getAttribute(HealthData.class),
+                              next
+                        ), 0.3f);
                      }
                   }
                }
@@ -206,7 +220,12 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                            context.getBehaviorManager().clear();
                            playerObject.setActive(false);
                            context.getAudioManager().spawnSound(Assets.Sounds.DOOR_SHUT, source.getLeft(), source.getTop(), 1f, 0.5f, 1200);
-                           context.getScreenTransitions().out(new IngameScreen(getGame(), alternativeMapPath), 0.3f);
+                           context.getScreenTransitions().out(new IngameScreen(
+                                 getGame(),
+                                 alternativeMapPath,
+                                 playerObject.getAttribute(Inventory.class),
+                                 playerObject.getAttribute(HealthData.class)
+                           ), 0.3f);
                         }
                      }
                   }
@@ -233,8 +252,8 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
          if (type.getAttackTexture() != null) {
             context.getRenderManager().register(type, new BulletRenderer(type));
          }// else {
-        //    context.getRenderManager().register(type, new SpriteRenderer(createTexture(2, 2, Color.RED)));
-        // }
+         //    context.getRenderManager().register(type, new SpriteRenderer(createTexture(2, 2, Color.RED)));
+         // }
       }
       for (Item type : Item.values()) {
          context.getRenderManager().register(type, new AnimationRenderer(itemSpriteSheet, AnimationConfig.builder()
@@ -298,7 +317,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       inventoryTooltip.setColor(1f, 1f, 1f, 0f);
 
       InventoryUI inventoryUI = new InventoryUI(playerObject, context.getGameCamera());
-      inventoryUI.setDebug(true);
+      inventoryUI.setDebug(false);
       inventoryUI.setWidth(16f);
       inventoryUI.setHeight(16f);
       inventoryUI.setPosition(32f, 16f);

@@ -6,10 +6,10 @@ import de.bitbrain.shelter.model.weapon.WeaponType;
 
 public enum Item {
 
-   AMMO("Ammo", new AmmoCollectEffect(), 1, Color.valueOf("ffcf66cc"), Assets.Particles.AMMO),
-   MEDIKIT("Medikit", new MedikitCollectEffect(), 0, Color.valueOf("ff0011bb"), Assets.Particles.MEDIPACK),
-   RUSTY_CROWBAR(WeaponType.RUSTY_CROWBAR.getName(), new WeaponCollectEffect(WeaponType.RUSTY_CROWBAR), 2, Color.valueOf("ff0011bb"), Assets.Particles.MEDIPACK),
-   AK47(WeaponType.AK47.getName(), new WeaponCollectEffect(WeaponType.AK47), 3, Color.valueOf("ff0011bb"), Assets.Particles.MEDIPACK);
+   AMMO_ITEM("Ammo", new AmmoCollectEffect(), 1, Color.valueOf("ffcf66cc"), Assets.Particles.AMMO),
+   MEDIKIT_ITEM("Medikit", new MedikitCollectEffect(), 0, Color.valueOf("ff0011bb"), Assets.Particles.MEDIPACK),
+   RUSTY_CROWBAR_ITEM(WeaponType.RUSTY_CROWBAR.getName(), new WeaponCollectEffect(WeaponType.RUSTY_CROWBAR), 2, Color.valueOf("ff0011bb"), Assets.Particles.MEDIPACK),
+   AK47_ITEM(WeaponType.AK47.getName(), new WeaponCollectEffect(WeaponType.AK47), 3, Color.valueOf("ff0011bb"), Assets.Particles.MEDIPACK);
 
    private final String name;
    private final CollectEffect collectEffect;

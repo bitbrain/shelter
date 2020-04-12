@@ -46,13 +46,13 @@ public class ExplosionBehavior extends BehaviorAdapter {
       }
       triggered = true;
       context.getGameCamera().shake(5f, 2f);
+      final String id = barrel.getId();
       Tween.call(new TweenCallback() {
          @Override
          public void onEvent(int type, BaseTween<?> source) {
             for (GameObject o : context.getGameWorld().getObjects()) {
                // check if object is in range
                final float range = tmp.set(o.getPosition()).sub(barrel.getPosition()).len();
-               System.out.println(range);
                if (range <= explosionRadius && o.hasAttribute(HealthData.class)) {
                   o.getAttribute(HealthData.class).reduceHealth(explosionDamage);
                }
@@ -65,7 +65,7 @@ public class ExplosionBehavior extends BehaviorAdapter {
             .setCallback(new TweenCallback() {
                @Override
                public void onEvent(int type, BaseTween<?> source) {
-                  context.getGameWorld().remove(barrel);
+                  context.getGameWorld().remove(id);
                }
             }).start(SharedTweenManager.getInstance());
       final PointLight light = context.getLightingManager().createPointLight(explosionRadius * 3f, Color.valueOf("ff6f00"));

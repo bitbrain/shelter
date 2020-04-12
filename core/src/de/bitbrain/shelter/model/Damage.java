@@ -8,8 +8,9 @@ public class Damage {
    private final int max;
    private final float impactWidth;
    private final float impactHeight;
+   private final float damageDelay;
 
-   public Damage(int min, int max, float impactWidth, float impactHeight) {
+   public Damage(int min, int max, float impactWidth, float impactHeight, float damageDelay) {
       if (min >= max) {
          throw new GdxRuntimeException("Invalid damage min/max value! min must be smaller than max");
       }
@@ -17,6 +18,11 @@ public class Damage {
       this.max = max;
       this.impactWidth = impactWidth;
       this.impactHeight = impactHeight;
+      this.damageDelay = damageDelay;
+   }
+
+   public float getDamageDelay() {
+      return damageDelay;
    }
 
    public int get() {
