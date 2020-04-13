@@ -11,9 +11,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.utils.Array;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
+import de.bitbrain.braingdx.debug.DebugMetric;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.animation.*;
 import de.bitbrain.braingdx.graphics.lighting.LightingConfig;
@@ -114,6 +116,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
 
    @Override
    protected void onCreate(GameContext2D context) {
+      context.setDebug(true);
       context.setBackgroundColor(ThemeColors.BACKGROUND);
       context.getScreenTransitions().in(2.5f);
       setupLighting(context);
@@ -141,8 +144,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                Messages.STORY_OUTRO_2,
                Messages.STORY_OUTRO_3
          ), 3f);
-      }
-      for (final GameObject object : context.getGameWorld().getObjects()) {
+      };
+      Array<GameObject> objects = new Array<GameObject>(context.getGameWorld().getObjects());
+      for (int i = 0; i < objects.size; ++i) {
+         final GameObject object = objects.get(i);
          if ("PLAYER".equals(object.getType())) {
             this.playerObject = object;
             playerObject.setAttribute(MaterialType.class, MaterialType.FLESH);
@@ -323,8 +328,21 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       inventoryUI.setPosition(32f, 16f);
 
       context.getWorldStage().addActor(inventoryUI);
-
       context.getWorldStage().addActor(inventoryTooltip);
+
+      // Debug UI
+      context.getDebugPanel().addMetric("player position", new DebugMetric() {
+         @Override
+         public String getCurrentValue() {
+            return "x=" + playerObject.getLeft() + ", y=" + playerObject.getTop();
+         }
+      });
+      context.getDebugPanel().addMetric("player size", new DebugMetric() {
+         @Override
+         public String getCurrentValue() {
+            return "width=" + playerObject.getWidth() + ", height=" + playerObject.getHeight();
+         }
+      });
 
    }
 

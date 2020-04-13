@@ -55,7 +55,6 @@ public class HealthCheckBehavior extends BehaviorAdapter {
                entityFactory.addItem(target.getLeft(), target.getTop(), item);
             }
          }
-         System.out.println("Remove target " + target);
          context.getBehaviorManager().remove(target);
       }
    }

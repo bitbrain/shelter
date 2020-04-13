@@ -17,7 +17,11 @@ public class DesktopLauncher {
 		config.audioDeviceBufferSize = 1024;
 		config.audioDeviceSimultaneousSources = 32;
 		setApplicationIcon(config);
-		new LwjglApplication(new ShelterGame(args), config);
+		try {
+			new LwjglApplication(new ShelterGame(args), config);
+		} catch (OutOfMemoryError err) {
+			err.printStackTrace();
+		}
 	}
 
 	private static void setApplicationIcon(LwjglApplicationConfiguration config) {

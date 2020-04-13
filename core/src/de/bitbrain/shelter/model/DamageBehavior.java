@@ -52,7 +52,7 @@ public class DamageBehavior extends BehaviorAdapter {
          return;
       }
       GameObject owner = (GameObject) damageDealer.getAttribute("owner");
-      if (owner.getType().equals(target.getType())) {
+      if (owner.getType() == null || owner.getType().equals(target.getType())) {
          return;
       }
       if (target.getType() instanceof Item) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="46">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="48">
  <tileset firstgid="1" name="tileset-forest" tilewidth="16" tileheight="16" tilecount="64" columns="8">
   <image source="tileset-forest.png" width="128" height="128"/>
   <terraintypes>
@@ -56,19 +56,19 @@
     <property name="lighting.range" type="float" value="220"/>
    </properties>
   </object>
-  <object id="4" name="Spawner" type="SPAWNER" x="57.98" y="550.16" width="208.559" height="229.228">
+  <object id="4" name="Spawner" type="SPAWNER" x="31.3133" y="284.827" width="417.892" height="545.228">
    <properties>
     <property name="capacity" type="int" value="10"/>
    </properties>
   </object>
-  <object id="9" name="Spawner" type="SPAWNER" x="136.261" y="879.799" width="679.392" height="108.229">
+  <object id="9" name="Spawner" type="SPAWNER" x="10.9277" y="853.132" width="999.392" height="163.562">
    <properties>
-    <property name="capacity" type="int" value="20"/>
+    <property name="capacity" type="int" value="100"/>
    </properties>
   </object>
-  <object id="10" name="Spawner" type="SPAWNER" x="637.464" y="527.236" width="293.059" height="237.728">
+  <object id="10" name="Spawner" type="SPAWNER" x="523.131" y="455.403" width="495.059" height="391.728">
    <properties>
-    <property name="capacity" type="int" value="10"/>
+    <property name="capacity" type="int" value="50"/>
    </properties>
   </object>
   <object id="11" x="-1.04914" y="-1.90421" width="4.898" height="1026.58">
@@ -91,14 +91,14 @@
     <property name="physics.enabled" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="15" name="Spawner" type="SPAWNER" x="639.47" y="47.3853" width="317.559" height="299.728">
+  <object id="15" name="Spawner" type="SPAWNER" x="550.803" y="20.7186" width="456.226" height="491.728">
    <properties>
-    <property name="capacity" type="int" value="20"/>
+    <property name="capacity" type="int" value="10"/>
    </properties>
   </object>
-  <object id="17" name="Spawner" type="SPAWNER" x="179.137" y="158.886" width="237.559" height="289.728">
+  <object id="17" name="Spawner" type="SPAWNER" x="137.804" y="12.2193" width="400.226" height="429.728">
    <properties>
-    <property name="capacity" type="int" value="20"/>
+    <property name="capacity" type="int" value="8"/>
    </properties>
   </object>
   <object id="18" type="SHELTER" x="473.273" y="681.909" width="43.2727" height="44.7273">
@@ -183,6 +183,12 @@
    <point/>
   </object>
   <object id="45" name="BARELL" type="BARREL" x="818" y="392">
+   <point/>
+  </object>
+  <object id="46" name="BARELL" type="BARREL" x="543.333" y="898.667">
+   <point/>
+  </object>
+  <object id="47" name="BARELL" type="BARREL" x="558.667" y="926.333">
    <point/>
   </object>
  </objectgroup>

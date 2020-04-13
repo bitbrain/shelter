@@ -8,6 +8,7 @@ import de.bitbrain.braingdx.BrainGdxGame;
 import de.bitbrain.braingdx.GameSettings;
 import de.bitbrain.braingdx.assets.GameAssetLoader;
 import de.bitbrain.braingdx.assets.SmartAssetLoader;
+import de.bitbrain.braingdx.debug.BrainGdxDebug;
 import de.bitbrain.braingdx.event.GameEventManagerImpl;
 import de.bitbrain.braingdx.graphics.GraphicsSettings;
 import de.bitbrain.braingdx.graphics.postprocessing.filters.RadialBlur;
@@ -56,6 +57,7 @@ public class ShelterGame extends BrainGdxGame {
       configureSettings();
       Bundle.load();
       Styles.init();
+      BrainGdxDebug.setLabelStyle(Styles.LABEL_DEBUG);
       return new LogoScreen(this);
    }
 

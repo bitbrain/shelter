@@ -7,6 +7,7 @@ import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.tweens.*;
@@ -50,7 +51,9 @@ public class ExplosionBehavior extends BehaviorAdapter {
       Tween.call(new TweenCallback() {
          @Override
          public void onEvent(int type, BaseTween<?> source) {
-            for (GameObject o : context.getGameWorld().getObjects()) {
+            Array<GameObject> objects = new Array<GameObject>(context.getGameWorld().getObjects());
+            for (int i = 0; i < objects.size; ++i) {
+               GameObject o = objects.get(i);
                // check if object is in range
                final float range = tmp.set(o.getPosition()).sub(barrel.getPosition()).len();
                if (range <= explosionRadius && o.hasAttribute(HealthData.class)) {
