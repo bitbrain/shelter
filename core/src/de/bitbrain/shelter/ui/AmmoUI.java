@@ -13,8 +13,8 @@ import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.braingdx.util.Colors;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
-import de.bitbrain.shelter.model.Ammo;
-import de.bitbrain.shelter.model.weapon.WeaponType;
+import de.bitbrain.shelter.core.model.Ammo;
+import de.bitbrain.shelter.core.weapon.WeaponType;
 
 public class AmmoUI extends Actor {
 

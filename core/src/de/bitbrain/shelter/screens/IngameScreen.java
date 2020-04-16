@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
@@ -22,26 +25,34 @@ import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
 import de.bitbrain.braingdx.graphics.renderer.SpriteRenderer;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.tmx.TiledMapContext;
+import de.bitbrain.braingdx.util.Enabler;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
 import de.bitbrain.shelter.ThemeColors;
 import de.bitbrain.shelter.animation.AlwaysAnimationEnabler;
+import de.bitbrain.shelter.animation.EntityAnimationRenderer;
+import de.bitbrain.shelter.behavior.ChestBehavior;
+import de.bitbrain.shelter.behavior.HealthCheckBehavior;
+import de.bitbrain.shelter.core.EntityFactory;
+import de.bitbrain.shelter.core.EntityMover;
+import de.bitbrain.shelter.core.items.Inventory;
+import de.bitbrain.shelter.core.items.Item;
+import de.bitbrain.shelter.core.model.Ammo;
+import de.bitbrain.shelter.core.model.ChestStatus;
+import de.bitbrain.shelter.core.model.HealthData;
+import de.bitbrain.shelter.core.model.MaterialType;
+import de.bitbrain.shelter.core.spawn.Spawner;
+import de.bitbrain.shelter.core.weapon.AttackHandler;
+import de.bitbrain.shelter.core.weapon.WeaponType;
 import de.bitbrain.shelter.graphics.BulletRenderer;
-import de.bitbrain.shelter.graphics.EntityAnimationRenderer;
-import de.bitbrain.shelter.graphics.RenderOrderComparator;
 import de.bitbrain.shelter.i18n.Messages;
 import de.bitbrain.shelter.input.ingame.IngameKeyboardAdapter;
-import de.bitbrain.shelter.model.*;
-import de.bitbrain.shelter.model.items.Inventory;
-import de.bitbrain.shelter.model.items.Item;
-import de.bitbrain.shelter.model.spawn.Spawner;
-import de.bitbrain.shelter.model.weapon.AttackHandler;
-import de.bitbrain.shelter.model.weapon.WeaponType;
 import de.bitbrain.shelter.ui.AmmoUI;
 import de.bitbrain.shelter.ui.HealthUI;
 import de.bitbrain.shelter.ui.InventoryTooltip;
 import de.bitbrain.shelter.ui.InventoryUI;
+import de.bitbrain.shelter.util.RenderOrderComparator;
 import de.bitbrain.shelter.util.Supplier;
 
 import java.util.ArrayList;
@@ -143,7 +154,8 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                Messages.STORY_OUTRO_2,
                Messages.STORY_OUTRO_3
          ), 3f);
-      };
+      }
+      ;
       Array<GameObject> objects = new Array<GameObject>(context.getGameWorld().getObjects());
       for (int i = 0; i < objects.size; ++i) {
          final GameObject object = objects.get(i);
@@ -241,6 +253,8 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             entityFactory.addBarrel(object);
             context.getGameWorld().remove(object);
          } else if (object.getType().equals("CHEST")) {
+            object.setAttribute(ChestStatus.class, ChestStatus.CLOSED);
+            context.getBehaviorManager().apply(new ChestBehavior(context.getGameCamera().getInternalCamera(), entityFactory), object);
             object.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
             BodyDef bodyDef = createBodyDef(object);
             bodyDef.position.set(object.getLeft(), object.getTop());
@@ -303,14 +317,41 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       Texture miscTexture = SharedAssetManager.getInstance().get(Assets.Textures.MISC_SPRITESHEET, Texture.class);
       AnimationSpriteSheet miscSpritesheet = new AnimationSpriteSheet(miscTexture, 32);
       context.getRenderManager().register("CHEST", new AnimationRenderer(miscSpritesheet, AnimationConfig.builder()
-            .registerFrames(AnimationFrames.builder()
-                  .playMode(Animation.PlayMode.LOOP_PINGPONG)
-                  .duration(0.06f)
-                  .frames(8)
+            .registerFrames(ChestStatus.CLOSED, AnimationFrames.builder()
+                  .playMode(Animation.PlayMode.NORMAL)
+                  .duration(1f)
+                  .frames(1)
+                  .resetIndex(0)
                   .origin(0, 0)
                   .direction(AnimationFrames.Direction.HORIZONTAL)
                   .build())
-            .build(), new AlwaysAnimationEnabler()).size(32, 32).offset(-15f, -3f));
+            .registerFrames(ChestStatus.OPENING, AnimationFrames.builder()
+                  .playMode(Animation.PlayMode.NORMAL)
+                  .duration(0.1f)
+                  .frames(8)
+                  .resetIndex(0)
+                  .origin(0, 0)
+                  .direction(AnimationFrames.Direction.HORIZONTAL)
+                  .build())
+            .registerFrames(ChestStatus.CLOSING, AnimationFrames.builder()
+                  .playMode(Animation.PlayMode.REVERSED)
+                  .duration(0.1f)
+                  .frames(8)
+                  .resetIndex(0)
+                  .origin(0, 0)
+                  .direction(AnimationFrames.Direction.HORIZONTAL)
+                  .build())
+            .build(), new AnimationTypeResolver<GameObject>() {
+         @Override
+         public Object getAnimationType(GameObject object) {
+            return object.getAttribute(ChestStatus.class);
+         }
+      }, new Enabler<GameObject>() {
+         @Override
+         public boolean isEnabledFor(GameObject target) {
+            return target.getAttribute(ChestStatus.class).equals(ChestStatus.OPENING);
+         }
+      }).size(32, 32).offset(-15f, -3f));
 
 
       context.getRenderPipeline().moveAfter(RenderPipeIds.LIGHTING, RenderPipeIds.PARTICLES);

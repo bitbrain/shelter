@@ -7,26 +7,21 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
-import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
-import de.bitbrain.braingdx.graphics.postprocessing.AutoReloadPostProcessorEffect;
-import de.bitbrain.braingdx.graphics.postprocessing.effects.Bloom;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.screens.AbstractScreen;
 import de.bitbrain.braingdx.tweens.ActorTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
-import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
 import de.bitbrain.shelter.i18n.Bundle;
 import de.bitbrain.shelter.i18n.Messages;
-import de.bitbrain.shelter.model.story.StoryTeller;
+import de.bitbrain.shelter.core.story.StoryTeller;
 import de.bitbrain.shelter.ui.Styles;
 
 public class StoryScreen extends BrainGdxScreen2D<ShelterGame> {

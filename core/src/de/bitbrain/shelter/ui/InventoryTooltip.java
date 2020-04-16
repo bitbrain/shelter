@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.shelter.Assets;
-import de.bitbrain.shelter.model.items.InventoryItem;
+import de.bitbrain.shelter.core.items.InventoryItem;
 
 public class InventoryTooltip extends Table {
 

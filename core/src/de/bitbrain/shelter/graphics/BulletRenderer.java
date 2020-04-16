@@ -12,8 +12,8 @@ import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
 import de.bitbrain.braingdx.graphics.renderer.SpriteRenderer;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
-import de.bitbrain.shelter.model.Ammo;
-import de.bitbrain.shelter.model.weapon.WeaponType;
+import de.bitbrain.shelter.core.model.Ammo;
+import de.bitbrain.shelter.core.weapon.WeaponType;
 
 public class BulletRenderer extends SpriteRenderer {
 

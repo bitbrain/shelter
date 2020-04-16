@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.world.GameObject;
-import de.bitbrain.shelter.model.EntityFactory;
-import de.bitbrain.shelter.model.EntityMover;
-import de.bitbrain.shelter.model.weapon.AttackHandler;
+import de.bitbrain.shelter.core.EntityFactory;
+import de.bitbrain.shelter.core.EntityMover;
+import de.bitbrain.shelter.core.weapon.AttackHandler;
 
 public class ChasingBehavior extends BehaviorAdapter {
 

@@ -3,7 +3,7 @@ package de.bitbrain.shelter.ai;
 import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.world.GameObject;
-import de.bitbrain.shelter.model.EntityMover;
+import de.bitbrain.shelter.core.EntityMover;
 
 public class RandomMovementBehavior extends BehaviorAdapter {
 

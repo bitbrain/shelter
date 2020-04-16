@@ -14,8 +14,6 @@ public interface Assets {
       String ICON = "textures/icon.png";
       String LOGO = "textures/bitbrain-logo.png";
 
-      String CROSSHAIR = "textures/crosshair.png";
-
       String PLAYER_SPRITESHEET = "textures/player-spritesheet.png";
       String ZOMBIE_SPRITESHEET = "textures/zombie-spritesheet.png";
       String ITEMS_SPRITESHEET = "textures/items-spritesheet.png";
@@ -30,6 +28,10 @@ public interface Assets {
       String UI_HEALTH = "textures/ui-health.9.png";
       String UI_HEALTH_ACTIVE = "textures/ui-health-active.9.png";
       String BARREL = "textures/barrel.png";
+
+      String CURSOR_CROSSHAIR = "textures/cursor-crosshair.png";
+      String CURSOR_FORBIDDEN = "textures/cursor-forbidden.png";
+      String CURSOR_CHEST = "textures/cursor-chest.png";
    }
 
    interface Particles {

@@ -192,6 +192,9 @@
    <point/>
   </object>
   <object id="48" name="AK-47" type="CHEST" x="62.4773" y="124.273">
+   <properties>
+    <property name="item" value="AK47, AMMO, AMMO"/>
+   </properties>
    <point/>
   </object>
  </objectgroup>

@@ -2,7 +2,7 @@ package de.bitbrain.shelter.animation;
 
 import de.bitbrain.braingdx.util.Enabler;
 import de.bitbrain.braingdx.world.GameObject;
-import de.bitbrain.shelter.model.HealthData;
+import de.bitbrain.shelter.core.model.HealthData;
 
 public class AlwaysAnimationEnabler implements Enabler<GameObject> {
 

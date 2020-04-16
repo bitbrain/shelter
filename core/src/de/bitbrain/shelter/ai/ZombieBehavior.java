@@ -6,8 +6,8 @@ import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.audio.JukeBox;
-import de.bitbrain.shelter.model.EntityFactory;
-import de.bitbrain.shelter.model.EntityMover;
+import de.bitbrain.shelter.core.EntityFactory;
+import de.bitbrain.shelter.core.EntityMover;
 
 public class ZombieBehavior extends BehaviorAdapter {
 

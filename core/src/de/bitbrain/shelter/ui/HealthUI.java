@@ -2,15 +2,13 @@ package de.bitbrain.shelter.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.shelter.Assets;
-import de.bitbrain.shelter.model.HealthData;
+import de.bitbrain.shelter.core.model.HealthData;
 
 import static de.bitbrain.shelter.ui.Styles.bake;
 

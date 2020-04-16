@@ -11,7 +11,7 @@ import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
-import de.bitbrain.shelter.model.weapon.WeaponType;
+import de.bitbrain.shelter.core.weapon.WeaponType;
 
 import java.util.HashMap;
 import java.util.Map;

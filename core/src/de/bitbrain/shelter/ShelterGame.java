@@ -2,8 +2,6 @@ package de.bitbrain.shelter;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Cursor;
-import com.badlogic.gdx.graphics.Pixmap;
 import de.bitbrain.braingdx.BrainGdxGame;
 import de.bitbrain.braingdx.GameSettings;
 import de.bitbrain.braingdx.assets.GameAssetLoader;
@@ -14,15 +12,10 @@ import de.bitbrain.braingdx.graphics.GraphicsSettings;
 import de.bitbrain.braingdx.graphics.postprocessing.filters.RadialBlur;
 import de.bitbrain.braingdx.screens.AbstractScreen;
 import de.bitbrain.shelter.i18n.Bundle;
-import de.bitbrain.shelter.screens.IngameScreen;
 import de.bitbrain.shelter.screens.LogoScreen;
+import de.bitbrain.shelter.ui.CursorUtils;
 import de.bitbrain.shelter.ui.Styles;
 import org.apache.commons.lang.SystemUtils;
-
-import java.util.Locale;
-
-import static de.bitbrain.shelter.Assets.Textures.CROSSHAIR;
-import static de.bitbrain.shelter.i18n.Bundle.setLocale;
 
 public class ShelterGame extends BrainGdxGame {
 
@@ -47,13 +40,19 @@ public class ShelterGame extends BrainGdxGame {
    }
 
    @Override
+   public void dispose() {
+      super.dispose();
+      CursorUtils.dispose();
+   }
+
+   @Override
    protected GameAssetLoader getAssetLoader() {
       return new SmartAssetLoader(Assets.class);
    }
 
    @Override
    protected AbstractScreen<?, ?> getInitialScreen() {
-      Gdx.graphics.setCursor(Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal(CROSSHAIR)), 32, 32));
+      CursorUtils.setCursor(Assets.Textures.CURSOR_CROSSHAIR);
       configureSettings();
       Bundle.load();
       Styles.init();
