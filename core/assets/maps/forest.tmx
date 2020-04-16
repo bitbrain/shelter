@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="48">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="49">
  <tileset firstgid="1" name="tileset-forest" tilewidth="16" tileheight="16" tilecount="64" columns="8">
   <image source="tileset-forest.png" width="128" height="128"/>
   <terraintypes>
@@ -189,6 +189,9 @@
    <point/>
   </object>
   <object id="47" name="BARELL" type="BARREL" x="558.667" y="926.333">
+   <point/>
+  </object>
+  <object id="48" name="AK-47" type="CHEST" x="62.4773" y="124.273">
    <point/>
   </object>
  </objectgroup>

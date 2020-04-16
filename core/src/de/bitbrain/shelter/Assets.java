@@ -20,6 +20,7 @@ public interface Assets {
       String ZOMBIE_SPRITESHEET = "textures/zombie-spritesheet.png";
       String ITEMS_SPRITESHEET = "textures/items-spritesheet.png";
       String SHOOT_OVERLAY_SPRITESHEET = "textures/shoot-overlay-spritesheet.png";
+      String MISC_SPRITESHEET = "textures/misc-spritesheet.png";
       String SHADOW = "textures/shadow.png";
 
       String MUNITION_AK47 = "textures/ak47-munition.png";
@@ -36,6 +37,7 @@ public interface Assets {
       String EXPLOSION = "particles/explosion.p";
       String BLOOD_IMPACT = "particles/blood-impact.p";
       String SHOT_IMPACT = "particles/shot-impact.p";
+      String CHEST = "particles/chest-particles.p";
       String MEDIPACK = "particles/medipack.p";
       String AMMO = "particles/ammo.p";
       String HEAL = "particles/heal.p";

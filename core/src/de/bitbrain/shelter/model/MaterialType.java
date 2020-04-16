@@ -8,6 +8,7 @@ public enum MaterialType {
 
    STEEL,
    FLESH(Assets.Sounds.IMPACT_01, Assets.Sounds.IMPACT_02, Assets.Sounds.IMPACT_03),
+   WOOD,
    ROCK;
 
    private final String[] impactSoundFx;

@@ -1,5 +1,6 @@
 package de.bitbrain.shelter.screens;
 
+import box2dLight.Light;
 import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,9 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
@@ -182,7 +181,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             inventory.setOwner(playerObject);
             object.setAttribute(Ammo.class, inventory.getAmmo());
             object.setAttribute(HealthData.class, existingHealthData != null ? existingHealthData :
-                  new HealthData(500));
+                  new HealthData(50000));
             inventory.addWeapon(WeaponType.RUSTY_CROWBAR);
             object.setAttribute(Inventory.class, inventory);
             playerAttackHandler = new AttackHandler(object, entityFactory);
@@ -241,6 +240,23 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             originalBarrels.add(object.copy());
             entityFactory.addBarrel(object);
             context.getGameWorld().remove(object);
+         } else if (object.getType().equals("CHEST")) {
+            object.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
+            BodyDef bodyDef = createBodyDef(object);
+            bodyDef.position.set(object.getLeft(), object.getTop());
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+            FixtureDef bodyFixtureDef = new FixtureDef();
+            PolygonShape chestShape = new PolygonShape();
+            chestShape.setAsBox(14.5f, 6, new Vector2(0f, 8f), 0f);
+            bodyFixtureDef.shape = chestShape;
+            context.getPhysicsManager().attachBody(bodyDef, bodyFixtureDef, object);
+
+            Light chestLightA = context.getLightingManager().createPointLight(200f, Color.RED);
+            context.getLightingManager().attach(chestLightA, object, 0f, 6f);
+            Light chestLightB = context.getLightingManager().createPointLight(100f, Color.valueOf("ff0099"));
+            context.getLightingManager().attach(chestLightB, object, 0f, 6f);
+
+            context.getParticleManager().attachEffect(Assets.Particles.CHEST, object, 0f, 6f);
          }
       }
       context.getBehaviorManager().apply(new HealthCheckBehavior(context, entityFactory));
@@ -251,14 +267,13 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       context.getRenderManager().register("PLAYER", new EntityAnimationRenderer(Assets.Textures.PLAYER_SPRITESHEET, 0.6f));
       context.getRenderManager().register("ZOMBIE", new EntityAnimationRenderer(Assets.Textures.ZOMBIE_SPRITESHEET, 0.3f));
       context.getRenderManager().register("BARREL", new SpriteRenderer(Assets.Textures.BARREL));
+
       Texture itemTexture = SharedAssetManager.getInstance().get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
       AnimationSpriteSheet itemSpriteSheet = new AnimationSpriteSheet(itemTexture, 9);
       for (WeaponType type : WeaponType.values()) {
          if (type.getAttackTexture() != null) {
             context.getRenderManager().register(type, new BulletRenderer(type));
-         }// else {
-         //    context.getRenderManager().register(type, new SpriteRenderer(createTexture(2, 2, Color.RED)));
-         // }
+         }
       }
       for (Item type : Item.values()) {
          context.getRenderManager().register(type, new AnimationRenderer(itemSpriteSheet, AnimationConfig.builder()
@@ -285,6 +300,19 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             }
          });
       }
+      Texture miscTexture = SharedAssetManager.getInstance().get(Assets.Textures.MISC_SPRITESHEET, Texture.class);
+      AnimationSpriteSheet miscSpritesheet = new AnimationSpriteSheet(miscTexture, 32);
+      context.getRenderManager().register("CHEST", new AnimationRenderer(miscSpritesheet, AnimationConfig.builder()
+            .registerFrames(AnimationFrames.builder()
+                  .playMode(Animation.PlayMode.LOOP_PINGPONG)
+                  .duration(0.06f)
+                  .frames(8)
+                  .origin(0, 0)
+                  .direction(AnimationFrames.Direction.HORIZONTAL)
+                  .build())
+            .build(), new AlwaysAnimationEnabler()).size(32, 32).offset(-15f, -3f));
+
+
       context.getRenderPipeline().moveAfter(RenderPipeIds.LIGHTING, RenderPipeIds.PARTICLES);
    }
 
