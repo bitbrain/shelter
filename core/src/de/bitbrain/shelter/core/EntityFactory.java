@@ -11,6 +11,7 @@ import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.tmx.TiledMapContext;
 import de.bitbrain.braingdx.tweens.GameObjectTween;
+import de.bitbrain.braingdx.tweens.PointLight2DTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
@@ -23,6 +24,7 @@ import de.bitbrain.shelter.core.model.MaterialType;
 import de.bitbrain.shelter.core.weapon.WeaponType;
 import de.bitbrain.shelter.util.Supplier;
 
+import static de.bitbrain.shelter.Assets.Particles.RADIOACTIVE;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyFixtureDef;
 
@@ -46,8 +48,26 @@ public class EntityFactory {
       barrel.setDimensions(22f, 22f);
       barrel.setAttribute(HealthData.class, new HealthData(45));
       barrel.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
-      PointLight light = context.getLightingManager().createPointLight(100f, Color.RED);
-      context.getLightingManager().attach(light, barrel, 10, 10);
+
+      // add lighting
+      PointLight lightClose = context.getLightingManager().createPointLight(30f, Color.valueOf("11ff00"));
+      context.getLightingManager().attach(lightClose, barrel, 10, 10);
+      PointLight lightWide = context.getLightingManager().createPointLight(120f, Color.valueOf("00ff11"));
+      context.getLightingManager().attach(lightWide, barrel, 10, 10);
+      final float offset = (float) Math.random();
+      Tween.to(lightWide, PointLight2DTween.COLOR_A, 8f)
+            .delay(offset)
+            .target(0.5f)
+            .repeatYoyo(Tween.INFINITY, offset)
+            .ease(TweenEquations.easeInOutElastic)
+            .start(SharedTweenManager.getInstance());
+      Tween.to(lightWide, PointLight2DTween.DISTANCE, 8f)
+            .delay(offset)
+            .target(117f)
+            .repeatYoyo(Tween.INFINITY, offset)
+            .ease(TweenEquations.easeInOutElastic)
+            .start(SharedTweenManager.getInstance());
+
       context.getBehaviorManager().apply(new ExplosionBehavior(80f, 500, context), barrel);
 
       // add physics
@@ -55,6 +75,11 @@ public class EntityFactory {
       bodyDef.type = BodyDef.BodyType.StaticBody;
       FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 10f);
       context.getPhysicsManager().attachBody(bodyDef, fixtureDef, barrel);
+
+      context.getParticleManager().attachEffect(RADIOACTIVE, barrel, 8f, 8f);
+
+      // TODO add sound effects
+      // TODO implement radioactive effect (zombies are not immune but take less damage)
       return barrel;
    }
 

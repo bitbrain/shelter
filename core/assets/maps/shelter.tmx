@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="24" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="8">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="24" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="9">
  <properties>
   <property name="name" value="shelter"/>
  </properties>
@@ -8,23 +8,16 @@
  </tileset>
  <layer id="1" name="base" width="24" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYBzFo3gU0wVzUogJmS9IIR5o80cxfTEAhocEAQ==
+   eAFjZGBgYBzFo2EwmgbokgY4geFMCSaUVwWB5lOCB9p8QvaPylO3vAYAhocEAQ==
   </data>
  </layer>
  <layer id="3" name="Tile Layer 2" width="24" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFgw0wj5o/pMxnAWJWGprPA8S8JOoZBaOAGAAAmAgANQ==
+   eAFjYBgFgy0EmGnsoFHz8QcwqeHDAjSOFb+RKLKkms8D1M2LYsIoZzQEqBMCAJgIADU=
   </data>
  </layer>
  <objectgroup id="2" name="objects">
-  <object id="1" name="PLAYER" type="PLAYER" x="83.5455" y="166.455" width="8" height="8">
-   <properties>
-    <property name="lighting.color" type="color" value="#ffffbeb2"/>
-    <property name="lighting.offset.x" type="float" value="16"/>
-    <property name="lighting.offset.y" type="float" value="8"/>
-    <property name="lighting.range" type="float" value="220"/>
-   </properties>
-  </object>
+  <object id="1" name="PLAYER" type="PLAYER" x="83.5455" y="166.455" width="8" height="8"/>
   <object id="2" name="DOOR" type="DOOR" x="276" y="155.485" width="23.4545" height="6.36366"/>
   <object id="3" x="61.7934" y="63.7403" width="6.66667" height="128.913">
    <properties>
@@ -50,6 +43,12 @@
    <properties>
     <property name="capacity" type="int" value="3"/>
    </properties>
+  </object>
+  <object id="8" name="AK-47" type="CHEST" x="170.364" y="167.818">
+   <properties>
+    <property name="item" value="AK47, AMMO, AMMO"/>
+   </properties>
+   <point/>
   </object>
  </objectgroup>
 </map>

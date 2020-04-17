@@ -48,15 +48,8 @@
   </data>
  </layer>
  <objectgroup id="2" name="objects">
-  <object id="2" name="PLAYER" type="PLAYER" x="43.266" y="44.901" width="8" height="8">
-   <properties>
-    <property name="lighting.color" type="color" value="#ffffbeb2"/>
-    <property name="lighting.offset.x" type="float" value="16"/>
-    <property name="lighting.offset.y" type="float" value="8"/>
-    <property name="lighting.range" type="float" value="220"/>
-   </properties>
-  </object>
-  <object id="4" name="Spawner" type="SPAWNER" x="31.3133" y="284.827" width="417.892" height="545.228">
+  <object id="2" name="PLAYER" type="PLAYER" x="43.266" y="44.901" width="8" height="8"/>
+  <object id="4" name="Spawner" type="SPAWNER" x="22.6467" y="225.827" width="197.892" height="577.228">
    <properties>
     <property name="capacity" type="int" value="10"/>
    </properties>
@@ -96,7 +89,7 @@
     <property name="capacity" type="int" value="10"/>
    </properties>
   </object>
-  <object id="17" name="Spawner" type="SPAWNER" x="137.804" y="12.2193" width="400.226" height="429.728">
+  <object id="17" name="Spawner" type="SPAWNER" x="221.471" y="-13.114" width="285.226" height="842.728">
    <properties>
     <property name="capacity" type="int" value="8"/>
    </properties>
@@ -191,7 +184,7 @@
   <object id="47" name="BARELL" type="BARREL" x="558.667" y="926.333">
    <point/>
   </object>
-  <object id="48" name="AK-47" type="CHEST" x="62.4773" y="124.273">
+  <object id="48" name="AK-47" type="CHEST" x="950.394" y="222.69">
    <properties>
     <property name="item" value="AK47, AMMO, AMMO"/>
    </properties>

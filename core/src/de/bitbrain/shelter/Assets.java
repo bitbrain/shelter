@@ -43,6 +43,7 @@ public interface Assets {
       String MEDIPACK = "particles/medipack.p";
       String AMMO = "particles/ammo.p";
       String HEAL = "particles/heal.p";
+      String RADIOACTIVE = "particles/radioactive.p";
    }
 
    interface Fonts {

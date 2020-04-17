@@ -22,7 +22,6 @@ import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.animation.*;
 import de.bitbrain.braingdx.graphics.lighting.LightingConfig;
 import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
-import de.bitbrain.braingdx.graphics.renderer.SpriteRenderer;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.tmx.TiledMapContext;
 import de.bitbrain.braingdx.util.Enabler;
@@ -179,6 +178,10 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             context.getGameCamera().setTargetTrackingSpeed(0.01f);
             context.getGameCamera().setZoomScalingFactor(0f);
             context.getGameCamera().setZoom(250, GameCamera.ZoomMode.TO_HEIGHT);
+
+            Light playerLight = context.getLightingManager().createPointLight(200, Color.valueOf("ff336655"));
+            context.getLightingManager().attach(playerLight, object, 16f, 8f);
+
             playerEntityMover = new EntityMover(2150f, context.getGameCamera(), context.getAudioManager());
             object.setAttribute(EntityMover.class, playerEntityMover);
             context.getBehaviorManager().apply(playerEntityMover, object);
@@ -280,7 +283,6 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       context.getRenderManager().setRenderOrderComparator(new RenderOrderComparator());
       context.getRenderManager().register("PLAYER", new EntityAnimationRenderer(Assets.Textures.PLAYER_SPRITESHEET, 0.6f));
       context.getRenderManager().register("ZOMBIE", new EntityAnimationRenderer(Assets.Textures.ZOMBIE_SPRITESHEET, 0.3f));
-      context.getRenderManager().register("BARREL", new SpriteRenderer(Assets.Textures.BARREL));
 
       Texture itemTexture = SharedAssetManager.getInstance().get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
       AnimationSpriteSheet itemSpriteSheet = new AnimationSpriteSheet(itemTexture, 9);
@@ -316,6 +318,15 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       }
       Texture miscTexture = SharedAssetManager.getInstance().get(Assets.Textures.MISC_SPRITESHEET, Texture.class);
       AnimationSpriteSheet miscSpritesheet = new AnimationSpriteSheet(miscTexture, 32);
+      context.getRenderManager().register("BARREL", new AnimationRenderer(miscSpritesheet, AnimationConfig.builder()
+            .registerFrames(AnimationFrames.builder()
+                  .playMode(Animation.PlayMode.LOOP)
+                  .duration(0.1f)
+                  .frames(8)
+                  .resetIndex(0)
+                  .origin(0, 1)
+                  .direction(AnimationFrames.Direction.HORIZONTAL)
+                  .build()).build(), new AlwaysAnimationEnabler()));
       context.getRenderManager().register("CHEST", new AnimationRenderer(miscSpritesheet, AnimationConfig.builder()
             .registerFrames(ChestStatus.CLOSED, AnimationFrames.builder()
                   .playMode(Animation.PlayMode.NORMAL)

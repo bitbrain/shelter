@@ -37,14 +37,7 @@
   <properties>
    <property name="item" value="AK-47"/>
   </properties>
-  <object id="2" name="PLAYER" type="PLAYER" x="91.2432" y="924.643" width="8" height="8">
-   <properties>
-    <property name="lighting.color" type="color" value="#ffffbeb2"/>
-    <property name="lighting.offset.x" type="float" value="16"/>
-    <property name="lighting.offset.y" type="float" value="8"/>
-    <property name="lighting.range" type="float" value="220"/>
-   </properties>
-  </object>
+  <object id="2" name="PLAYER" type="PLAYER" x="91.2432" y="924.643" width="8" height="8"/>
   <object id="4" name="Spawner" type="SPAWNER" x="49.6467" y="481.494" width="359.226" height="298.562">
    <properties>
     <property name="capacity" type="int" value="10"/>
