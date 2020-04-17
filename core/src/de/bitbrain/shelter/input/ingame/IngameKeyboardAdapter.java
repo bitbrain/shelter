@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.util.Updateable;
-import de.bitbrain.shelter.core.EntityMover;
+import de.bitbrain.shelter.core.entities.EntityMover;
 import de.bitbrain.shelter.core.weapon.AttackHandler;
 
 import static com.badlogic.gdx.Gdx.input;

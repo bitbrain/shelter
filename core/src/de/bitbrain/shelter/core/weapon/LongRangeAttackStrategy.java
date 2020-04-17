@@ -9,7 +9,8 @@ import de.bitbrain.braingdx.util.DeltaTimer;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.behavior.DamageBehavior;
-import de.bitbrain.shelter.core.*;
+import de.bitbrain.shelter.core.entities.EntityFactory;
+import de.bitbrain.shelter.core.entities.EntityMover;
 import de.bitbrain.shelter.core.model.Ammo;
 import de.bitbrain.shelter.core.model.HealthData;
 

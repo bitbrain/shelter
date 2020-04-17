@@ -8,7 +8,7 @@ import de.bitbrain.braingdx.tweens.TweenUtils;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.audio.JukeBox;
-import de.bitbrain.shelter.core.EntityMover;
+import de.bitbrain.shelter.core.entities.EntityMover;
 import de.bitbrain.shelter.core.items.Item;
 import de.bitbrain.shelter.core.model.HealthData;
 import de.bitbrain.shelter.core.model.MaterialType;
@@ -51,6 +51,9 @@ public class DamageBehavior extends BehaviorAdapter {
    }
 
    private void dealDamage(final GameObject target) {
+      if (!target.hasAttribute(HealthData.class) && !target.hasAttribute(MaterialType.class)) {
+         return;
+      }
       if (target.equals(damageDealer.getAttribute("owner"))) {
          return;
       }

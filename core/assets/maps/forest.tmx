@@ -49,7 +49,7 @@
  </layer>
  <objectgroup id="2" name="objects">
   <object id="2" name="PLAYER" type="PLAYER" x="43.266" y="44.901" width="8" height="8"/>
-  <object id="4" name="Spawner" type="SPAWNER" x="22.6467" y="225.827" width="197.892" height="577.228">
+  <object id="4" name="Spawner" type="SPAWNER" x="22.6467" y="31.827" width="417.892" height="771.228">
    <properties>
     <property name="capacity" type="int" value="10"/>
    </properties>
@@ -89,7 +89,7 @@
     <property name="capacity" type="int" value="10"/>
    </properties>
   </object>
-  <object id="17" name="Spawner" type="SPAWNER" x="221.471" y="-13.114" width="285.226" height="842.728">
+  <object id="17" name="Spawner" type="SPAWNER" x="442.471" y="398.886" width="400.226" height="429.728">
    <properties>
     <property name="capacity" type="int" value="8"/>
    </properties>
@@ -184,7 +184,7 @@
   <object id="47" name="BARELL" type="BARREL" x="558.667" y="926.333">
    <point/>
   </object>
-  <object id="48" name="AK-47" type="CHEST" x="950.394" y="222.69">
+  <object id="48" name="AK-47" type="CHEST" x="209.727" y="118.023">
    <properties>
     <property name="item" value="AK47, AMMO, AMMO"/>
    </properties>

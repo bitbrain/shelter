@@ -1,4 +1,4 @@
-package de.bitbrain.shelter.core;
+package de.bitbrain.shelter.core.entities;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
@@ -15,8 +15,10 @@ import de.bitbrain.braingdx.tweens.PointLight2DTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
+import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ai.ZombieBehavior;
 import de.bitbrain.shelter.behavior.ExplosionBehavior;
+import de.bitbrain.shelter.behavior.RadioactivityBehavior;
 import de.bitbrain.shelter.core.items.Item;
 import de.bitbrain.shelter.core.items.LootTable;
 import de.bitbrain.shelter.core.model.HealthData;
@@ -52,21 +54,6 @@ public class EntityFactory {
       // add lighting
       PointLight lightClose = context.getLightingManager().createPointLight(30f, Color.valueOf("11ff00"));
       context.getLightingManager().attach(lightClose, barrel, 10, 10);
-      PointLight lightWide = context.getLightingManager().createPointLight(120f, Color.valueOf("00ff11"));
-      context.getLightingManager().attach(lightWide, barrel, 10, 10);
-      final float offset = (float) Math.random();
-      Tween.to(lightWide, PointLight2DTween.COLOR_A, 8f)
-            .delay(offset)
-            .target(0.5f)
-            .repeatYoyo(Tween.INFINITY, offset)
-            .ease(TweenEquations.easeInOutElastic)
-            .start(SharedTweenManager.getInstance());
-      Tween.to(lightWide, PointLight2DTween.DISTANCE, 8f)
-            .delay(offset)
-            .target(117f)
-            .repeatYoyo(Tween.INFINITY, offset)
-            .ease(TweenEquations.easeInOutElastic)
-            .start(SharedTweenManager.getInstance());
 
       context.getBehaviorManager().apply(new ExplosionBehavior(80f, 500, context), barrel);
 
@@ -75,11 +62,6 @@ public class EntityFactory {
       bodyDef.type = BodyDef.BodyType.StaticBody;
       FixtureDef fixtureDef = createBodyFixtureDef(0f, 0f, 10f);
       context.getPhysicsManager().attachBody(bodyDef, fixtureDef, barrel);
-
-      context.getParticleManager().attachEffect(RADIOACTIVE, barrel, 8f, 8f);
-
-      // TODO add sound effects
-      // TODO implement radioactive effect (zombies are not immune but take less damage)
       return barrel;
    }
 
@@ -175,6 +157,38 @@ public class EntityFactory {
             context.getLightingManager().attach(light, target, 1f, 1f);
          }
       }, false);
+   }
+
+   public GameObject addRadioactivity(final float centerX, final float centerY) {
+      final float radius = 120f;
+      final GameObject area = context.getGameWorld().addObject(new Mutator<GameObject>() {
+         @Override
+         public void mutate(GameObject target) {
+            target.setType("radioactivity");
+            target.setPosition(centerX, centerY);
+            target.setDimensions(1f, 1f);
+            target.setAttribute("tmx_layer_index", tmxContext.getTiledMap().getLayers().size() - 2);
+
+         }
+      }, false);
+      PointLight lightWide = context.getLightingManager().createPointLight(radius, Color.valueOf("00ff00"));
+      context.getLightingManager().attach(lightWide, area, 2f, 2f);
+      final float offset = (float) Math.random();
+      Tween.to(lightWide, PointLight2DTween.COLOR_A, 8f)
+            .delay(offset)
+            .target(0.6f)
+            .repeatYoyo(Tween.INFINITY, offset)
+            .ease(TweenEquations.easeInOutElastic)
+            .start(SharedTweenManager.getInstance());
+      Tween.to(lightWide, PointLight2DTween.DISTANCE, 8f)
+            .delay(offset)
+            .target(radius * 0.9f)
+            .repeatYoyo(Tween.INFINITY, offset)
+            .ease(TweenEquations.easeInOutElastic)
+            .start(SharedTweenManager.getInstance());
+      context.getBehaviorManager().apply(new RadioactivityBehavior(), area);
+      context.getParticleManager().attachEffect(RADIOACTIVE, area, 2f, 2f);
+      return area;
    }
 
    public GameObject addDamageTelegraph(final WeaponType type, final float centerX, final float centerY, final float width, final float height, final float rotation) {

@@ -33,8 +33,8 @@ import de.bitbrain.shelter.animation.AlwaysAnimationEnabler;
 import de.bitbrain.shelter.animation.EntityAnimationRenderer;
 import de.bitbrain.shelter.behavior.ChestBehavior;
 import de.bitbrain.shelter.behavior.HealthCheckBehavior;
-import de.bitbrain.shelter.core.EntityFactory;
-import de.bitbrain.shelter.core.EntityMover;
+import de.bitbrain.shelter.core.entities.EntityFactory;
+import de.bitbrain.shelter.core.entities.EntityMover;
 import de.bitbrain.shelter.core.items.Inventory;
 import de.bitbrain.shelter.core.items.Item;
 import de.bitbrain.shelter.core.model.Ammo;
@@ -196,7 +196,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             inventory.setOwner(playerObject);
             object.setAttribute(Ammo.class, inventory.getAmmo());
             object.setAttribute(HealthData.class, existingHealthData != null ? existingHealthData :
-                  new HealthData(50000));
+                  new HealthData(1000));
             inventory.addWeapon(WeaponType.RUSTY_CROWBAR);
             object.setAttribute(Inventory.class, inventory);
             playerAttackHandler = new AttackHandler(object, entityFactory);
@@ -255,6 +255,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             originalBarrels.add(object.copy());
             entityFactory.addBarrel(object);
             context.getGameWorld().remove(object);
+            entityFactory.addRadioactivity(object.getLeft(), object.getTop());
          } else if (object.getType().equals("CHEST")) {
             object.setAttribute(ChestStatus.class, ChestStatus.CLOSED);
             context.getBehaviorManager().apply(new ChestBehavior(context.getGameCamera().getInternalCamera(), entityFactory), object);
@@ -299,6 +300,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                      .origin(0, type.getAnimationIndex())
                      .playMode(Animation.PlayMode.LOOP)
                      .duration(0.3f)
+                     .randomOffset()
                      .build())
                .build(), new AnimationTypeResolver<GameObject>() {
             @Override
@@ -325,6 +327,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
                   .frames(8)
                   .resetIndex(0)
                   .origin(0, 1)
+                  .randomOffset()
                   .direction(AnimationFrames.Direction.HORIZONTAL)
                   .build()).build(), new AlwaysAnimationEnabler()));
       context.getRenderManager().register("CHEST", new AnimationRenderer(miscSpritesheet, AnimationConfig.builder()

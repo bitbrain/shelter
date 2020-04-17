@@ -9,8 +9,8 @@ import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.util.DeltaTimer;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.behavior.DamageBehavior;
-import de.bitbrain.shelter.core.EntityFactory;
-import de.bitbrain.shelter.core.EntityMover;
+import de.bitbrain.shelter.core.entities.EntityFactory;
+import de.bitbrain.shelter.core.entities.EntityMover;
 import de.bitbrain.shelter.core.model.HealthData;
 
 public class CloseAttackStrategy implements AttackStrategy {

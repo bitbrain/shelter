@@ -12,7 +12,7 @@ import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
-import de.bitbrain.shelter.core.EntityFactory;
+import de.bitbrain.shelter.core.entities.EntityFactory;
 import de.bitbrain.shelter.core.items.Item;
 import de.bitbrain.shelter.core.model.ChestStatus;
 import de.bitbrain.shelter.ui.CursorUtils;

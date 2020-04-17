@@ -2,7 +2,7 @@ package de.bitbrain.shelter.animation;
 
 import de.bitbrain.braingdx.graphics.animation.AnimationTypeResolver;
 import de.bitbrain.braingdx.world.GameObject;
-import de.bitbrain.shelter.core.EntityMover;
+import de.bitbrain.shelter.core.entities.EntityMover;
 
 /**
  * counter-clockwise from 0-360 degrees (starting west)
