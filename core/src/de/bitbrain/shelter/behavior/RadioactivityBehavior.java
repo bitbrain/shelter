@@ -27,7 +27,6 @@ public class RadioactivityBehavior extends BehaviorAdapter {
    @Override
    public void onStatusChange(GameObject source, boolean updateable) {
       super.onStatusChange(source, updateable);
-      System.out.println("not updateable any longer" + updateable);
    }
 
    @Override

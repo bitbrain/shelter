@@ -380,7 +380,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    }
 
    private void setupInput(GameContext2D context) {
-      context.getInputManager().register(new IngameKeyboardAdapter(playerEntityMover, playerAttackHandler, context));
+      context.getInputManager().register(new IngameKeyboardAdapter(playerEntityMover, playerObject.getAttribute(Inventory.class), playerAttackHandler, context));
    }
 
    private void setupPhysics(GameContext2D context) {

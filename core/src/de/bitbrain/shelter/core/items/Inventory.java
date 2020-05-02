@@ -23,6 +23,10 @@ public class Inventory {
       this.ammo = new Ammo(200);
    }
 
+   public RangeType getEquippedRangeType() {
+      return owner.getAttribute(WeaponType.class) != null ? owner.getAttribute(WeaponType.class).getRangeType() : null;
+   }
+
    public void setOwner(GameObject owner) {
       this.owner = owner;
       if (currentlyEquippedType != null) {
@@ -51,8 +55,11 @@ public class Inventory {
 
    public void equipSelected(RangeType rangeType) {
       if (owner != null) {
-         owner.setAttribute(WeaponType.class, getSelectedWeapon(rangeType));
-         currentlyEquippedType = rangeType;
+         WeaponType type = getSelectedWeapon(rangeType);
+         if (type != null) {
+            owner.setAttribute(WeaponType.class, getSelectedWeapon(rangeType));
+            currentlyEquippedType = rangeType;
+         }
       }
    }
 
