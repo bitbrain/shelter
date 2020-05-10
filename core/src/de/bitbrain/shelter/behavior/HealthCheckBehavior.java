@@ -2,7 +2,7 @@ package de.bitbrain.shelter.behavior;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.tweens.TweenUtils;
@@ -35,7 +35,7 @@ public class HealthCheckBehavior extends BehaviorAdapter {
       EntityMover entityMover = target.getAttribute(EntityMover.class);
       if (healthData != null && healthData.isDead() && entityMover != null && target.isActive()) {
          if ("PLAYER".equals(target.getType())) {
-            SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(0.8f, 1f, 0f);
+            Asset.get(Assets.Sounds.DEATH, Sound.class).play(0.8f, 1f, 0f);
             target.setActive(false);
             return;
          }

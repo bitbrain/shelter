@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.core.items.InventoryItem;
@@ -20,7 +20,7 @@ public class InventoryTooltip extends Table {
    private final NinePatch background;
 
    public InventoryTooltip() {
-      this.background = GraphicsFactory.createNinePatch(SharedAssetManager.getInstance().get(Assets.Textures.UI_EQUIP, Texture.class), 4);
+      this.background = GraphicsFactory.createNinePatch(Asset.get(Assets.Textures.UI_EQUIP, Texture.class), 4);
       this.name = new Label("", Styles.LABEL_TOOLTIP_NAME);
       this.name.setFontScale(0.5f);
       this.name.setAlignment(Align.left);

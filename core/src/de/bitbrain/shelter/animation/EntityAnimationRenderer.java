@@ -2,13 +2,11 @@ package de.bitbrain.shelter.animation;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.animation.AnimationRenderer;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
 import de.bitbrain.braingdx.world.GameObject;
 import de.bitbrain.shelter.Assets;
-import de.bitbrain.shelter.animation.AlwaysAnimationEnabler;
-import de.bitbrain.shelter.animation.PlayerAnimationTypeResolver;
 import de.bitbrain.shelter.core.model.HealthData;
 import de.bitbrain.shelter.core.weapon.WeaponType;
 
@@ -30,7 +28,7 @@ public class EntityAnimationRenderer extends AnimationRenderer {
 
    @Override
    public void render(GameObject object, Batch batch, float delta) {
-      Texture shadow = SharedAssetManager.getInstance().get(Assets.Textures.SHADOW, Texture.class);
+      Texture shadow = Asset.get(Assets.Textures.SHADOW, Texture.class);
       if (!object.hasAttribute(HealthData.class) || !object.getAttribute(HealthData.class).isDead()) {
          batch.draw(shadow, object.getLeft() + object.getOffsetX(), object.getTop() + object.getOffsetY(),
                object.getWidth() * object.getScaleX(), object.getHeight() * object.getScaleY());

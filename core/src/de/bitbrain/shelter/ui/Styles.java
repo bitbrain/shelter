@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ThemeColors;
 
@@ -56,7 +55,7 @@ public class Styles {
    }
 
    public static BitmapFont bake(String fontPath, int size, boolean border) {
-      FreeTypeFontGenerator generator = SharedAssetManager.getInstance().get(fontPath, FreeTypeFontGenerator.class);
+      FreeTypeFontGenerator generator = Asset.get(fontPath, FreeTypeFontGenerator.class);
       FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
       param.color = Color.WHITE;
       param.size = size;

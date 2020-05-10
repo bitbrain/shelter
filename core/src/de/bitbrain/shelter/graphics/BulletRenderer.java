@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.animation.AnimationConfig;
 import de.bitbrain.braingdx.graphics.animation.AnimationFrames;
 import de.bitbrain.braingdx.graphics.animation.AnimationRenderer;
@@ -20,8 +20,8 @@ public class BulletRenderer extends SpriteRenderer {
    private final AnimationRenderer shootOverlay;
 
    public BulletRenderer(WeaponType type) {
-      super(SharedAssetManager.getInstance().get(type.getAttackTexture(), Texture.class));
-      Texture overlayTexture = SharedAssetManager.getInstance().get(Assets.Textures.SHOOT_OVERLAY_SPRITESHEET, Texture.class);
+      super(Asset.get(type.getAttackTexture(), Texture.class));
+      Texture overlayTexture = Asset.get(Assets.Textures.SHOOT_OVERLAY_SPRITESHEET, Texture.class);
       AnimationSpriteSheet overlaySheet = new AnimationSpriteSheet(overlayTexture, 16);
       this.shootOverlay = new AnimationRenderer(overlaySheet, AnimationConfig.builder()
             .registerFrames(AnimationFrames.builder()

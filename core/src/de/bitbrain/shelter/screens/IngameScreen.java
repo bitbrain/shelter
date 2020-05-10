@@ -14,7 +14,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.BrainGdxGame;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.behavior.BehaviorAdapter;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.debug.DebugMetric;
@@ -62,7 +63,7 @@ import static de.bitbrain.shelter.animation.AnimationTypes.STANDING_SOUTH;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyDef;
 import static de.bitbrain.shelter.physics.PhysicsFactory.createBodyFixtureDef;
 
-public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Supplier<GameObject> {
+public class IngameScreen extends BrainGdxScreen2D implements Supplier<GameObject> {
 
    private EntityMover playerEntityMover;
    private EntityFactory entityFactory;
@@ -79,16 +80,16 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
    private boolean saveRoom;
    private boolean entered;
 
-   public IngameScreen(ShelterGame game, String tiledMapPath) {
+   public IngameScreen(BrainGdxGame game, String tiledMapPath) {
       this(game, tiledMapPath, null, null);
    }
 
 
-   public IngameScreen(ShelterGame game, String tiledMapPath, Inventory inventory, HealthData healthData) {
+   public IngameScreen(BrainGdxGame game, String tiledMapPath, Inventory inventory, HealthData healthData) {
       this(game, tiledMapPath, inventory, healthData, null);
    }
 
-   public IngameScreen(ShelterGame game, String tiledMapPath, Inventory inventory, HealthData healthData, String alternativeMapPath) {
+   public IngameScreen(BrainGdxGame game, String tiledMapPath, Inventory inventory, HealthData healthData, String alternativeMapPath) {
       super(game);
       this.tiledMapPath = tiledMapPath;
       this.existingInventory = inventory;
@@ -105,7 +106,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             spawner.spawn(context, playerObject);
          }
       }
-      if (playerObject.getAttribute(HealthData.class).isDead()) {
+      if (playerObject.getAttribute(HealthData.class) != null && playerObject.getAttribute(HealthData.class).isDead()) {
          for (GameObject o : context.getGameWorld().getGroup("npcs")) {
             context.getGameWorld().remove(o);
          }
@@ -285,7 +286,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
       context.getRenderManager().register("PLAYER", new EntityAnimationRenderer(Assets.Textures.PLAYER_SPRITESHEET, 0.6f));
       context.getRenderManager().register("ZOMBIE", new EntityAnimationRenderer(Assets.Textures.ZOMBIE_SPRITESHEET, 0.3f));
 
-      Texture itemTexture = SharedAssetManager.getInstance().get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
+      Texture itemTexture = Asset.get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
       AnimationSpriteSheet itemSpriteSheet = new AnimationSpriteSheet(itemTexture, 9);
       for (WeaponType type : WeaponType.values()) {
          if (type.getAttackTexture() != null) {
@@ -310,7 +311,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
          }, new AlwaysAnimationEnabler()) {
             @Override
             public void render(GameObject object, Batch batch, float delta) {
-               Texture shadow = SharedAssetManager.getInstance().get(Assets.Textures.SHADOW, Texture.class);
+               Texture shadow = Asset.get(Assets.Textures.SHADOW, Texture.class);
                float scale = 6f * (object.getOffsetY() / 8);
                batch.draw(shadow, object.getLeft() - scale * 2f, object.getTop() - scale - 2f,
                      object.getWidth() + scale * 4f, object.getHeight() + scale * 2f + 3f);
@@ -318,7 +319,7 @@ public class IngameScreen extends BrainGdxScreen2D<ShelterGame> implements Suppl
             }
          });
       }
-      Texture miscTexture = SharedAssetManager.getInstance().get(Assets.Textures.MISC_SPRITESHEET, Texture.class);
+      Texture miscTexture = Asset.get(Assets.Textures.MISC_SPRITESHEET, Texture.class);
       AnimationSpriteSheet miscSpritesheet = new AnimationSpriteSheet(miscTexture, 32);
       context.getRenderManager().register("BARREL", new AnimationRenderer(miscSpritesheet, AnimationConfig.builder()
             .registerFrames(AnimationFrames.builder()

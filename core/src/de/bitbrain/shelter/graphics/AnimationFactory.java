@@ -2,7 +2,7 @@ package de.bitbrain.shelter.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.animation.AnimationConfig;
 import de.bitbrain.braingdx.graphics.animation.AnimationFrames;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
@@ -11,7 +11,7 @@ import de.bitbrain.shelter.animation.AnimationTypes;
 public class AnimationFactory {
 
    public static AnimationSpriteSheet buildSheet(String texturePath, int tileSize) {
-      final Texture playerTexture = SharedAssetManager.getInstance().get(texturePath);
+      final Texture playerTexture = Asset.get(texturePath, Texture.class);
       return new AnimationSpriteSheet(playerTexture, tileSize);
    }
 

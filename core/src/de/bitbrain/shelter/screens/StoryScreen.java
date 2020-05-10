@@ -10,7 +10,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.BrainGdxGame;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
@@ -19,12 +20,12 @@ import de.bitbrain.braingdx.tweens.ActorTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
+import de.bitbrain.shelter.core.story.StoryTeller;
 import de.bitbrain.shelter.i18n.Bundle;
 import de.bitbrain.shelter.i18n.Messages;
-import de.bitbrain.shelter.core.story.StoryTeller;
 import de.bitbrain.shelter.ui.Styles;
 
-public class StoryScreen extends BrainGdxScreen2D<ShelterGame> {
+public class StoryScreen extends BrainGdxScreen2D {
 
    private Label label, action;
 
@@ -35,7 +36,7 @@ public class StoryScreen extends BrainGdxScreen2D<ShelterGame> {
    private final AbstractScreen<?,?> nextScreen;
    private final Messages[] messageKeys;
 
-   public StoryScreen(ShelterGame game, AbstractScreen<?,?> nextScreen, Messages ... messageKeys) {
+   public StoryScreen(BrainGdxGame game, AbstractScreen<?,?> nextScreen, Messages ... messageKeys) {
       super(game);
       this.nextScreen = nextScreen;
       this.messageKeys = messageKeys;
@@ -72,7 +73,7 @@ public class StoryScreen extends BrainGdxScreen2D<ShelterGame> {
       super.onUpdate(delta);
       if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && !aborted) {
          aborted = true;
-         SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
+         Asset.get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
          context.getScreenTransitions().out(nextScreen, 1f);
       } else if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY) && !aborted) {
          if (teller.hasNextStoryPoint()) {
@@ -93,7 +94,7 @@ public class StoryScreen extends BrainGdxScreen2D<ShelterGame> {
                   .start(SharedTweenManager.getInstance());
          } else if (!aborted) {
             aborted = true;
-            SharedAssetManager.getInstance().get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
+            Asset.get(Assets.Sounds.DEATH, Sound.class).play(8f, 1f, 0f);
             context.getScreenTransitions().out(nextScreen, 1f);
          }
       }

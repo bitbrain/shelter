@@ -4,7 +4,7 @@ import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.shelter.ShelterGame;
 
-public class GameCompleteScreen  extends BrainGdxScreen2D<ShelterGame> {
+public class GameCompleteScreen  extends BrainGdxScreen2D {
 
    public GameCompleteScreen(ShelterGame game) {
       super(game);

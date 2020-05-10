@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.braingdx.world.GameObject;
@@ -28,10 +28,10 @@ public class InventoryUI extends Actor {
    public InventoryUI(GameObject playerGameObject, GameCamera camera) {
       this.playerGameObject = playerGameObject;
       this.camera = camera;
-      this.background = GraphicsFactory.createNinePatch(SharedAssetManager.getInstance().get(Assets.Textures.UI_EQUIP, Texture.class), 4);
+      this.background = GraphicsFactory.createNinePatch(Asset.get(Assets.Textures.UI_EQUIP, Texture.class), 4);
       this.description = new Label("", Styles.LABEL_DESCRIPTION);
       this.description.setFontScale(0.4f);
-      this.iconTexture = SharedAssetManager.getInstance().get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
+      this.iconTexture = Asset.get(Assets.Textures.ITEMS_SPRITESHEET, Texture.class);
    }
 
    @Override

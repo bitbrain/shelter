@@ -4,13 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.core.model.HealthData;
-
-import static de.bitbrain.shelter.ui.Styles.bake;
 
 public class HealthUI extends Actor {
 
@@ -22,8 +20,8 @@ public class HealthUI extends Actor {
    public HealthUI(HealthData healthData, GameCamera camera) {
       this.healthData = healthData;
       this.camera = camera;
-      this.background = GraphicsFactory.createNinePatch(SharedAssetManager.getInstance().get(Assets.Textures.UI_HEALTH, Texture.class), 4);
-      this.foreground = GraphicsFactory.createNinePatch(SharedAssetManager.getInstance().get(Assets.Textures.UI_HEALTH_ACTIVE, Texture.class), 4);
+      this.background = GraphicsFactory.createNinePatch(Asset.get(Assets.Textures.UI_HEALTH, Texture.class), 4);
+      this.foreground = GraphicsFactory.createNinePatch(Asset.get(Assets.Textures.UI_HEALTH_ACTIVE, Texture.class), 4);
    }
 
    @Override

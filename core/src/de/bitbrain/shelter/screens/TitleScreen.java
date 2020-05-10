@@ -11,7 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.BrainGdxGame;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
@@ -29,13 +30,13 @@ import de.bitbrain.shelter.ui.Styles;
 
 import static de.bitbrain.shelter.Assets.TiledMaps.FOREST;
 
-public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
+public class TitleScreen extends BrainGdxScreen2D {
 
    private boolean exiting;
 
    private GameContext2D context;
 
-   public TitleScreen(ShelterGame game) {
+   public TitleScreen(BrainGdxGame game) {
       super(game);
    }
 
@@ -58,7 +59,7 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
 
       Table layout = new Table();
       layout.setFillParent(true);
-      Sprite sprite = new Sprite(SharedAssetManager.getInstance().get(Assets.Textures.ICON, Texture.class));
+      Sprite sprite = new Sprite(Asset.get(Assets.Textures.ICON, Texture.class));
       sprite.setSize(200, 200);
       Image icon = new Image(new SpriteDrawable(sprite));
       layout.add(icon).row();
@@ -101,7 +102,7 @@ public class TitleScreen extends BrainGdxScreen2D<ShelterGame> {
          exiting = true;
          context.getInputManager().clear();
          final IngameScreen initialScreen = new IngameScreen(getGame(), FOREST);
-         SharedAssetManager.getInstance().get(Assets.Sounds.GUN_RELOAD, Sound.class).play(0.5f, 1f, 0f);
+         Asset.get(Assets.Sounds.GUN_RELOAD, Sound.class).play(0.5f, 1f, 0f);
          context.getScreenTransitions().out(new StoryScreen(getGame(), initialScreen,
                Messages.STORY_INTRO_1,
                Messages.STORY_INTRO_2,

@@ -15,7 +15,6 @@ import de.bitbrain.braingdx.tweens.PointLight2DTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
-import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ai.ZombieBehavior;
 import de.bitbrain.shelter.behavior.ExplosionBehavior;
 import de.bitbrain.shelter.behavior.RadioactivityBehavior;

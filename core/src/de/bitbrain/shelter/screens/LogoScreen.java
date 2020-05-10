@@ -10,19 +10,15 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.animation.AnimationConfig;
 import de.bitbrain.braingdx.graphics.animation.AnimationFrames;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
-import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
-import de.bitbrain.braingdx.graphics.postprocessing.AutoReloadPostProcessorEffect;
-import de.bitbrain.braingdx.graphics.postprocessing.effects.Bloom;
 import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.ui.AnimationDrawable;
-import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.ShelterGame;
 import de.bitbrain.shelter.i18n.Bundle;
@@ -32,7 +28,7 @@ import de.bitbrain.shelter.input.logo.LogoKeyboardInputAdapter;
 import de.bitbrain.shelter.ui.GlitchLabel;
 import de.bitbrain.shelter.ui.Styles;
 
-public class LogoScreen extends BrainGdxScreen2D<ShelterGame> {
+public class LogoScreen extends BrainGdxScreen2D {
 
    private GameContext2D context;
 
@@ -45,13 +41,13 @@ public class LogoScreen extends BrainGdxScreen2D<ShelterGame> {
 
    @Override
    protected void onCreate(final GameContext2D context) {
-      Music music = SharedAssetManager.getInstance().get(Assets.Musics.SHELTER_THEME, Music.class);
+      Music music = Asset.get(Assets.Musics.SHELTER_THEME, Music.class);
       music.setLooping(true);
       music.setVolume(0.5f);
       music.play();
       this.context = context;
       context.getScreenTransitions().in(0.5f);
-      final Texture logoTexture = SharedAssetManager.getInstance().get(Assets.Textures.LOGO);
+      final Texture logoTexture = Asset.get(Assets.Textures.LOGO, Texture.class);
       AnimationSpriteSheet sheet = new AnimationSpriteSheet(logoTexture, 16);
       AnimationDrawable drawable = new AnimationDrawable(sheet,
             AnimationConfig.builder()

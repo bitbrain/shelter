@@ -4,9 +4,9 @@ import de.bitbrain.braingdx.util.Factory;
 import de.bitbrain.shelter.Assets;
 import de.bitbrain.shelter.Assets.Sounds;
 import de.bitbrain.shelter.Assets.Textures;
-import de.bitbrain.shelter.core.model.Damage;
 import de.bitbrain.shelter.core.items.InventoryItem;
 import de.bitbrain.shelter.core.items.Rarity;
+import de.bitbrain.shelter.core.model.Damage;
 
 public enum WeaponType implements InventoryItem {
 

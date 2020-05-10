@@ -3,7 +3,7 @@ package de.bitbrain.shelter.core.weapon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.util.DeltaTimer;
 import de.bitbrain.braingdx.world.GameObject;
@@ -32,12 +32,12 @@ public class LongRangeAttackStrategy implements AttackStrategy {
       if (attackRateTimer.reached(weaponType.getSpeed())) {
          if (ammo == null || ammo.isMagazineEmpty()) {
             attackRateTimer.reset();
-            Sound sound = SharedAssetManager.getInstance().get(Assets.Sounds.GUN_EMPTY, Sound.class);
+            Sound sound = Asset.get(Assets.Sounds.GUN_EMPTY, Sound.class);
             sound.play(0.3f, (float) (0.95f + Math.random() * 0.1), 0f);
             return;
          }
          ammo.reduceAmmo();
-         Sound sound = SharedAssetManager.getInstance().get(weaponType.getAttackSoundFx(), Sound.class);
+         Sound sound = Asset.get(weaponType.getAttackSoundFx(), Sound.class);
          sound.play(0.2f, (float) (0.95f + Math.random() * 0.1), 0f);
          final Vector2 direction = new Vector2();
          // compute the center point
